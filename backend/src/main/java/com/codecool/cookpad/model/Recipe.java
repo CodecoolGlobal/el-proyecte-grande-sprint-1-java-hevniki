@@ -14,21 +14,26 @@ public class Recipe {
         this.name = name;
         this.description = description;
     }
-
     public Map<Ingredient, Double> getIngredients() {
         return ingredients;
     }
-
     public String getName() {
         return name;
     }
-
     public String getDescription() {
         return description;
     }
-
     public boolean isVegan(){
         return ingredients.keySet().stream().allMatch(Ingredient::isVegan);
+    }
+    public boolean isVegetarian(){
+        return ingredients.keySet().stream().allMatch(Ingredient::isMeatFree);
+    }
+    public boolean isGlutenFree(){
+        return ingredients.keySet().stream().allMatch(Ingredient::isGlutenFree);
+    }
+    public boolean isDairyFree(){
+        return ingredients.keySet().stream().allMatch(Ingredient::isDairyFree);
     }
     @Override
     public boolean equals(Object o) {
