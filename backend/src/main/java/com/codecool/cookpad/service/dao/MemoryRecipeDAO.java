@@ -15,6 +15,7 @@ public class MemoryRecipeDAO implements RecipeDAO {
 
     public MemoryRecipeDAO() {
         this.recipes = new HashSet<>();
+        addRecipes();
     }
 
     @Override
