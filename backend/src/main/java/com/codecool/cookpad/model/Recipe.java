@@ -3,13 +3,16 @@ package com.codecool.cookpad.model;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 
 public class Recipe {
+    private final UUID id;
     private final Map<Ingredient, Double> ingredients;
     private final String name;
     private final String description;
 
     public Recipe(Map<Ingredient, Double> ingredients, String name, String description) {
+        this.id = UUID.randomUUID();
         this.ingredients = new HashMap<>(ingredients);
         this.name = name;
         this.description = description;
