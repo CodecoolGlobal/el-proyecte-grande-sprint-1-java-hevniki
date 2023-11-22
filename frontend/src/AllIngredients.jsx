@@ -1,5 +1,7 @@
 import {useState, useEffect} from "react";
+
 import Ingredient from "./Ingredient.jsx";
+
 
 async function fetchIngredients(){
     const res = await fetch("/api/ingredients");
@@ -25,7 +27,6 @@ function AllIngredients(){
             <div>Loading</div>
         )
     }
-    console.log(ingredients);
     return (
         <>
             <div>All ingredients:</div>

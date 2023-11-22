@@ -3,9 +3,7 @@ package com.codecool.cookpad.service.dao;
 import com.codecool.cookpad.model.Ingredient;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Repository
 public class MemoryIngredientDAO implements IngredientDAO {
@@ -27,6 +25,11 @@ public class MemoryIngredientDAO implements IngredientDAO {
     @Override
     public List<Ingredient> getAllIngredients() {
         return ingredients.stream().toList();
+    }
+
+    @Override
+    public Optional<Ingredient> getIngredientById(String id) {
+        return ingredients.stream().filter(ingredient -> ingredient.getId().equals(UUID.fromString(id))).findFirst();
     }
 
 }
