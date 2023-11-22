@@ -17,6 +17,9 @@ public class Recipe {
         this.name = name;
         this.description = description;
     }
+    public UUID getId() {
+        return id;
+    }
     public Map<Ingredient, Double> getIngredients() {
         return ingredients;
     }
