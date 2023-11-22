@@ -75,4 +75,17 @@ public class IngredientController {
         ingredientTypeService.updateIngredient(id, updatedIngredient);
         return ResponseEntity.ok(updatedIngredient);
     }
+    @PostMapping
+    public ResponseEntity<?> postIngredient(@RequestBody IngredientDTO postedIngredient){
+        try{
+            IngredientDTO createdIngredient= ingredientService.createIngredient(postedIngredient);
+            if(createdIngredient==null){
+                ResponseEntity.badRequest();
+            }
+            return ResponseEntity.ok(createdIngredient);
+        }
+        catch(Exception e){
+           return ResponseEntity.internalServerError().build();
+        }
+    }
 }
