@@ -1,5 +1,6 @@
 package com.codecool.cookpad.service.dao;
 
+import com.codecool.cookpad.dto.IngredientDTO;
 import com.codecool.cookpad.model.Ingredient;
 import org.springframework.stereotype.Repository;
 
@@ -30,6 +31,9 @@ public class MemoryIngredientDAO implements IngredientDAO {
     @Override
     public Optional<Ingredient> getIngredientById(String id) {
         return ingredients.stream().filter(ingredient -> ingredient.getId().equals(UUID.fromString(id))).findFirst();
+    }
+    public boolean addIngredient(Ingredient ingredient){
+        return this.ingredients.add(ingredient);
     }
 
 }
