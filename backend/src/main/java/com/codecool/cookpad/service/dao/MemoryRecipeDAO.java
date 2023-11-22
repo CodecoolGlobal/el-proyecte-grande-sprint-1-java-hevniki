@@ -51,4 +51,7 @@ public class MemoryRecipeDAO implements RecipeDAO {
     public boolean createRecipe(Recipe recipeToAdd){
         return this.recipes.add(recipeToAdd);
     }
+    @Override
+    public Optional<Recipe> getRecipeById(String id) {
+        return recipes.stream().filter(recipe -> recipe.getId().equals(UUID.fromString(id))).findFirst();    }
 }
