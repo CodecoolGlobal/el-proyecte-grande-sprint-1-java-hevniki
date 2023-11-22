@@ -1,3 +1,4 @@
+
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 
@@ -52,6 +53,7 @@ function IngredientDetails() {
         <>
             <ul>
                 <li>
+
                     ingredient name: {ingredient.name}
                 </li>
                 <li>

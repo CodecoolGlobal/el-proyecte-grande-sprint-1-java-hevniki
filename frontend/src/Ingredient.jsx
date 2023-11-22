@@ -19,12 +19,12 @@ function Ingredient(props) {
                 <li>
                     dairy free? {isDairyFree ? "yes" : "no"}
                 </li>
+
                 <Link to={`/ingredients/${id}`}>
                     <button>
                         show details
                     </button>
                 </Link>
-
             </ul>
         </>
     )
