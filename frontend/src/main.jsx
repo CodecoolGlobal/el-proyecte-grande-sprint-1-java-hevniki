@@ -39,7 +39,12 @@ const router = createBrowserRouter([
             {
                 path: "/create-recipe",
                 element: <RecipeForm/>
-            }
+            },
+            {
+
+                path: "/ingredients/create",
+                element: <IngredientCreator/>,
+            },
         ]
     }
 ])
