@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import RecipeOverview from './RecipeOverview';
 
 function RecipeList() {
 	const recipesPath = "/api/recipes"
@@ -19,7 +20,7 @@ function RecipeList() {
 		console.log(recipes);
 		return (
 			<ul>
-				{recipes.map(recipe => <li>{recipe.name}</li>)}
+				{recipes.map(recipe => <RecipeOverview details={recipe}></RecipeOverview>)}
 			</ul>
 		)
 	}
