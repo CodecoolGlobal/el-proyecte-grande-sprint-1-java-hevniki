@@ -1,5 +1,14 @@
-function Ingredient(props) {
-    const {name, unitOfMeasure, isGlutenFree, isMeatFree, isDairyFree, isEggFree} = props.ingredient;
+
+import {useParams} from "react-router-dom";
+import {useEffect, useState} from "react";
+
+async function fetchIngredient(id){
+
+}
+
+function IngredientDetails() {
+    const { id } = useParams();
+
     return (
         <>
             <ul>
@@ -19,10 +28,10 @@ function Ingredient(props) {
                     dairy free? {isDairyFree ? "yes" : "no"}
                 </li>
                 <button>
-                    show details
+                    show recipes which includes this ingredient
                 </button>
             </ul>
         </>
     )
 }
-export default Ingredient;
+export default IngredientDetails;
