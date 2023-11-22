@@ -23,8 +23,20 @@ public class IngredientService {
         Optional<Ingredient> optionalIngredient = ingredientDAO.getIngredientById(id);
         return optionalIngredient.map(this::mapToDTO).orElse(null);
     }
+public IngredientDTO createIngredient(IngredientDTO newIngredient){
+        Ingredient createdIngredient = mapDtoToIngredient(newIngredient);
+      boolean success = ingredientDAO.addIngredient(createdIngredient);
+      if(success){
+          return mapToDTO(createdIngredient);
+      }
+      return null;
+}
 
     private IngredientDTO mapToDTO(Ingredient ingredient){
         return new IngredientDTO(ingredient.getId().toString(), ingredient.getName(), ingredient.getUnitOfMeasure(), ingredient.isGlutenFree(), ingredient.isDairyFree(), ingredient.isMeatFree(), ingredient.isEggFree());
+    }
+
+    private Ingredient mapDtoToIngredient(IngredientDTO ingredientAsDto){
+        return new Ingredient(ingredientAsDto.name(),ingredientAsDto.unitOfMeasure(), ingredientAsDto.isGlutenFree(), ingredientAsDto.isDairyFree(), ingredientAsDto.isMeatFree(), ingredientAsDto.isEggFree());
     }
 }
