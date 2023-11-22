@@ -1,4 +1,9 @@
 package com.codecool.cookpad.dto;
 
-public interface RecipeDTO {
+import com.codecool.cookpad.model.Ingredient;
+
+import java.util.Map;
+import java.util.UUID;
+
+public record RecipeDTO (UUID id, Map<Ingredient, Double>ingredients, String name, String description){
 }
