@@ -1,4 +1,4 @@
-import RecipeList from "./RecipeList";
+import RecipeList from "./recipes/RecipeList";
 
 
 function App() {
