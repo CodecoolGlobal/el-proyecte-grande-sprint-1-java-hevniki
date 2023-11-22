@@ -25,7 +25,7 @@ const router = createBrowserRouter([
             },
             {
 
-                path: "/ingredient/id",
+                path: "/ingredients/:id",
                 element: <IngredientDetails/>,
             },
             {
