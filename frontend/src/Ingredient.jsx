@@ -1,5 +1,6 @@
+import { Link } from "react-router-dom";
 function Ingredient(props) {
-    const {name, unitOfMeasure, isGlutenFree, isMeatFree, isDairyFree, isEggFree} = props.ingredient;
+    const {id, name, unitOfMeasure, isGlutenFree, isMeatFree, isDairyFree, isEggFree} = props.ingredient;
     return (
         <>
             <ul>
@@ -18,9 +19,12 @@ function Ingredient(props) {
                 <li>
                     dairy free? {isDairyFree ? "yes" : "no"}
                 </li>
-                <button>
-                    show details
-                </button>
+
+                <Link to={`/ingredients/${id}`}>
+                    <button>
+                        show details
+                    </button>
+                </Link>
             </ul>
         </>
     )
