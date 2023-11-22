@@ -21,10 +21,7 @@ public class IngredientService {
 
     public IngredientDTO getIngredientById(String id){
         Optional<Ingredient> optionalIngredient = ingredientDAO.getIngredientById(id);
-        if (optionalIngredient.isEmpty()){
-            return null;
-        }
-        return mapToDTO(optionalIngredient.get());
+        return optionalIngredient.map(this::mapToDTO).orElse(null);
     }
 
     private IngredientDTO mapToDTO(Ingredient ingredient){
