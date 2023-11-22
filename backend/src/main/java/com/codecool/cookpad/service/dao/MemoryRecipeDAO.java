@@ -4,10 +4,7 @@ import com.codecool.cookpad.model.Ingredient;
 import com.codecool.cookpad.model.Recipe;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Repository
 public class MemoryRecipeDAO implements RecipeDAO {
@@ -22,6 +19,7 @@ public class MemoryRecipeDAO implements RecipeDAO {
     public Set<Recipe> getRecipes() {
         return this.recipes;
     }
+
 
     public void addRecipes() {
         Map<Ingredient, Double> ingredients1 = new HashMap<>();
@@ -39,4 +37,7 @@ public class MemoryRecipeDAO implements RecipeDAO {
         recipes.add(new Recipe(ingredients1, "Omelettes", "Put egg on oil."));
         recipes.add(new Recipe(ingredients2, "Magic", "Do as you wish"));
     }
+    @Override
+    public Optional<Recipe> getRecipeById(String id) {
+        return recipes.stream().filter(recipe -> recipe.getId().equals(UUID.fromString(id))).findFirst();    }
 }
