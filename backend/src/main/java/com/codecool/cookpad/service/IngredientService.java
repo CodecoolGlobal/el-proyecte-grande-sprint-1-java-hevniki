@@ -25,6 +25,6 @@ public class IngredientService {
     }
 
     private IngredientDTO mapToDTO(Ingredient ingredient){
-        return new IngredientDTO(ingredient.getId(), ingredient.getName(), ingredient.getUnitOfMeasure(), ingredient.isGlutenFree(), ingredient.isDairyFree(), ingredient.isMeatFree(), ingredient.isEggFree());
+        return new IngredientDTO(ingredient.getId().toString(), ingredient.getName(), ingredient.getUnitOfMeasure(), ingredient.isGlutenFree(), ingredient.isDairyFree(), ingredient.isMeatFree(), ingredient.isEggFree());
     }
 }
