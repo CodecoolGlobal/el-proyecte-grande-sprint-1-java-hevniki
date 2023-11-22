@@ -1,5 +1,6 @@
 import {useState, useEffect} from "react";
 import {useParams} from "react-router-dom";
+import IngredientForRecipe from "./IngredientForRecipe.jsx";
 function RecipeDetails(){
     const {id} = useParams();
     const [loading, setLoading] = useState(true);
@@ -26,7 +27,7 @@ function RecipeDetails(){
         </div>
         )
     }
-
+   // console.log(recipe.ingredients);
     return(
         <div>
             <ul>
@@ -36,6 +37,14 @@ function RecipeDetails(){
                 <li>is Vegetarian : {(recipe.isVegetarian) ? "yes" : "no"}</li>
                 <li>is GlutenFree : {(recipe.isGlutenFree) ? "yes" : "no"}</li>
                 <li>is DairyFree : {(recipe.isDairyFree) ? "yes" : "no"}</li>
+                <div>Ingredients: </div>
+                <>{recipe.ingredients.map((ingredient)=>{
+                    return <IngredientForRecipe
+                        key = {ingredient[0]}
+                        props={ingredient}
+                />})}</>
+
+
             </ul>
         </div>
     )
