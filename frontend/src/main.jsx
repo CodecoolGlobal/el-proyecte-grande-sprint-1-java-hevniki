@@ -8,6 +8,7 @@ import AllIngredients from "./AllIngredients.jsx";
 import IngredientDetails from "./IngredientDetails.jsx";
 
 import RecipeDetails from "./RecipeDetails.jsx";
+import IngredientCreator from "./IngredientCreator.jsx";
 
 
 const router = createBrowserRouter([
