@@ -1,4 +1,5 @@
 import {useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 async function postIngredient(newIngredient) {
     const res = await fetch("/api/ingredients", {
@@ -23,6 +24,7 @@ function IngredientCreator() {
             isEggFree: false,
         }
     )
+    const navigate = useNavigate();
 
     function onCheckBoxChange(e){
         const updatedIngredient = {...ingredient};
@@ -95,7 +97,10 @@ function IngredientCreator() {
                        name="isEggFree"
                 />
             </div>
-            <button onClick={()=>{postIngredient(ingredient)}}> submit</button>
+            <button onClick={async ()=>{
+                await postIngredient(ingredient);
+                navigate("/");
+            }}> submit</button>
         </div>
     )
 }
