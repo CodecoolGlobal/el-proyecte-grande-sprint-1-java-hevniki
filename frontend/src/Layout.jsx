@@ -8,6 +8,12 @@ function Layout(){
                     <li>
                         <Link to="/">Home</Link>
                     </li>
+                    <li>
+                        <Link to="/recipes">Recipes</Link>
+                    </li>
+                    <li>
+                        <Link to="/ingredients">Ingredients</Link>
+                    </li>
                 </ul>
             </nav>
             <Outlet/>
