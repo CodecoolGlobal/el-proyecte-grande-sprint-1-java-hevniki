@@ -19,8 +19,8 @@ function RecipeList() {
 	if (recipes != null) {
 
 		return (
-			<ul>
-				{recipes.map(recipe => <RecipeOverview key = {recipe.id} details={recipe}></RecipeOverview>)}
+			<ul style={{listStyleType: "none"}}>
+				{recipes.map(recipe => <RecipeOverview details={recipe}></RecipeOverview>)}
 			</ul>
 		)
 	}
