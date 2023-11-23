@@ -35,5 +35,7 @@ public class MemoryIngredientDAO implements IngredientDAO {
     public boolean addIngredient(Ingredient ingredient){
         return this.ingredients.add(ingredient);
     }
-
+public boolean deleteIngredient(Ingredient ingredientToDelete){
+        return this.ingredients.remove(ingredientToDelete);
+}
 }

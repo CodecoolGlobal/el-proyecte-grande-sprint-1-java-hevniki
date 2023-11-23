@@ -44,4 +44,17 @@ public class IngredientController {
            return ResponseEntity.internalServerError().build();
         }
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteIngredientById(@PathVariable String id) {
+        IngredientDTO foundIngredient =ingredientService.getIngredientById(id);
+        if(foundIngredient==null){
+            return ResponseEntity.badRequest().build();
+        }
+        boolean success = ingredientService.deleteIngredient(foundIngredient);
+        if(!success) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(foundIngredient);
+
+    }
 }
