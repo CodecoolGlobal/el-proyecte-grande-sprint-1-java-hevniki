@@ -1,5 +1,4 @@
 package com.codecool.cookpad.service;
-
 import com.codecool.cookpad.dto.IngredientMapForRecipeDTO;
 import com.codecool.cookpad.dto.RecipeDTO;
 import com.codecool.cookpad.model.Ingredient;
@@ -37,5 +36,9 @@ public class RecipeService {
         return ingredients.entrySet().stream()
                 .map(ingredient -> new IngredientMapForRecipeDTO(ingredient.getKey().getId().toString(), ingredient.getValue(), ingredient.getKey().getName(), ingredient.getKey().getUnitOfMeasure()))
                 .collect(Collectors.toSet());
+    }
+    public boolean deleteRecipe(RecipeDTO recipeToDelete) {
+        Optional<Recipe> optionalRecipe = recipeDAO.getRecipeById(recipeToDelete.id());
+        return optionalRecipe.filter(recipeDAO::deleteRecipe).isPresent();
     }
 }
