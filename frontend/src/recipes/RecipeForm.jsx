@@ -95,13 +95,13 @@ function RecipeForm({onSave}) {
 	}
 
 	return (
-		<form>
+		<form className='recipeForm'>
 			<label htmlFor='recipeName'>Name: </label>
 			<input id='recipeName' onChange={handleNameChange}></input>
 			<br></br>
 
 			<div className="dropdown">
-				<button className="dropbtn" onClick={showOptions}>Dropdown</button>
+				<button className="dropbtn" onClick={showOptions}>Ingredients</button>
 				<div id="myDropdown" className="dropdown-content">
 					<input type="text" placeholder="Search.." id="myInput" onChange={handleFilterChange} />
 					{filteredIngredients.map(ingredient => {
@@ -117,7 +117,8 @@ function RecipeForm({onSave}) {
 				})}
 			</ul>
 			<br></br>
-			<label htmlFor='description'></label>
+			<label htmlFor='description'>Description:</label>
+			<br></br>
 			<textarea id='description' onChange={handleDescriptionChange}></textarea>
 			<button type='submit' onClick={handleSubmit}>Submit</button>
 		</form>
