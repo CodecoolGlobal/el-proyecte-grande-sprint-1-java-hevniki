@@ -1,6 +1,15 @@
-
-import {useParams} from "react-router-dom";
+import {useParams, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
+
+async function deleteIngredient(id){
+    const res = await fetch(`/api/ingredients/${id}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    });
+    return await res.json();
+}
 
 
 function IngredientDetails() {
@@ -8,6 +17,7 @@ function IngredientDetails() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [ingredient, setIngredient] = useState(null);
+    const navigate = useNavigate();
 
     async function fetchIngredient(id) {
         try {
@@ -31,6 +41,7 @@ function IngredientDetails() {
             setIngredient(ingredient);
             setLoading(false);
         }
+
         task();
 
     }, []);
@@ -70,6 +81,12 @@ function IngredientDetails() {
                 </li>
                 <button>
                     show recipes which includes this ingredient
+                </button>
+                <button onClick={async()=>{
+                    await deleteIngredient(id);
+                    navigate('/');
+                }}>
+                    delete this ingredient
                 </button>
             </ul>
         </>
