@@ -8,6 +8,7 @@ import AllIngredients from "./AllIngredients.jsx";
 import IngredientDetails from "./IngredientDetails.jsx";
 
 import RecipeDetails from "./RecipeDetails.jsx";
+import RecipeList from './recipes/RecipeList.jsx';
 
 
 const router = createBrowserRouter([
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
 
                 path: "/ingredients/:id",
                 element: <IngredientDetails/>,
+            },
+            {
+                path: "/recipes",
+                element: <RecipeList/>,
             },
             {
                 path: "/recipes/:id",
