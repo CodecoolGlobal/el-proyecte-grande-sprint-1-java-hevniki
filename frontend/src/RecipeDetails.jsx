@@ -50,13 +50,15 @@ function RecipeDetails() {
                 <li>is Vegetarian : {(recipe.isVegetarian) ? "yes" : "no"}</li>
                 <li>is GlutenFree : {(recipe.isGlutenFree) ? "yes" : "no"}</li>
                 <li>is DairyFree : {(recipe.isDairyFree) ? "yes" : "no"}</li>
-                <div>Ingredients:</div>
-                <>{recipe.ingredients.map((ingredient) => {
+                <div>Ingredients: </div>
+                <>{recipe.ingredients.map((ingredient)=>{
+                    console.log(ingredient);
                     return <IngredientForRecipe
-                        key={ingredient[0]}
-                        props={ingredient}
-                    />
-                })}</>
+                        key = {ingredient.id}
+                        ingredient={ingredient}
+                />})}</>
+
+
             </ul>
             <button onClick={async () => {
                 await deleteRecipe(id);
