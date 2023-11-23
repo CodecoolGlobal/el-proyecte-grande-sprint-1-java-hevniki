@@ -12,7 +12,7 @@ import RecipeDetails from "./RecipeDetails.jsx";
 import IngredientCreator from "./IngredientCreator.jsx";
 
 import RecipeList from './recipes/RecipeList.jsx';
-import RecipeForm from './recipes/RecipeForm.jsx';
+import RecipeCreator from './recipes/RecipeCreator.jsx';
 
 const router = createBrowserRouter([
     {
@@ -43,7 +43,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "/create-recipe",
-                element: <RecipeForm/>
+                element: <RecipeCreator/>
             },
             {
                 path: "/ingredients/create",

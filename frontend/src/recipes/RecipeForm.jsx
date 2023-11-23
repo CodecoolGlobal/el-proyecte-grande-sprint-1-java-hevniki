@@ -7,14 +7,16 @@ async function fetchIngredients() {
 	return data;
 }
 
-function RecipeForm() {
+function RecipeForm({onSave}) {
 	const [ingredients, setIngredients] = useState(null);
-	const [filteredIngredients, setFilteredIngredients] = useState([]);
-	const [filterValue, setFilterValue] = useState('');
-	const [selectedIngredients, setSelectedIngredients] = useState([]);
-	const [selectedIngredientIds, setSelectedIngredientIds] = useState([]);
+	
 	const [recipeName, setRecipeName] = useState(null);
 	const [description, setDescription] = useState(null);
+	const [selectedIngredients, setSelectedIngredients] = useState([]);
+
+	const [filteredIngredients, setFilteredIngredients] = useState([]);
+	const [filterValue, setFilterValue] = useState('');
+	const [selectedIngredientIds, setSelectedIngredientIds] = useState([]);
 
 	useEffect(() => {
 		async function task() {
@@ -78,8 +80,14 @@ function RecipeForm() {
 		setDescription(event.target.value);
 	}
 
-	function handleSubmit() {
+	function handleSubmit(event) {
+		event.preventDefault();
 
+		const newSelectedIngredients = selectedIngredients.map(ingr => {
+			return {amount: ingr.amount, id: ingr.ingredient.id}
+		})
+
+		return onSave({recipeName, description, newSelectedIngredients});
 	}
 
 	if (ingredients == null) {
@@ -105,7 +113,7 @@ function RecipeForm() {
 			Ingredients:
 			<ul>
 				{selectedIngredients.map((ingredient) => {
-					return <li>{ingredient.ingredient.name} <input id={ingredient.ingredient.id} type='number' onChange={handleNumberOfIngredientsChange}></input> {ingredient.ingredient.unitOfMeasure}</li>
+					return <li key={ingredient.ingredient.id}>{ingredient.ingredient.name} <input id={ingredient.ingredient.id} type='number' onChange={handleNumberOfIngredientsChange}></input> {ingredient.ingredient.unitOfMeasure}</li>
 				})}
 			</ul>
 			<br></br>
