@@ -57,4 +57,7 @@ public class MemoryRecipeDAO implements RecipeDAO {
     public boolean deleteRecipe(Recipe recipeToDelete){
         return this.recipes.remove(recipeToDelete);
     }
+    public boolean createRecipe(Recipe recipeToAdd){
+        return this.recipes.add(recipeToAdd);
+    }
 }

@@ -90,7 +90,7 @@ public class IngredientController {
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteIngredientById(@PathVariable String id) {
-        IngredientDTO foundIngredient =ingredientService.getIngredientById(id);
+        IngredientDTO foundIngredient =ingredientService.getIngredientDTOById(id);
         if(foundIngredient==null){
             return ResponseEntity.badRequest().build();
         }
