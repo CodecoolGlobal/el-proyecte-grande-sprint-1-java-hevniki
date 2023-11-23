@@ -22,7 +22,7 @@ public class RecipeController {
     }
 
     @GetMapping
-    public Set<Recipe> getRecipes() {
+    public Set<RecipeDTO> getRecipes() {
         return recipeService.getRecipes();
     }
     @GetMapping("/{id}")

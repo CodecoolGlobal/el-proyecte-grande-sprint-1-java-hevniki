@@ -1,12 +1,15 @@
 package com.codecool.cookpad.service;
 
 import com.codecool.cookpad.dto.RecipeDTO;
+import com.codecool.cookpad.model.Ingredient;
 import com.codecool.cookpad.model.Recipe;
 import com.codecool.cookpad.service.dao.RecipeDAO;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class RecipeService {
@@ -16,16 +19,22 @@ public class RecipeService {
         this.recipeDAO = recipeDAO;
     }
 
-    public Set<Recipe> getRecipes() {
-        return recipeDAO.getRecipes();
+    public Set<RecipeDTO> getRecipes() {
+        return recipeDAO.getRecipes().stream().map(this::mapToDTO).collect(Collectors.toSet());
     }
 
-    public RecipeDTO getRecipeById(String id){
+    public RecipeDTO getRecipeById(String id) {
         Optional<Recipe> optionalRecipe = recipeDAO.getRecipeById(id);
         return optionalRecipe.map(this::mapToDTO).orElse(null);
     }
 
-    private RecipeDTO mapToDTO(Recipe recipe){
-        return new RecipeDTO(recipe.getId().toString(), recipe.getIngredients(), recipe.getName(), recipe.getDescription(), recipe.isVegan(), recipe.isVegetarian(), recipe.isGlutenFree(), recipe.isDairyFree());
+    private RecipeDTO mapToDTO(Recipe recipe) {
+        return new RecipeDTO(recipe.getId().toString(), mapIngredientsToStrings(recipe.getIngredients()), recipe.getName(), recipe.getDescription(), recipe.isVegan(), recipe.isVegetarian(), recipe.isGlutenFree(), recipe.isDairyFree());
+    }
+
+    private Set<String[]> mapIngredientsToStrings(Map<Ingredient, Double> ingredients) {
+        return ingredients.entrySet().stream()
+                .map(ingredient -> new String[]{ingredient.getKey().getId().toString(), ingredient.getKey().getName(), ingredient.getValue().toString(), ingredient.getKey().getUnitOfMeasure()})
+                .collect(Collectors.toSet());
     }
 }
