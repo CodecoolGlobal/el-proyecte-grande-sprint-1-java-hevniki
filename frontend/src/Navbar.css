@@ -1,0 +1,24 @@
+ul {
+    list-style-type: none;
+    margin: 3px;
+    padding: 0;
+}
+
+li {
+    display: inline-block;
+}
+
+a {
+    display: block;
+    padding: 8px;
+    background-color: #dddddd;
+}
+
+div.Layout {
+    max-width: 100%;
+    width: 100%;
+}
+
+body {
+    margin: 0;
+}
