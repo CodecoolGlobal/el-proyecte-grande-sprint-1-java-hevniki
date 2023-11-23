@@ -7,6 +7,7 @@ import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 import AllIngredients from "./AllIngredients.jsx";
 import IngredientDetails from "./IngredientDetails.jsx";
 import RecipeDetails from "./RecipeDetails.jsx";
+import IngredientCreator from "./IngredientCreator.jsx";
 import RecipeList from './recipes/RecipeList.jsx';
 import RecipeForm from './recipes/RecipeForm.jsx';
 
