@@ -1,34 +1,47 @@
 import {useState, useEffect} from "react";
-import {useParams} from "react-router-dom";
+import {useParams, useNavigate} from "react-router-dom";
 import IngredientForRecipe from "./IngredientForRecipe.jsx";
-function RecipeDetails(){
+
+function RecipeDetails() {
     const {id} = useParams();
     const [loading, setLoading] = useState(true);
     const [recipe, setRecipe] = useState(null);
+    const navigate = useNavigate()
 
-    async function fetchRecipe(id){
+    async function fetchRecipe(id) {
         const res = await fetch(`/api/recipes/${id}`);
         return res.json();
     }
 
+    async function deleteRecipe(id) {
+        const res = await fetch(`/api/recipes/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        return await res.json();
+    }
+
     useEffect(() => {
-        async function task(){
+        async function task() {
             const fetchedRecipe = await fetchRecipe(id)
             setRecipe(fetchedRecipe);
             setLoading(false);
         }
+
         task()
     }, []);
 
-    if(loading){
+    if (loading) {
         return (
-        <div>
-            Loading
-        </div>
+            <div>
+                Loading
+            </div>
         )
     }
-   // console.log(recipe.ingredients);
-    return(
+    // console.log(recipe.ingredients);
+    return (
         <div>
             <ul>
                 <li>Recipe name: {recipe.name}</li>
@@ -37,15 +50,19 @@ function RecipeDetails(){
                 <li>is Vegetarian : {(recipe.isVegetarian) ? "yes" : "no"}</li>
                 <li>is GlutenFree : {(recipe.isGlutenFree) ? "yes" : "no"}</li>
                 <li>is DairyFree : {(recipe.isDairyFree) ? "yes" : "no"}</li>
-                <div>Ingredients: </div>
-                <>{recipe.ingredients.map((ingredient)=>{
+                <div>Ingredients:</div>
+                <>{recipe.ingredients.map((ingredient) => {
                     return <IngredientForRecipe
-                        key = {ingredient[0]}
+                        key={ingredient[0]}
                         props={ingredient}
-                />})}</>
-
-
+                    />
+                })}</>
             </ul>
+            <button onClick={async () => {
+                await deleteRecipe(id);
+                navigate('/');
+            }}>delete this recipe
+            </button>
         </div>
     )
 }
