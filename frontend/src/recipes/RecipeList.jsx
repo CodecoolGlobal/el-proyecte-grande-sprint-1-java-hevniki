@@ -19,7 +19,7 @@ function RecipeList() {
 	if (recipes != null) {
 		console.log(recipes);
 		return (
-			<ul>
+			<ul style={{listStyleType: "none"}}>
 				{recipes.map(recipe => <RecipeOverview details={recipe}></RecipeOverview>)}
 			</ul>
 		)
