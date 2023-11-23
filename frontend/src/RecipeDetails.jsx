@@ -39,9 +39,10 @@ function RecipeDetails(){
                 <li>is DairyFree : {(recipe.isDairyFree) ? "yes" : "no"}</li>
                 <div>Ingredients: </div>
                 <>{recipe.ingredients.map((ingredient)=>{
+                    console.log(ingredient);
                     return <IngredientForRecipe
-                        key = {ingredient[0]}
-                        props={ingredient}
+                        key = {ingredient.id}
+                        ingredient={ingredient}
                 />})}</>
 
 
