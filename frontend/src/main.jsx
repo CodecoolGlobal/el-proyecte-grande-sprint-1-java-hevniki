@@ -8,9 +8,11 @@ import AllIngredients from "./AllIngredients.jsx";
 import IngredientDetails from "./IngredientDetails.jsx";
 
 import RecipeDetails from "./RecipeDetails.jsx";
+
+import IngredientCreator from "./IngredientCreator.jsx";
+
 import RecipeList from './recipes/RecipeList.jsx';
 import RecipeForm from './recipes/RecipeForm.jsx';
-
 
 const router = createBrowserRouter([
     {
@@ -36,20 +38,25 @@ const router = createBrowserRouter([
             },
             {
                 path: "/recipes/:id",
+
                 element: <RecipeDetails/>,
             },
             {
                 path: "/create-recipe",
                 element: <RecipeForm/>
-            }
+            },
+            {
+                path: "/ingredients/create",
+                element: <IngredientCreator/>,
+            },
         ]
     }
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-   <RouterProvider router={router}/>
-  </React.StrictMode>,
+    <React.StrictMode>
+        <RouterProvider router={router}/>
+    </React.StrictMode>,
 )
 
 

@@ -4,10 +4,7 @@ import com.codecool.cookpad.dto.IngredientDTO;
 import com.codecool.cookpad.model.Ingredient;
 import com.codecool.cookpad.service.IngredientService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,5 +30,31 @@ public class IngredientController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(foundIngredient);
+    }
+    @PostMapping
+    public ResponseEntity<?> postIngredient(@RequestBody IngredientDTO postedIngredient){
+        try{
+            IngredientDTO createdIngredient= ingredientService.createIngredient(postedIngredient);
+            if(createdIngredient==null){
+                ResponseEntity.badRequest();
+            }
+            return ResponseEntity.ok(createdIngredient);
+        }
+        catch(Exception e){
+           return ResponseEntity.internalServerError().build();
+        }
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteIngredientById(@PathVariable String id) {
+        IngredientDTO foundIngredient =ingredientService.getIngredientById(id);
+        if(foundIngredient==null){
+            return ResponseEntity.badRequest().build();
+        }
+        boolean success = ingredientService.deleteIngredient(foundIngredient);
+        if(!success) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(foundIngredient);
+
     }
 }
