@@ -9,4 +9,5 @@ public interface RecipeDAO {
     Set<Recipe> getRecipes();
     Optional<Recipe> getRecipeById(String id);
     boolean deleteRecipe(Recipe recipeToDelete);
+    boolean createRecipe(Recipe recipeToAdd);
 }
