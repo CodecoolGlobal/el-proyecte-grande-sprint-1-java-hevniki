@@ -20,9 +20,13 @@ public class IngredientService {
         return ingredientDAO.getAllIngredients().stream().map(this::mapToDTO).toList();
     }
 
-    public IngredientDTO getIngredientById(String id) {
+    public IngredientDTO getIngredientDTOById(String id) {
         Optional<Ingredient> optionalIngredient = ingredientDAO.getIngredientById(id);
         return optionalIngredient.map(this::mapToDTO).orElse(null);
+    }
+    public Optional<Ingredient> getIngredientById(String id) {
+       return ingredientDAO.getIngredientById(id);
+
     }
 
     public IngredientDTO createIngredient(IngredientDTO newIngredient) {

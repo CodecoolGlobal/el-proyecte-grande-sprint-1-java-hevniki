@@ -14,6 +14,9 @@ function Layout(){
                     <li>
                         <Link to="/ingredients">Ingredients</Link>
                     </li>
+                    <li>
+                        <Link to="/create-recipe">Add new recipe</Link>
+                    </li>
                 </ul>
             </nav>
             <Outlet/>
