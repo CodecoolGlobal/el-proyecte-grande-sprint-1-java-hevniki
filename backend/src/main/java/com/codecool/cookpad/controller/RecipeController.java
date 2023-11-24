@@ -1,6 +1,5 @@
 package com.codecool.cookpad.controller;
 
-import com.codecool.cookpad.dto.IngredientDTO;
 import com.codecool.cookpad.dto.RecipeDTO;
 import com.codecool.cookpad.model.Recipe;
 import com.codecool.cookpad.service.RecipeService;
@@ -30,6 +29,7 @@ public class RecipeController {
         }
         return ResponseEntity.ok(foundRecipe);
     }
+    
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteRecipeById(@PathVariable String id) {
         RecipeDTO foundRecipe =recipeService.getRecipeById(id);
@@ -42,10 +42,12 @@ public class RecipeController {
         }
         return ResponseEntity.ok(foundRecipe);
     }
+
     @PostMapping
-    public ResponseEntity<?> postRecipe(@RequestBody RecipeDTO postedRecipe){
-        if(recipeService.createRecipe(postedRecipe)){
-            return ResponseEntity.ok().build();
+    public ResponseEntity<RecipeDTO> postRecipe(@RequestBody RecipeDTO postedRecipe){
+        RecipeDTO receipe = recipeService.createRecipe(postedRecipe);
+        if(receipe != null){
+            return ResponseEntity.ok().body(receipe);
         }
         return ResponseEntity.internalServerError().build();
     }

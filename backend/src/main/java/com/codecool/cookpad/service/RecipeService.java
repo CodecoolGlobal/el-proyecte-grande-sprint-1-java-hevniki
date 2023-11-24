@@ -44,7 +44,7 @@ public class RecipeService {
         return optionalRecipe.filter(recipeDAO::deleteRecipe).isPresent();
     }
 
-    public boolean createRecipe(RecipeDTO postedRecipe) {
+    public RecipeDTO createRecipe(RecipeDTO postedRecipe) {
         Map<Ingredient, Double> ingredients = new HashMap<>();
         Set<IngredientMapForRecipeDTO> ingredientsFromFrontend = postedRecipe.ingredients();
         for (IngredientMapForRecipeDTO ingr : ingredientsFromFrontend) {
@@ -54,7 +54,7 @@ public class RecipeService {
         }
 
         Recipe newRecipe = new Recipe(ingredients, postedRecipe.name(), postedRecipe.description());
-        return recipeDAO.createRecipe(newRecipe);
-
+        recipeDAO.createRecipe(newRecipe);
+        return mapToDTO(newRecipe);
     }
 }
