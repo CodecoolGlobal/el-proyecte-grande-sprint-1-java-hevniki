@@ -1,6 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 
+import "./RecipeOverview.css";
+
 function RecipeOverview(props) {
     const {
         id,
@@ -11,7 +13,7 @@ function RecipeOverview(props) {
         isDairyFree
     } = props.details
     return (
-        <li key={id}>
+        <li key={id} className='overview'>
             <p><b>{name}</b></p>
             <p>Vegan: {isVegan ? "yes" : "no"}</p>
             <p>Vegatarian: {isVegetarian ? "yes" : "no"}</p>
