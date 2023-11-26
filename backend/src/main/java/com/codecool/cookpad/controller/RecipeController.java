@@ -45,7 +45,7 @@ public class RecipeController {
     @PostMapping
     public ResponseEntity<?> postRecipe(@RequestBody RecipeDTO postedRecipe){
         if(recipeService.createRecipe(postedRecipe)){
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok(postedRecipe);
         }
         return ResponseEntity.internalServerError().build();
     }

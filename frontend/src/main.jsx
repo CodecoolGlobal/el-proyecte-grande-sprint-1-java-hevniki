@@ -38,7 +38,7 @@ const router = createBrowserRouter([
                 element: <RecipeDetails/>,
             },
             {
-                path: "/create-recipe",
+                path: "/recipes/create",
                 element: <RecipeCreator/>
             },
             {

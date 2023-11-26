@@ -1,11 +1,9 @@
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import {useEffect, useState} from "react";
 
 
-
-
-function IngredientForRecipe (props) {
-   const { id, name, amount, unitOfMeasure} = props.ingredient;
+function IngredientForRecipe(props) {
+    const {id, name, amount, unitOfMeasure} = props.ingredient;
 
 
     return (
@@ -24,4 +22,5 @@ function IngredientForRecipe (props) {
         </>
     )
 }
+
 export default IngredientForRecipe;
