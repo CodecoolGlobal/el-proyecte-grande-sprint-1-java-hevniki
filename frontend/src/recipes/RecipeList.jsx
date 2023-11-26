@@ -17,10 +17,10 @@ function RecipeList() {
 	}, []);
 
 	if (recipes != null) {
-		console.log(recipes);
+
 		return (
 			<ul>
-				{recipes.map(recipe => <RecipeOverview details={recipe}></RecipeOverview>)}
+				{recipes.map(recipe => <RecipeOverview key = {recipe.id} details={recipe}></RecipeOverview>)}
 			</ul>
 		)
 	}

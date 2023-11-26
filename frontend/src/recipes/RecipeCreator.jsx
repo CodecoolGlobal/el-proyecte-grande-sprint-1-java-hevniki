@@ -1,4 +1,3 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import RecipeForm from './RecipeForm';
@@ -21,11 +20,9 @@ async function createRecipe(recipe) {
 }
 
 function RecipeCreator() {
-	const navigate = useNavigate();
-
 	async function handleCreateRecipe(recipe) {
-		await createRecipe(recipe);
-		navigate("/");
+		const res = await createRecipe(recipe);
+		return await res.json();
 	}
 
   return (

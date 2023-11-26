@@ -15,8 +15,12 @@ function Layout(){
                         <Link to="/ingredients">Ingredients</Link>
                     </li>
                     <li>
-                        <Link to="/create-recipe">Add new recipe</Link>
+                        <Link to="/recipes/create">Add new recipe</Link>
                     </li>
+                    <li>
+                        <Link to="/ingredients/create">Add new ingredient</Link>
+                    </li>
+
                 </ul>
             </nav>
             <Outlet/>
