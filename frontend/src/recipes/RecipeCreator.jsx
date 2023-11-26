@@ -22,7 +22,6 @@ async function createRecipe(recipe) {
 function RecipeCreator() {
 	async function handleCreateRecipe(recipe) {
 		const res = await createRecipe(recipe);
-		return await res.json();
 	}
 
   return (
