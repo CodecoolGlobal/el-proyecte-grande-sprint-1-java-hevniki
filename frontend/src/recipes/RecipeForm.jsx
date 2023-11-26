@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import './RecipeForm.css'
+import {useNavigate} from "react-router-dom";
 
 async function fetchIngredients() {
 	const response = await fetch("/api/ingredients");
-	const data = response.json();
-	return data;
+	return response.json();
 }
 
 function RecipeForm({onSave}) {
@@ -17,6 +17,7 @@ function RecipeForm({onSave}) {
 	const [filteredIngredients, setFilteredIngredients] = useState([]);
 	const [filterValue, setFilterValue] = useState('');
 	const [selectedIngredientIds, setSelectedIngredientIds] = useState([]);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		async function task() {
@@ -61,7 +62,7 @@ function RecipeForm({onSave}) {
 		const id = event.target.id;
 
 		const newArray = selectedIngredients.map((ingr) => {
-			if (ingr.ingredient.id == id) {
+			if (ingr.ingredient.id === id) {
 				return { ...ingr, amount: event.target.value };
 			} else {
 				return ingr;
@@ -80,14 +81,14 @@ function RecipeForm({onSave}) {
 		setDescription(event.target.value);
 	}
 
-	function handleSubmit(event) {
+	async function handleSubmit(event) {
 		event.preventDefault();
 
 		const newSelectedIngredients = selectedIngredients.map(ingr => {
 			return {amount: ingr.amount, id: ingr.ingredient.id}
 		})
-
-		return onSave({recipeName, description, newSelectedIngredients});
+		await onSave({recipeName, description, newSelectedIngredients});
+		navigate('/');
 	}
 
 	if (ingredients == null) {
