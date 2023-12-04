@@ -1,6 +1,6 @@
 package com.codecool.cookpad.service.dao;
 
-import com.codecool.cookpad.model.Ingredient;
+import com.codecool.cookpad.model.IngredientType;
 import com.codecool.cookpad.model.Recipe;
 import org.springframework.stereotype.Repository;
 
@@ -22,24 +22,30 @@ public class MemoryRecipeDAO implements RecipeDAO {
 
 
     public void addRecipes() {
-        Map<Ingredient, Double> ingredients1 = new HashMap<>();
+        /*
+        Map<IngredientType, Double> ingredients1 = new HashMap<>();
 
-        ingredients1.put(new Ingredient("Salt", "spoon", true, true, true, true), 1.0);
-        ingredients1.put(new Ingredient("Eggs", "pc", true, true, true, false), 1.0);
-        ingredients1.put(new Ingredient("Oil", "dl", true, true, true, true), 1.0);
+        ingredients1.put(new IngredientType("Salt", "spoon", true, true, true, true), 1.0);
+        ingredients1.put(new IngredientType("Eggs", "pc", true, true, true, false), 1.0);
+        ingredients1.put(new IngredientType("Oil", "dl", true, true, true, true), 1.0);
 
-        Map<Ingredient, Double> ingredients2 = new HashMap<>();
+        Map<IngredientType, Double> ingredients2 = new HashMap<>();
 
-        ingredients2.put(new Ingredient("Flour", "kg", false, true, true, true), 0.5);
-        ingredients2.put(new Ingredient("Eggs", "pc", false, true, true, false), 2.0);
-        ingredients2.put(new Ingredient("Peach", "pc", true, true, true, true), 0.1);
+        ingredients2.put(new IngredientType("Flour", "kg", false, true, true, true), 0.5);
+        ingredients2.put(new IngredientType("Eggs", "pc", false, true, true, false), 2.0);
+        ingredients2.put(new IngredientType("Peach", "pc", true, true, true, true), 0.1);
 
         recipes.add(new Recipe(ingredients1, "Omelettes", "Put egg on oil."));
         recipes.add(new Recipe(ingredients2, "Magic", "Do as you wish"));
+
+         */
     }
     @Override
     public Optional<Recipe> getRecipeById(String id) {
-        return recipes.stream().filter(recipe -> recipe.getId().equals(UUID.fromString(id))).findFirst();    }
+        return Optional.empty();
+
+       // return recipes.stream().filter(recipe -> recipe.getId().equals(UUID.fromString(id))).findFirst();
+       }
     public boolean deleteRecipe(Recipe recipeToDelete){
         return this.recipes.remove(recipeToDelete);
     }
