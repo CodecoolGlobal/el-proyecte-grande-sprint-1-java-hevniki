@@ -20,6 +20,34 @@ public class IngredientType {
     public IngredientType() {
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setUnitOfMeasure(String unitOfMeasure) {
+        this.unitOfMeasure = unitOfMeasure;
+    }
+
+    public void setGlutenFree(boolean glutenFree) {
+        isGlutenFree = glutenFree;
+    }
+
+    public void setDairyFree(boolean dairyFree) {
+        isDairyFree = dairyFree;
+    }
+
+    public void setMeatFree(boolean meatFree) {
+        isMeatFree = meatFree;
+    }
+
+    public void setEggFree(boolean eggFree) {
+        isEggFree = eggFree;
+    }
+
     public long getId() {
         return id;
     }

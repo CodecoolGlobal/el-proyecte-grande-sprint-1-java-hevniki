@@ -2,17 +2,15 @@ package com.codecool.cookpad.model;
 
 import java.util.*;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 @Entity
 public class Recipe {
     @Id
     @GeneratedValue
     private long id;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "recipe_id")
     private Set<IngredientForRecipe> ingredients = new HashSet<>();
     private String name;
     private String description;
