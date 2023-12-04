@@ -1,9 +1,6 @@
 package com.codecool.cookpad.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 
@@ -13,7 +10,9 @@ public class IngredientForRecipe {
     @GeneratedValue
     private Long id;
 
+
     @OneToOne
+    @JoinColumn(name = "ingredient_type_id")
     private IngredientType ingredientType;
     private double amount;
 
