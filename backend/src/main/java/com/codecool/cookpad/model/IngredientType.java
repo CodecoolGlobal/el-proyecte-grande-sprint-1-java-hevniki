@@ -1,28 +1,26 @@
 package com.codecool.cookpad.model;
 
 import java.util.Objects;
-import java.util.UUID;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 
-public class Ingredient {
-    private final UUID id;
-    private final String name;
-    private final String unitOfMeasure;
-    private final boolean isGlutenFree;
-    private final boolean isDairyFree;
-    private final boolean isMeatFree;
-    private final boolean isEggFree;
+@Entity
+public class IngredientType {
+    @Id
+    @GeneratedValue
+    private long id;
+    private String name;
+    private String unitOfMeasure;
+    private boolean isGlutenFree;
+    private boolean isDairyFree;
+    private boolean isMeatFree;
+    private boolean isEggFree;
 
-    public Ingredient(String name, String unitOfMeasure, boolean isGlutenFree, boolean isDairyFree, boolean isMeatFree, boolean isEggFree) {
-        this.id = UUID.randomUUID();
-        this.name = name;
-        this.unitOfMeasure = unitOfMeasure;
-        this.isGlutenFree = isGlutenFree;
-        this.isDairyFree = isDairyFree;
-        this.isMeatFree = isMeatFree;
-        this.isEggFree = isEggFree;
+    public IngredientType() {
     }
 
-    public UUID getId() {
+    public long getId() {
         return id;
     }
 
@@ -57,7 +55,7 @@ public class Ingredient {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Ingredient that = (Ingredient) o;
+        IngredientType that = (IngredientType) o;
         return Objects.equals(id, that.id);
     }
 
