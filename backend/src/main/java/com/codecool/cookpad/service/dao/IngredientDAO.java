@@ -1,13 +1,13 @@
 package com.codecool.cookpad.service.dao;
 
-import com.codecool.cookpad.model.Ingredient;
+import com.codecool.cookpad.model.IngredientType;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface IngredientDAO {
-    List<Ingredient> getAllIngredients();
-    Optional<Ingredient> getIngredientById(String id);
-    boolean addIngredient(Ingredient ingredient);
-    boolean deleteIngredient(Ingredient ingredientToDelete);
+    List<IngredientType> getAllIngredients();
+    Optional<IngredientType> getIngredientById(String id);
+    boolean addIngredient(IngredientType ingredientType);
+    boolean deleteIngredient(IngredientType ingredientTypeToDelete);
 }

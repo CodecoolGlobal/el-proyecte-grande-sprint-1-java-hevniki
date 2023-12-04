@@ -1,7 +1,7 @@
 package com.codecool.cookpad.controller;
 
-import com.codecool.cookpad.dto.IngredientDTO;
-import com.codecool.cookpad.service.IngredientService;
+import com.codecool.cookpad.dto.IngredientTypeDTO;
+import com.codecool.cookpad.service.IngredientTypeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,47 +10,49 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/ingredients")
 public class IngredientController {
-    private final IngredientService ingredientService;
+    private final IngredientTypeService ingredientTypeService;
 
-    public IngredientController(IngredientService ingredientService) {
-        this.ingredientService = ingredientService;
+    public IngredientController(IngredientTypeService ingredientTypeService) {
+        this.ingredientTypeService = ingredientTypeService;
 
     }
 
     @GetMapping
-    public List<IngredientDTO> getAllIngredients(){
-        return ingredientService.getAllIngredients();
+    public List<IngredientTypeDTO> getAllIngredients() {
+        return ingredientTypeService.getAllIngredients();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getIngredientById(@PathVariable String id) {
-        IngredientDTO foundIngredient =ingredientService.getIngredientDTOById(id);
-        if(foundIngredient==null){
+        IngredientTypeDTO foundIngredient = ingredientTypeService.getIngredientDTOById(id);
+        if (foundIngredient == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(foundIngredient);
+
     }
+
     @PostMapping
-    public ResponseEntity<?> postIngredient(@RequestBody IngredientDTO postedIngredient){
-        try{
-            IngredientDTO createdIngredient= ingredientService.createIngredient(postedIngredient);
-            if(createdIngredient==null){
+    public ResponseEntity<?> postIngredient(@RequestBody IngredientTypeDTO postedIngredient) {
+        try {
+            IngredientTypeDTO createdIngredient = ingredientTypeService.createIngredient(postedIngredient);
+            if (createdIngredient == null) {
                 ResponseEntity.badRequest();
             }
             return ResponseEntity.ok(createdIngredient);
-        }
-        catch(Exception e){
-           return ResponseEntity.internalServerError().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
         }
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteIngredientById(@PathVariable String id) {
-        IngredientDTO foundIngredient =ingredientService.getIngredientDTOById(id);
-        if(foundIngredient==null){
+        IngredientTypeDTO foundIngredient = ingredientTypeService.getIngredientDTOById(id);
+        if (foundIngredient == null) {
             return ResponseEntity.badRequest().build();
         }
-        boolean success = ingredientService.deleteIngredient(foundIngredient);
-        if(!success) {
+        boolean success = ingredientTypeService.deleteIngredient(foundIngredient);
+        if (!success) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(foundIngredient);

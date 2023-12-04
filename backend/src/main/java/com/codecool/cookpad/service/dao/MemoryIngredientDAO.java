@@ -1,7 +1,6 @@
 package com.codecool.cookpad.service.dao;
 
-import com.codecool.cookpad.dto.IngredientDTO;
-import com.codecool.cookpad.model.Ingredient;
+import com.codecool.cookpad.model.IngredientType;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -9,33 +8,37 @@ import java.util.*;
 @Repository
 public class MemoryIngredientDAO implements IngredientDAO {
 
-    private final Set<Ingredient> ingredients;
+    private final Set<IngredientType> ingredientTypes;
 
     public MemoryIngredientDAO() {
-        this.ingredients = new HashSet<>();
-        Ingredient egg = new Ingredient("Egg", "pc", true,true,true,false);
-        Ingredient oil = new Ingredient("Oil", "dl", true,true,true,true);
-        Ingredient salt = new Ingredient("salt", "g", true,true,true,true);
+        this.ingredientTypes = new HashSet<>();
+        /*
 
-        ingredients.add(egg);
-        ingredients.add(oil);
-        ingredients.add(salt);
+        IngredientType egg = new IngredientType("Egg", "pc", true,true,true,false);
+        IngredientType oil = new IngredientType("Oil", "dl", true,true,true,true);
+        IngredientType salt = new IngredientType("salt", "g", true,true,true,true);
+
+        ingredientTypes.add(egg);
+        ingredientTypes.add(oil);
+        ingredientTypes.add(salt);
+        */
     }
 
 
     @Override
-    public List<Ingredient> getAllIngredients() {
-        return ingredients.stream().toList();
+    public List<IngredientType> getAllIngredients() {
+        return ingredientTypes.stream().toList();
     }
 
     @Override
-    public Optional<Ingredient> getIngredientById(String id) {
-        return ingredients.stream().filter(ingredient -> ingredient.getId().equals(UUID.fromString(id))).findFirst();
+    public Optional<IngredientType> getIngredientById(String id) {
+        return Optional.empty();
+        //return ingredientTypes.stream().filter(ingredient -> ingredient.getId().equals(UUID.fromString(id))).findFirst();
     }
-    public boolean addIngredient(Ingredient ingredient){
-        return this.ingredients.add(ingredient);
+    public boolean addIngredient(IngredientType ingredientType){
+        return this.ingredientTypes.add(ingredientType);
     }
-public boolean deleteIngredient(Ingredient ingredientToDelete){
-        return this.ingredients.remove(ingredientToDelete);
+public boolean deleteIngredient(IngredientType ingredientTypeToDelete){
+        return this.ingredientTypes.remove(ingredientTypeToDelete);
 }
 }

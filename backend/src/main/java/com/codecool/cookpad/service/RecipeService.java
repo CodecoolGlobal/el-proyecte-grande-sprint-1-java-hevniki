@@ -21,11 +21,17 @@ public class RecipeService {
         this.ingredientTypeService = ingredientTypeService;
     }
 
-    public List<RecipeDTO> getAllRecipes(){
-
+    public List<RecipeDTO> getAllRecipes() {
+        return this.recipeRepository.findAll().stream().map(this::mapToDTO).toList();
     }
-
-    private RecipeDTO mapToDTO(Recipe recipe){
+public RecipeDTO getRecipeById(String id){
+    Optional<Recipe> optionalRecipe = recipeRepository.findById(Long.valueOf(id));
+    if(optionalRecipe.isPresent()){
+        return mapToDTO(optionalRecipe.get());
+    }
+    return null;
+}
+    private RecipeDTO mapToDTO(Recipe recipe) {
         Set<IngredientForRecipeDTO> ingredients = recipe.getIngredients().stream().map(this::mapToIngredientForRecipeDTO).collect(Collectors.toSet());
 
         return new RecipeDTO(
@@ -39,7 +45,8 @@ public class RecipeService {
                 recipe.isDairyFree()
         );
     }
-    private IngredientForRecipeDTO mapToIngredientForRecipeDTO(IngredientForRecipe ingredientForRecipe){
+
+    private IngredientForRecipeDTO mapToIngredientForRecipeDTO(IngredientForRecipe ingredientForRecipe) {
         return new IngredientForRecipeDTO(
                 ingredientForRecipe.getId(),
                 this.ingredientTypeService.mapToDTO(ingredientForRecipe.getIngredientType()),
