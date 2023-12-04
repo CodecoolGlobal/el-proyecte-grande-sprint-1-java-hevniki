@@ -1,26 +1,44 @@
 package com.codecool.cookpad.model;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+
+@Entity
 public class Recipe {
-    private final UUID id;
-    private final Map<Ingredient, Double> ingredients;
-    private final String name;
-    private final String description;
+    @Id
+    @GeneratedValue
+    private long id;
+    @OneToMany
+    private Set<IngredientForRecipe> ingredients = new HashSet<>();
+    private String name;
+    private String description;
 
-    public Recipe(Map<Ingredient, Double> ingredients, String name, String description) {
-        this.id = UUID.randomUUID();
-        this.ingredients = new HashMap<>(ingredients);
+    public Recipe() {
+    }
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setIngredients(Set<IngredientForRecipe> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public void setName(String name) {
         this.name = name;
+    }
+
+    public void setDescription(String description) {
         this.description = description;
     }
-    public UUID getId() {
+
+    public long getId() {
         return id;
     }
-    public Map<Ingredient, Double> getIngredients() {
+    public Set<IngredientForRecipe> getIngredients() {
         return ingredients;
     }
     public String getName() {
@@ -30,28 +48,29 @@ public class Recipe {
         return description;
     }
     public boolean isVegan(){
-        return ingredients.keySet().stream().allMatch(Ingredient::isVegan);
+        return ingredients.stream().allMatch(ingredient->ingredient.getIngredientType().isVegan());
     }
     public boolean isVegetarian(){
-        return ingredients.keySet().stream().allMatch(Ingredient::isMeatFree);
+        return ingredients.stream().allMatch(ingredient->ingredient.getIngredientType().isMeatFree());
     }
     public boolean isGlutenFree(){
-        return ingredients.keySet().stream().allMatch(Ingredient::isGlutenFree);
+        return ingredients.stream().allMatch(ingredient->ingredient.getIngredientType().isGlutenFree());
     }
     public boolean isDairyFree(){
-        return ingredients.keySet().stream().allMatch(Ingredient::isDairyFree);
+        return ingredients.stream().allMatch(ingredient->ingredient.getIngredientType().isDairyFree());
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Recipe recipe = (Recipe) o;
-        return Objects.equals(ingredients, recipe.ingredients) && Objects.equals(name, recipe.name) && Objects.equals(description, recipe.description);
+        return id == recipe.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ingredients, name, description);
+        return Objects.hash(id);
     }
 
     @Override
