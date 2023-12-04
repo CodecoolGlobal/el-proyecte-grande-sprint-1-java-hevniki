@@ -50,6 +50,7 @@ public class RecipeController {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(foundRecipe);
+
     }
     
     @PutMapping("/{id}")
