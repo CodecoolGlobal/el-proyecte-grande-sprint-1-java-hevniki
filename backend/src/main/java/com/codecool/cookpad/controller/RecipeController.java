@@ -5,6 +5,7 @@ import com.codecool.cookpad.service.RecipeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -17,8 +18,8 @@ public class RecipeController {
     }
 
     @GetMapping
-    public Set<RecipeDTO> getRecipes() {
-        return recipeService.getRecipes();
+    public List<RecipeDTO> getRecipes() {
+        return recipeService.getAllRecipes();
 
     }
 
@@ -37,7 +38,7 @@ public class RecipeController {
         if (foundRecipe == null) {
             return ResponseEntity.badRequest().build();
         }
-        boolean success = recipeService.deleteRecipe(foundRecipe);
+        boolean success = recipeService.deleteRecipe(id);
         if (!success) {
             return ResponseEntity.badRequest().build();
         }
@@ -47,9 +48,7 @@ public class RecipeController {
 
     @PostMapping
     public ResponseEntity<?> postRecipe(@RequestBody RecipeDTO postedRecipe) {
-        if (recipeService.createRecipe(postedRecipe)) {
-            return ResponseEntity.ok(postedRecipe);
-        }
-        return ResponseEntity.internalServerError().build();
+        recipeService.createRecipe(postedRecipe);
+        return ResponseEntity.ok().build();
     }
 }

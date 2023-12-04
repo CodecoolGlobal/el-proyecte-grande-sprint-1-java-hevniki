@@ -32,10 +32,21 @@ public class IngredientTypeService {
         return mapToDTO(ingredientTypeRepository.save(mapFromDTO(newIngredient)));
     }
 
-    public boolean deleteIngredient(IngredientTypeDTO ingredientToDelete) {
-        Optional<IngredientType> optionalIngredient = this.ingredientTypeRepository.findById(ingredientToDelete.id());
+    public boolean deleteIngredient(String id) {
+        Optional<IngredientType> optionalIngredient = this.ingredientTypeRepository.findById(Long.valueOf(id));
         if (optionalIngredient.isPresent()) {
             this.ingredientTypeRepository.delete(optionalIngredient.get());
+            return true;
+        }
+        return false;
+    }
+
+    public boolean updateIngredient(String id, IngredientTypeDTO ingredientToUpdate) {
+        Optional<IngredientType> optionalIngredient = this.ingredientTypeRepository.findById(Long.valueOf(id));
+        if (optionalIngredient.isPresent()) {
+            IngredientType updatedIngredientType = mapFromDTO(ingredientToUpdate);
+            updatedIngredientType.setId(optionalIngredient.get().getId());
+            this.ingredientTypeRepository.save(updatedIngredientType);
             return true;
         }
         return false;
@@ -54,6 +65,9 @@ public class IngredientTypeService {
 
     protected IngredientType mapFromDTO(IngredientTypeDTO newIngredientDTO) {
         IngredientType newIngredient = new IngredientType();
+        if(newIngredientDTO.id() != null){
+            newIngredient.setId(newIngredientDTO.id());
+        }
         newIngredient.setName(newIngredientDTO.name());
         newIngredient.setUnitOfMeasure(newIngredientDTO.unitOfMeasure());
         newIngredient.setDairyFree(newIngredientDTO.isDairyFree());
