@@ -24,13 +24,42 @@ public class RecipeService {
     public List<RecipeDTO> getAllRecipes() {
         return this.recipeRepository.findAll().stream().map(this::mapToDTO).toList();
     }
-public RecipeDTO getRecipeById(String id){
-    Optional<Recipe> optionalRecipe = recipeRepository.findById(Long.valueOf(id));
-    if(optionalRecipe.isPresent()){
-        return mapToDTO(optionalRecipe.get());
+
+    public RecipeDTO getRecipeById(String id) {
+        Optional<Recipe> optionalRecipe = recipeRepository.findById(Long.valueOf(id));
+        if (optionalRecipe.isPresent()) {
+            return mapToDTO(optionalRecipe.get());
+        }
+        return null;
     }
-    return null;
-}
+
+    public boolean deleteRecipe(String id) {
+        Optional<Recipe> optionalRecipe = this.recipeRepository.findById(Long.valueOf(id));
+        if (optionalRecipe.isPresent()) {
+            this.recipeRepository.delete(optionalRecipe.get());
+            return true;
+        }
+        return false;
+    }
+
+    public void createRecipe(RecipeDTO newRecipeDTO) {
+        this.recipeRepository.save(mapFromDTO(newRecipeDTO));
+    }
+
+    public void updateRecipe(RecipeDTO updatedRecipeDTO){
+        this.recipeRepository.save(mapFromDTO(updatedRecipeDTO));
+    }
+    private Recipe mapFromDTO(RecipeDTO recipeDTO) {
+        Recipe recipe = new Recipe();
+        if(recipeDTO.id()!=null){
+            recipe.setId(recipeDTO.id());
+        }
+        recipe.setName(recipeDTO.name());
+        recipe.setDescription(recipeDTO.description());
+        recipe.setIngredients(recipeDTO.ingredients().stream().map(this::mapFromIngredientForRecipeDTO).collect(Collectors.toSet()));
+        return recipe;
+    }
+
     private RecipeDTO mapToDTO(Recipe recipe) {
         Set<IngredientForRecipeDTO> ingredients = recipe.getIngredients().stream().map(this::mapToIngredientForRecipeDTO).collect(Collectors.toSet());
 
@@ -53,4 +82,15 @@ public RecipeDTO getRecipeById(String id){
                 ingredientForRecipe.getAmount()
         );
     }
+
+    private IngredientForRecipe mapFromIngredientForRecipeDTO(IngredientForRecipeDTO ingredientForRecipeDTO) {
+        IngredientForRecipe mappedIngredientForRecipe = new IngredientForRecipe();
+        if (ingredientForRecipeDTO.id() != null) {
+            mappedIngredientForRecipe.setId(ingredientForRecipeDTO.id());
+        }
+        mappedIngredientForRecipe.setAmount(ingredientForRecipeDTO.amount());
+        mappedIngredientForRecipe.setIngredientType(this.ingredientTypeService.mapFromDTO(ingredientForRecipeDTO.ingredient()));
+        return mappedIngredientForRecipe;
+    }
+
 }

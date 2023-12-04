@@ -24,7 +24,7 @@ public class IngredientController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getIngredientById(@PathVariable String id) {
-        IngredientTypeDTO foundIngredient = ingredientTypeService.getIngredientDTOById(id);
+        IngredientTypeDTO foundIngredient = ingredientTypeService.getIngredientById(id);
         if (foundIngredient == null) {
             return ResponseEntity.notFound().build();
         }
@@ -47,11 +47,11 @@ public class IngredientController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteIngredientById(@PathVariable String id) {
-        IngredientTypeDTO foundIngredient = ingredientTypeService.getIngredientDTOById(id);
+        IngredientTypeDTO foundIngredient = ingredientTypeService.getIngredientById(id);
         if (foundIngredient == null) {
             return ResponseEntity.badRequest().build();
         }
-        boolean success = ingredientTypeService.deleteIngredient(foundIngredient);
+        boolean success = ingredientTypeService.deleteIngredient(id);
         if (!success) {
             return ResponseEntity.badRequest().build();
         }
