@@ -9,7 +9,7 @@ import jakarta.persistence.Id;
 public class IngredientType {
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
     private String name;
     private String unitOfMeasure;
     private boolean isGlutenFree;
