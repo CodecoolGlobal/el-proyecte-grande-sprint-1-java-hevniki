@@ -1,6 +1,5 @@
 import {useState, useEffect} from "react";
 import {useParams, useNavigate} from "react-router-dom";
-import IngredientForRecipe from "./IngredientForRecipe.jsx";
 
 function RecipeDetails() {
     const {id} = useParams();
@@ -60,5 +59,6 @@ function RecipeDetails() {
         </div>
     )
 }
+
 
 export default RecipeDetails;

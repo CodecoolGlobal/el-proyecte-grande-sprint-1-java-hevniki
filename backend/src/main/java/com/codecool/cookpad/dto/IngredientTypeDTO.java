@@ -1,16 +1,14 @@
 package com.codecool.cookpad.dto;
-
-import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record RecipeDTO(
+public record IngredientTypeDTO(
         Long id,
-        Set<IngredientForRecipeDTO> ingredients,
         String name,
-        String description,
-        boolean isVegan,
-        boolean isVegetarian,
+        String unitOfMeasure,
         boolean isGlutenFree,
-        boolean isDairyFree) {
+        boolean isDairyFree,
+        boolean isMeatFree,
+        boolean isEggFree) {
 }
+
