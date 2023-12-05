@@ -8,6 +8,7 @@ async function createRecipe(recipe) {
 		description: recipe.description,
 		ingredients: recipe.newSelectedIngredients
 	}
+	console.log(sendableRecipe);
 	const response = await fetch("/api/recipes", {
 		method: "POST",
 		headers: {
