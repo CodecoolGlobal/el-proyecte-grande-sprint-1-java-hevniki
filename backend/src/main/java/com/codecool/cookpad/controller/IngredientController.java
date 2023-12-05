@@ -45,6 +45,12 @@ public class IngredientController {
         }
     }
 
+    @PostMapping("/dummy")
+    public void addDummyData() {
+        ingredientTypeService.addDummyData();
+
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteIngredientById(@PathVariable String id) {
         IngredientTypeDTO foundIngredient = ingredientTypeService.getIngredientById(id);
