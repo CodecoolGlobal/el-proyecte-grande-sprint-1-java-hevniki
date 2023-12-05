@@ -48,7 +48,7 @@ function RecipeForm({onSave}) {
 
 	function handleIngredientSelect(event) {
 		event.preventDefault();
-		const id = event.target.id;
+		const id = Number(event.target.id);
 		const selectedIngredient = ingredients.filter((ingr => id === ingr.id))[0];
 
 		if (selectedIngredient != null && !selectedIngredientIds.includes(id)) {
@@ -85,7 +85,8 @@ function RecipeForm({onSave}) {
 		event.preventDefault();
 
 		const newSelectedIngredients = selectedIngredients.map(ingr => {
-			return {amount: ingr.amount, id: ingr.ingredient.id}
+			console.log(ingr)
+			return {amount: ingr.amount, ingredient: {id:ingr.ingredient.id}}
 		})
 		await onSave({recipeName, description, newSelectedIngredients});
 		navigate('/');
