@@ -11,8 +11,8 @@ public class IngredientForRecipe {
     private Long id;
 
 
-    @OneToOne
-    @JoinColumn(name = "ingredient_type_id")
+    @ManyToOne
+    @JoinColumn (name = "ingredient_type_id")
     private IngredientType ingredientType;
     private double amount;
 

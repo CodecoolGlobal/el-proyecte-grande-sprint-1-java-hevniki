@@ -8,3 +8,4 @@ public record IngredientForRecipeDTO(
         IngredientTypeDTO ingredient,
         double amount) {
 }
+
