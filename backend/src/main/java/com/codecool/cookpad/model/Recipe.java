@@ -8,10 +8,10 @@ import jakarta.persistence.*;
 public class Recipe {
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "recipe_id")
-    private Set<IngredientForRecipe> ingredients = new HashSet<>();
+    private Set<IngredientForRecipe> ingredients; // lombok builder
     private String name;
     private String description;
 
