@@ -14,6 +14,10 @@ public class Recipe {
     private Set<IngredientForRecipe> ingredients; // lombok builder
     private String name;
     private String description;
+    private boolean vegan;
+    private boolean vegetarian;
+    private boolean dairyFree;
+    private boolean glutenFree;
 
     public Recipe() {
     }
@@ -23,6 +27,7 @@ public class Recipe {
 
     public void setIngredients(Set<IngredientForRecipe> ingredients) {
         this.ingredients = ingredients;
+        setProperties();
     }
 
     public void setName(String name) {
@@ -46,28 +51,26 @@ public class Recipe {
         return description;
     }
     public boolean isVegan(){
-        return ingredients.stream().allMatch(ingredient->ingredient.getIngredientType().isVegan());
+        return this.vegan;
     }
     public boolean isVegetarian(){
-        return ingredients.stream().allMatch(ingredient->ingredient.getIngredientType().isMeatFree());
+        return this.vegetarian;
     }
     public boolean isGlutenFree(){
-        return ingredients.stream().allMatch(ingredient->ingredient.getIngredientType().isGlutenFree());
+        return this.glutenFree;
     }
     public boolean isDairyFree(){
-        return ingredients.stream().allMatch(ingredient->ingredient.getIngredientType().isDairyFree());
+        return this.dairyFree;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Recipe recipe = (Recipe) o;
-        return id == recipe.id;
+    public void setProperties() {
+        this.vegan=ingredients.stream().allMatch(ingredient->ingredient.getIngredientType().isVegan());
+        this.vegetarian=ingredients.stream().allMatch(ingredient->ingredient.getIngredientType().isMeatFree());
+        this.glutenFree=ingredients.stream().allMatch(ingredient->ingredient.getIngredientType().isGlutenFree());
+        this.dairyFree = ingredients.stream().allMatch(ingredient->ingredient.getIngredientType().isDairyFree());
+
+
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, ingredients, name, description);
-    }
+
 }

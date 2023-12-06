@@ -40,15 +40,20 @@ public class RecipeService {
             this.recipeRepository.delete(optionalRecipe.get());
             return true;
         }
-        return false;
+       throw new RecipeNotFoundException();
     }
 
     public void createRecipe(RecipeDTO newRecipeDTO) {
+        Recipe recipe = mapFromDTO(newRecipeDTO);
+        recipe.setProperties();
         this.recipeRepository.save(mapFromDTO(newRecipeDTO));
     }
 
     public void updateRecipe(RecipeDTO updatedRecipeDTO){
-        this.recipeRepository.save(mapFromDTO(updatedRecipeDTO));
+       if(recipeRepository.findById(updatedRecipeDTO.id()).isPresent()){
+           createRecipe(updatedRecipeDTO);
+       }
+       throw new RecipeNotFoundException();
     }
     private Recipe mapFromDTO(RecipeDTO recipeDTO) {
         Recipe recipe = new Recipe();
@@ -120,6 +125,7 @@ public class RecipeService {
         recipes.add(new RecipeDTO(null, omeletteIngredients, "Omelette", "Fry the eggs on some oil. Bon appetite!", false, true, true, true));
 
         Set<Recipe> recipeEntities = recipes.stream().map(this::mapFromDTO).collect(Collectors.toSet());
+        recipeEntities.forEach(Recipe::setProperties);
         this.recipeRepository.saveAll(recipeEntities);
     }
 
