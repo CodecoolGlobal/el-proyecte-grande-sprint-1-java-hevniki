@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import RecipeOverview from './RecipeOverview';
+import RecipeOverview from '../Components/RecipeOverview/RecipeOverview.jsx';
 
 function RecipeList() {
 	const recipesPath = "/api/recipes"
