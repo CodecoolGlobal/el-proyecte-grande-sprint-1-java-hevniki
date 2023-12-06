@@ -68,17 +68,6 @@ public class Recipe {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(id, ingredients, name, description);
     }
-
-    @Override
-    public String toString() {
-        return "Recipe{" +
-                "ingredients=" + ingredients +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                '}';
-    }
-
-
 }
