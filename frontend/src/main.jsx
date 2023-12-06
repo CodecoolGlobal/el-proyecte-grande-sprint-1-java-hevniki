@@ -1,18 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
-import Layout from "./Layout.jsx";
+import Layout from "./Pages/Layout/Layout.jsx";
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 
-import AllIngredients from "./AllIngredients.jsx";
-import IngredientDetails from "./IngredientDetails.jsx";
+import AllIngredients from "./Pages/AllIngredients.jsx";
+import IngredientDetails from "./Pages/IngredientDetails.jsx";
 
-import RecipeDetails from "./RecipeDetails.jsx";
+import RecipeDetails from "./Pages/RecipeDetails.jsx";
 
-import IngredientCreator from "./IngredientCreator.jsx";
+import IngredientCreator from "./Pages/IngredientCreator.jsx";
 
-import RecipeList from './recipes/RecipeList.jsx';
-import RecipeCreator from './recipes/RecipeCreator.jsx';
+import RecipeList from './Pages/RecipeList.jsx';
+import RecipeCreator from './Pages/RecipeCreator.jsx';
 
 const router = createBrowserRouter([
     {

@@ -36,11 +36,13 @@ function IngredientCreator() {
         }
         setIngredient(updatedIngredient);
     }
+
     function onTextChange(e){
         const updatedIngredient = {...ingredient};
         updatedIngredient[e.target.id]=e.target.value;
         setIngredient(updatedIngredient);
     }
+
     return (
         <div>Add new ingredient
             <div> ingredient name
