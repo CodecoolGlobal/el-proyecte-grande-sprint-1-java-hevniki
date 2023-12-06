@@ -1,6 +1,7 @@
 package com.codecool.cookpad.service;
 
 import com.codecool.cookpad.dto.IngredientTypeDTO;
+import com.codecool.cookpad.model.IngredientNotFoundException;
 import com.codecool.cookpad.model.IngredientType;
 import com.codecool.cookpad.service.repository.IngredientTypeRepository;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class IngredientTypeService {
         if (optionalIngredient.isPresent()) {
             return this.mapToDTO(optionalIngredient.get());
         }
-        return null;
+      throw new IngredientNotFoundException();
     }
 
     public IngredientTypeDTO createIngredient(IngredientTypeDTO newIngredient) {
@@ -39,7 +40,7 @@ public class IngredientTypeService {
             this.ingredientTypeRepository.delete(optionalIngredient.get());
             return true;
         }
-        return false;
+      throw new IngredientNotFoundException();
     }
 
     public boolean updateIngredient(String id, IngredientTypeDTO ingredientToUpdate) {
