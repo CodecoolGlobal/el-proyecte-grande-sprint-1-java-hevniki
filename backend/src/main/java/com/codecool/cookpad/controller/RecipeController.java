@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/recipes")
@@ -33,10 +33,10 @@ public class RecipeController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<?> filterRecipes(@RequestParam(required = false) String name) {
-
-        return ResponseEntity.ok(recipeService.getRecipeByName(name));
+    public ResponseEntity<?> filterRecipes(@RequestParam Map<String, String> params) {
+        return ResponseEntity.ok(recipeService.findRecipe(params));
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteRecipeById(@PathVariable String id) {
