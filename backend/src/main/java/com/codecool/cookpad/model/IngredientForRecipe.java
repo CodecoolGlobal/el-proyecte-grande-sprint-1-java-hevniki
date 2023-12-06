@@ -46,11 +46,11 @@ public class IngredientForRecipe {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         IngredientForRecipe that = (IngredientForRecipe) o;
-        return Objects.equals(id, that.id);
+        return Double.compare(amount, that.amount) == 0 && Objects.equals(id, that.id) && Objects.equals(ingredientType, that.ingredientType);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(id, ingredientType, amount);
     }
 }
