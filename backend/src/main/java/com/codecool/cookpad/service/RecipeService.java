@@ -7,6 +7,7 @@ import com.codecool.cookpad.dto.IngredientTypeDTO;
 import com.codecool.cookpad.dto.RecipeDTO;
 import com.codecool.cookpad.model.IngredientForRecipe;
 import com.codecool.cookpad.model.Recipe;
+import com.codecool.cookpad.model.RecipeNotFoundException;
 import com.codecool.cookpad.service.repository.RecipeRepository;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +33,7 @@ public class RecipeService {
         if (optionalRecipe.isPresent()) {
             return mapToDTO(optionalRecipe.get());
         }
-        return null;
+       throw new RecipeNotFoundException();
     }
 
     public boolean deleteRecipe(String id) {
