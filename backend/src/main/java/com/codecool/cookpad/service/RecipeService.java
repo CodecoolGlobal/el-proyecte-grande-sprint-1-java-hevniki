@@ -4,7 +4,6 @@ import com.codecool.cookpad.dto.IngredientForRecipeDTO;
 import com.codecool.cookpad.dto.IngredientTypeDTO;
 import com.codecool.cookpad.dto.RecipeDTO;
 import com.codecool.cookpad.model.IngredientForRecipe;
-import com.codecool.cookpad.model.IngredientType;
 import com.codecool.cookpad.model.Recipe;
 import com.codecool.cookpad.service.repository.RecipeRepository;
 import org.springframework.stereotype.Service;
@@ -119,8 +118,8 @@ public class RecipeService {
         omeletteIngredients.add(new IngredientForRecipeDTO(null, oil, 0.5));
         recipes.add(new RecipeDTO(null, omeletteIngredients, "Omelette", "Fry the eggs on some oil. Bon appetite!", false, true, true, true));
 
-        Set<Recipe> stuff = recipes.stream().map(this::mapFromDTO).collect(Collectors.toSet());
-        this.recipeRepository.saveAll(stuff);
+        Set<Recipe> recipeEntities = recipes.stream().map(this::mapFromDTO).collect(Collectors.toSet());
+        this.recipeRepository.saveAll(recipeEntities);
     }
 
 }
