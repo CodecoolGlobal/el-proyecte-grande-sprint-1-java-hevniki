@@ -3,14 +3,18 @@ package com.codecool.cookpad.service;
 import com.codecool.cookpad.dto.IngredientForRecipeDTO;
 import com.codecool.cookpad.dto.IngredientTypeDTO;
 import com.codecool.cookpad.dto.RecipeDTO;
+import com.codecool.cookpad.exception.BadQueryException;
 import com.codecool.cookpad.model.IngredientForRecipe;
 import com.codecool.cookpad.model.Recipe;
 import com.codecool.cookpad.exception.RecipeNotFoundException;
 import com.codecool.cookpad.service.repository.RecipeRepository;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static org.springframework.data.jpa.domain.Specification.where;
 
 @Service
 public class RecipeService {
@@ -36,7 +40,7 @@ public class RecipeService {
 
     public List<RecipeDTO> getRecipeByName(String name) {
         List<Recipe> foundRecipes = recipeRepository.findByNameContainingIgnoreCase(name);
-      return foundRecipes.stream().map(this::mapToDTO).toList();
+        return foundRecipes.stream().map(this::mapToDTO).toList();
     }
 
     public boolean deleteRecipe(String id) {
@@ -104,6 +108,53 @@ public class RecipeService {
         mappedIngredientForRecipe.setIngredientType(this.ingredientTypeService.mapFromDTO(ingredientForRecipeDTO.ingredient()));
         return mappedIngredientForRecipe;
     }
+
+    public List<RecipeDTO> findRecipe(Map<String, String> params) {
+        return recipeRepository.findAll(buildSpecification(params))
+                .stream()
+                .map(this::mapToDTO)
+                .toList();
+    }
+
+    private Specification<Recipe> buildSpecification(Map<String, String> params) {
+        Specification<Recipe> spec = Specification.where(null);
+        Object glutenFree = params.get("glutenFree");
+        try {
+            if (params.containsKey("name")) {
+                spec = spec.and(containsName(params.get("name")));
+            }
+            if (params.containsKey("vegan")) {
+
+                spec = spec.and(checkProperty("vegan", Boolean.parseBoolean(params.get("vegan"))));
+            }
+            if (params.containsKey("vegetarian")) {
+                spec = spec.and(checkProperty("vegetarian", Boolean.parseBoolean(params.get("vegetarian"))));
+            }
+            if (params.containsKey("glutenFree")) {
+                spec = spec.and(checkProperty("glutenFree", Boolean.parseBoolean(params.get("glutenFree"))));
+
+            }
+            if (params.containsKey("dairyFree")) {
+                spec = spec.and(checkProperty("dairyFree", Boolean.parseBoolean(params.get("dairyFree"))));
+            }
+
+            return spec;
+        } catch (NumberFormatException e) {
+            throw new BadQueryException();
+        }
+    }
+
+    private Specification<Recipe> containsName(String name) {
+        return (recipe, cq, cb)
+                -> cb.like(cb.lower(recipe.get("name")), "%" + name.toLowerCase() + "%");
+    }
+
+
+    private Specification<Recipe> checkProperty(String property, boolean value) {
+        return (recipe, cq, cb)
+                -> cb.equal(recipe.get(property), value);
+    }
+
 
     public void addDummyData() {
         List<IngredientTypeDTO> ingredients = ingredientTypeService.getAllIngredients();
