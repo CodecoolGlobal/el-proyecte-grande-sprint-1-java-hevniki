@@ -1,4 +1,6 @@
 package com.codecool.cookpad.model;
+import com.codecool.cookpad.exception.IngredientNotFoundException;
+import com.codecool.cookpad.exception.RecipeNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
