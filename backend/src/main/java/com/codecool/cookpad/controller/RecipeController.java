@@ -32,6 +32,12 @@ public class RecipeController {
         return ResponseEntity.ok(foundRecipe);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<?> filterRecipes(@RequestParam(required = false) String name) {
+
+        return ResponseEntity.ok(recipeService.getRecipeByName(name));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteRecipeById(@PathVariable String id) {
         RecipeDTO foundRecipe = recipeService.getRecipeById(id);
