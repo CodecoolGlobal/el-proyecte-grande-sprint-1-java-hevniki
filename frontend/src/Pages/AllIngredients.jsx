@@ -1,7 +1,6 @@
 import {useState, useEffect} from "react";
 
-import Ingredient from "./Ingredient.jsx";
-
+import Ingredient from "../Components/Ingredient.jsx";
 
 async function fetchIngredients(){
     const res = await fetch("/api/ingredients");
