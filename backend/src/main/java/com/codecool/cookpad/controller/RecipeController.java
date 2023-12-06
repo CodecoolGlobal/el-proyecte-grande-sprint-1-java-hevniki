@@ -51,4 +51,9 @@ public class RecipeController {
         recipeService.createRecipe(postedRecipe);
         return ResponseEntity.ok(postedRecipe);
     }
+
+    @PostMapping("/dummy")
+    public void addDummyData() {
+        this.recipeService.addDummyData();
+    }
 }
