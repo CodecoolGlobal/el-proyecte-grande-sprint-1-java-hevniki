@@ -51,6 +51,11 @@ public class RecipeService {
         return foundRecipes.stream().map(this::mapToDTO).toList();
     }
 
+    public List<RecipeDTO> getRecipeByName(String name) {
+        List<Recipe> foundRecipes = recipeRepository.findByNameContainingIgnoreCase(name);
+      return foundRecipes.stream().map(this::mapToDTO).toList();
+    }
+
     public boolean deleteRecipe(String id) {
         Optional<Recipe> optionalRecipe = this.recipeRepository.findById(Long.valueOf(id));
         if (optionalRecipe.isPresent()) {
