@@ -1,20 +1,18 @@
-import { useNavigate } from 'react-router-dom';
-
-import RecipeForm from './RecipeForm';
+import RecipeForm from '../Components/RecipeForm/RecipeForm.jsx';
 
 async function createRecipe(recipe) {
-	const sendableRecipe = {
+	const recipeModel = {
 		name: recipe.recipeName,
 		description: recipe.description,
 		ingredients: recipe.newSelectedIngredients
 	}
-	console.log(sendableRecipe);
+	console.log(recipeModel);
 	const response = await fetch("/api/recipes", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
 		},
-		body: JSON.stringify(sendableRecipe),
+		body: JSON.stringify(recipeModel),
 	});
 
 	return response.json();
