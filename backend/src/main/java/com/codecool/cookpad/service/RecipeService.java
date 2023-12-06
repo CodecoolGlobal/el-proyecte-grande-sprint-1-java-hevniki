@@ -31,7 +31,12 @@ public class RecipeService {
         if (optionalRecipe.isPresent()) {
             return mapToDTO(optionalRecipe.get());
         }
-       throw new RecipeNotFoundException();
+        throw new RecipeNotFoundException();
+    }
+
+    public List<RecipeDTO> getRecipeByName(String name) {
+        List<Recipe> foundRecipes = recipeRepository.findByNameContainingIgnoreCase(name);
+      return foundRecipes.stream().map(this::mapToDTO).toList();
     }
 
     public boolean deleteRecipe(String id) {
@@ -40,7 +45,7 @@ public class RecipeService {
             this.recipeRepository.delete(optionalRecipe.get());
             return true;
         }
-       throw new RecipeNotFoundException();
+        throw new RecipeNotFoundException();
     }
 
     public void createRecipe(RecipeDTO newRecipeDTO) {
@@ -49,15 +54,16 @@ public class RecipeService {
         this.recipeRepository.save(mapFromDTO(newRecipeDTO));
     }
 
-    public void updateRecipe(RecipeDTO updatedRecipeDTO){
-       if(recipeRepository.findById(updatedRecipeDTO.id()).isPresent()){
-           createRecipe(updatedRecipeDTO);
-       }
-       throw new RecipeNotFoundException();
+    public void updateRecipe(RecipeDTO updatedRecipeDTO) {
+        if (recipeRepository.findById(updatedRecipeDTO.id()).isPresent()) {
+            createRecipe(updatedRecipeDTO);
+        }
+        throw new RecipeNotFoundException();
     }
+
     private Recipe mapFromDTO(RecipeDTO recipeDTO) {
         Recipe recipe = new Recipe();
-        if(recipeDTO.id()!=null){
+        if (recipeDTO.id() != null) {
             recipe.setId(recipeDTO.id());
         }
         recipe.setName(recipeDTO.name());
