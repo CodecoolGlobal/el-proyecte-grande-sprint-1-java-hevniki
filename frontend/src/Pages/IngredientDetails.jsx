@@ -11,7 +11,6 @@ async function deleteIngredient(id){
     return await res.json();
 }
 
-
 function IngredientDetails() {
     const {id} = useParams();
     const [loading, setLoading] = useState(true);
@@ -45,6 +44,7 @@ function IngredientDetails() {
         task();
 
     }, []);
+
     if (error) {
         return (
             <div>

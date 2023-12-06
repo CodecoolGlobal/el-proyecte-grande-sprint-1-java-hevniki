@@ -16,7 +16,7 @@ function RecipeOverview(props) {
         <li key={id} className='overview'>
             <p><b>{name}</b></p>
             <p>Vegan: {isVegan ? "yes" : "no"}</p>
-            <p>Vegatarian: {isVegetarian ? "yes" : "no"}</p>
+            <p>Vegetarian: {isVegetarian ? "yes" : "no"}</p>
             <p>Gluten-free: {isGlutenFree ? "yes" : "no"}</p>
             <p>Dairy-free: {isDairyFree ? "yes" : "no"}</p>
             <Link to={`/recipes/${id}`}>
