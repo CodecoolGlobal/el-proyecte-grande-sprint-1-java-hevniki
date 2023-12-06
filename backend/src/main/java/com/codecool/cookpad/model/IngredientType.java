@@ -79,17 +79,18 @@ public class IngredientType {
     public boolean isVegan(){
         return isDairyFree && isEggFree && isMeatFree;
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         IngredientType that = (IngredientType) o;
-        return Objects.equals(id, that.id);
+        return isGlutenFree == that.isGlutenFree && isDairyFree == that.isDairyFree && isMeatFree == that.isMeatFree && isEggFree == that.isEggFree && Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(unitOfMeasure, that.unitOfMeasure);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(id, name, unitOfMeasure, isGlutenFree, isDairyFree, isMeatFree, isEggFree);
     }
 
     @Override
