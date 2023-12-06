@@ -45,6 +45,15 @@ public class RecipeController {
         return ResponseEntity.ok(foundRecipe);
 
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateRecipe(@RequestBody RecipeDTO updatedRecipe, @RequestParam String id){
+        RecipeDTO recipeToUpdate = recipeService.getRecipeById(id);
+        if(recipeToUpdate == null){
+            return ResponseEntity.badRequest().build();
+        }
+        recipeService.updateRecipe(updatedRecipe);
+        return ResponseEntity.ok(updatedRecipe);
+    }
 
     @PostMapping
     public ResponseEntity<?> postRecipe(@RequestBody RecipeDTO postedRecipe) {
