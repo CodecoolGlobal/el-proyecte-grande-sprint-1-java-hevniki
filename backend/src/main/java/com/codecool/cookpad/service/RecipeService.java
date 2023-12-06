@@ -119,6 +119,7 @@ public class RecipeService {
     private Specification<Recipe> buildSpecification(Map<String, String> params) {
         Specification<Recipe> spec = Specification.where(null);
         Object glutenFree = params.get("glutenFree");
+        List<Long> ingredients=new ArrayList<>();
         try {
             if (params.containsKey("name")) {
                 spec = spec.and(containsName(params.get("name")));
@@ -137,6 +138,10 @@ public class RecipeService {
             if (params.containsKey("dairyFree")) {
                 spec = spec.and(checkProperty("dairyFree", Boolean.parseBoolean(params.get("dairyFree"))));
             }
+            if(params.containsKey("ingredients")){
+               ingredients.addAll(getIdsFromReqParams(params.get("ingredients")));
+               spec=spec.and(hasIngredientTypeIn(ingredients));
+            }
 
             return spec;
         } catch (NumberFormatException e) {
@@ -144,6 +149,27 @@ public class RecipeService {
         }
     }
 
+    private List<Long> getIdsFromReqParams(String param){
+        String[] ids = param.split(",");
+        List<Long> idsAsLong = new ArrayList<>();
+        try{
+            for (String id : ids){
+                idsAsLong.add( Long.parseLong(id));
+            }
+        }
+        catch (NumberFormatException e) {
+            throw new BadQueryException();
+        }
+        return idsAsLong;
+    }
+
+    public static Specification<Recipe> hasIngredientTypeIn(List<Long> ingredientIds) {
+        return (recipe, cq, cb)
+                -> recipe.join("ingredients")
+                        .join("ingredientType")
+                        .get("id")
+                        .in(ingredientIds);
+    }
     private Specification<Recipe> containsName(String name) {
         return (recipe, cq, cb)
                 -> cb.like(cb.lower(recipe.get("name")), "%" + name.toLowerCase() + "%");
