@@ -1,5 +1,3 @@
-import RecipeForm from './recipes/RecipeForm';
-
 function App() {
 
   return (
