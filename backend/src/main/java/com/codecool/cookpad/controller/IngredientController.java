@@ -1,6 +1,7 @@
 package com.codecool.cookpad.controller;
 
 import com.codecool.cookpad.dto.IngredientTypeDTO;
+import com.codecool.cookpad.dto.RecipeDTO;
 import com.codecool.cookpad.service.IngredientTypeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -63,5 +64,15 @@ public class IngredientController {
         }
         return ResponseEntity.ok(foundIngredient);
 
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateIngredient(@RequestBody IngredientTypeDTO updatedIngredient, @PathVariable String id){
+        IngredientTypeDTO ingredientToUpdate = ingredientTypeService.getIngredientById(id);
+        if(ingredientToUpdate == null){
+            return ResponseEntity.badRequest().build();
+        }
+        ingredientTypeService.updateIngredient( updatedIngredient);
+        return ResponseEntity.ok(updatedIngredient);
     }
 }
