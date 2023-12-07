@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import ingredient from "../Ingredient.jsx";
 
 const fetchIngredients = async () => {
     const res = await fetch("/api/ingredients")
@@ -6,11 +7,17 @@ const fetchIngredients = async () => {
     return ingr
 };
 
+const getSelectedIngredients = (ingredients) => {
+    return ingredients.map((item) => {
+        return {ingredient:{id: item.ingredient.id}, amount: item.amount}
+    })
+}
+
 const RecipeForm = ({onSave, disabled, recipe, onCancel}) => {
     const [recipeName, setRecipeName] = useState(recipe?.name ?? "");
     const [description, setDescription] = useState(recipe?.description ?? "");
     const [ingredients, setIngredients] = useState([]);
-    const [selectedIngredients, setSelectedIngredients] = useState(recipe?.ingredient ?? []);
+    const [selectedIngredients, setSelectedIngredients] = useState(recipe ? getSelectedIngredients(recipe.ingredients) : []);
 
     useEffect(() => {
         fetchIngredients()
@@ -104,8 +111,9 @@ const RecipeForm = ({onSave, disabled, recipe, onCancel}) => {
                     {selectedIngredients.length > 0 ? (
                         selectedIngredients.map((ingredient) => {
                             const filteredIngredient = ingredients.find(
-                                (item) => Number(item.id) === Number(ingredient.ingredient.id)
-                        );
+                                (item) => {
+                                    return Number(item.id) === Number(ingredient.ingredient.id)
+                                });
                             return (
                                 <li key={ingredient.ingredient.id}>
                                     {filteredIngredient && (
@@ -113,6 +121,7 @@ const RecipeForm = ({onSave, disabled, recipe, onCancel}) => {
                                             {filteredIngredient.name}{" "}
                                             <input
                                                 type="number"
+                                                value={ingredient.amount}
                                                 onChange={(e) => handleAmountChange(e, filteredIngredient.id)}
                                             />{" "}
                                             {filteredIngredient.unitOfMeasure}
