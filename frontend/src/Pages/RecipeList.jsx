@@ -31,6 +31,11 @@ function RecipeList() {
         if (query.dairyFree) {
             url += `&dairyFree=${query.dairyFree}`;
         }
+        if(query.ingredients.length>0){
+            url+="&ingredients=";
+            query.ingredients.forEach((ing)=>{url+=`${ing},`});
+            url=url.slice(0,-1);
+        }
         console.log(url);
         const res = await fetch(url);
         const filteredRecipes = await res.json();
