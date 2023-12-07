@@ -13,6 +13,8 @@ import IngredientCreator from "./Pages/IngredientCreator.jsx";
 
 import RecipeList from './Pages/RecipeList.jsx';
 import RecipeCreator from './Pages/RecipeCreator.jsx';
+import RecipeForm from "./Components/RecipeForm/RecipeForm.jsx";
+import RecipeUpdater from "./Pages/RecipeUpdater.jsx";
 
 const router = createBrowserRouter([
     {
@@ -40,6 +42,10 @@ const router = createBrowserRouter([
                 path: "/recipes/:id",
 
                 element: <RecipeDetails/>,
+            },
+            {
+                path: "/recipes/update/:id",
+                element: <RecipeUpdater />,
             },
             {
                 path: "/recipes/create",
