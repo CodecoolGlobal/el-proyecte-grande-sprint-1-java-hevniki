@@ -59,7 +59,7 @@ const RecipeForm = ({onSave, disabled, recipe, onCancel}) => {
     const deleteIngredient = (event, id) => {
         event.preventDefault();
         const updatedIngredients = [...selectedIngredients];
-        const filteredIngredients = updatedIngredients.filter((ingredient) => Number(ingredient) !== Number(id));
+        const filteredIngredients = updatedIngredients.filter((ingredient) => Number(ingredient.ingredient.id) !== Number(id));
         setSelectedIngredients(filteredIngredients);
     };
 
