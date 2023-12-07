@@ -10,7 +10,7 @@ const RecipeForm = ({onSave, disabled, recipe, onCancel}) => {
     const [recipeName, setRecipeName] = useState(recipe?.name ?? "");
     const [description, setDescription] = useState(recipe?.description ?? "");
     const [ingredients, setIngredients] = useState([]);
-    const [selectedIngredients, setSelectedIngredients] = useState(recipe?.ingredient ?? "");
+    const [selectedIngredients, setSelectedIngredients] = useState(recipe?.ingredient ?? []);
 
     useEffect(() => {
         fetchIngredients()
@@ -41,15 +41,15 @@ const RecipeForm = ({onSave, disabled, recipe, onCancel}) => {
 
     const handleIngredientChange = (e) => {
         const newSelectedIngredients = [...selectedIngredients];
-        newSelectedIngredients.push(e.target.value);
+        newSelectedIngredients.push({ingredient:{id:e.target.value}, amount: 0});
         setSelectedIngredients(newSelectedIngredients);
     }
 
     const handleAmountChange = (event, id) => {
         event.preventDefault();
         const newArray = selectedIngredients.map((ingr) => {
-            if (ingr === id) {
-                return {...ingr, amount: event.target.value};
+            if (Number(ingr.ingredient.id) === Number(id)) {
+                return {ingredient:ingr.ingredient, amount: event.target.value};
             } else {
                 return ingr;
             }
@@ -104,17 +104,16 @@ const RecipeForm = ({onSave, disabled, recipe, onCancel}) => {
                     {selectedIngredients.length > 0 ? (
                         selectedIngredients.map((ingredient) => {
                             const filteredIngredient = ingredients.find(
-                                (item) => Number(item.id) === Number(ingredient)
-                            );
-
+                                (item) => Number(item.id) === Number(ingredient.ingredient.id)
+                        );
                             return (
-                                <li key={ingredient.id}>
+                                <li key={ingredient.ingredient.id}>
                                     {filteredIngredient && (
                                         <>
                                             {filteredIngredient.name}{" "}
                                             <input
                                                 type="number"
-                                                onChange={(e) => handleAmountChange(e, ingredient.id)}
+                                                onChange={(e) => handleAmountChange(e, filteredIngredient.id)}
                                             />{" "}
                                             {filteredIngredient.unitOfMeasure}
                                             <button onClick={(event) => deleteIngredient(event, filteredIngredient.id)}>remove

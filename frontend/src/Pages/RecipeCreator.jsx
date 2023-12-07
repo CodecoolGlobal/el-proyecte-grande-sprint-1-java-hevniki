@@ -4,7 +4,7 @@ async function createRecipe(recipe) {
 	const recipeModel = {
 		name: recipe.recipeName,
 		description: recipe.description,
-		ingredients: recipe.newSelectedIngredients
+		ingredients: recipe.ingredients
 	}
 	console.log(recipeModel);
 	const response = await fetch("/api/recipes", {

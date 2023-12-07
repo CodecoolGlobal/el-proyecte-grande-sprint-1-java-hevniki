@@ -72,7 +72,7 @@ public class IngredientController {
         if(ingredientToUpdate == null){
             return ResponseEntity.badRequest().build();
         }
-        ingredientTypeService.updateIngredient( updatedIngredient);
+        ingredientTypeService.updateIngredient(id, updatedIngredient);
         return ResponseEntity.ok(updatedIngredient);
     }
 }
