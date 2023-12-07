@@ -1,14 +1,14 @@
 import {Link} from "react-router-dom";
 
 function IngredientForRecipe(props) {
-    const {id, name, amount, unitOfMeasure} = props.ingredient;
+    const {id, ingredient, amount} = props.ingredient;
 
 
     return (
         <>
             <ul>
                 <li>
-                    {amount} {unitOfMeasure} of {name}
+                    {amount} {ingredient.unitOfMeasure} of {ingredient.name.toLowerCase()}
                 </li>
 
                 <Link to={`/ingredients/${id}`}>
