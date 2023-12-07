@@ -8,7 +8,7 @@ async function fetchIngredients(){
 
 }
 
-function AllIngredients(){
+function IngredientList(){
     const [ingredients, setIngredients] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -37,4 +37,4 @@ function AllIngredients(){
     )
 
 }
-export default AllIngredients;
+export default IngredientList;

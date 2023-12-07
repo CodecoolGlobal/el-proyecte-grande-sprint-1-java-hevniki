@@ -4,7 +4,7 @@ import App from './App.jsx';
 import Layout from "./Pages/Layout/Layout.jsx";
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 
-import AllIngredients from "./Pages/AllIngredients.jsx";
+import IngredientList from "./Pages/IngredientList.jsx";
 import IngredientDetails from "./Pages/IngredientDetails.jsx";
 
 import RecipeDetails from "./Pages/RecipeDetails/RecipeDetails.jsx";
@@ -25,7 +25,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "/ingredients",
-                element: <AllIngredients/>,
+                element: <IngredientList/>,
             },
             {
 
