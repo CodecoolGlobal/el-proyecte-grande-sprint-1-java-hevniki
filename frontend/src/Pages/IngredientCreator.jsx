@@ -44,9 +44,11 @@ function IngredientCreator() {
     }
 
     return (
-        <div>Add new ingredient
-            <div> ingredient name
-                <label htmlFor="name">Name:</label>
+        <div>
+            <h3>Add new ingredient</h3>
+            <div>
+                <label htmlFor="name"><b>Name: </b></label>
+                <br></br>
                 <input
                     value={ingredient.name}
                     name="name"
@@ -54,8 +56,9 @@ function IngredientCreator() {
                     onChange={onTextChange}
                 />
             </div>
-            <div> unit of measurement
-                <label htmlFor="unitOfMeasure">Unit:</label>
+            <div>
+                <label htmlFor="unitOfMeasure"><b>Unit of measure: </b></label>
+                <br></br>
                 <input
                     value={ingredient.unitOfMeasure}
                     name="unitOfMeasure"
@@ -63,7 +66,9 @@ function IngredientCreator() {
                     onChange={onTextChange}
                 />
             </div>
+            <br></br>
             <div>
+                <h3>Is your ingredient...</h3>
                 <label htmlFor="isGlutenFree">Gluten Free?</label>
                 <input type="checkbox"
                        onChange={onCheckBoxChange}
@@ -99,10 +104,11 @@ function IngredientCreator() {
                        name="isEggFree"
                 />
             </div>
+            <br></br>
             <button onClick={async ()=>{
                 await postIngredient(ingredient);
                 navigate("/");
-            }}> submit</button>
+            }}> Add ingredient</button>
         </div>
     )
 }
