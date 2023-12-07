@@ -1,130 +1,147 @@
-import {useEffect, useState} from 'react';
-import './RecipeForm.css'
-import {useNavigate} from "react-router-dom";
+import {useEffect, useState} from "react";
 
-async function fetchIngredients() {
-	const response = await fetch("/api/ingredients");
-	return response.json();
-}
+const fetchIngredients = async () => {
+    const res = await fetch("/api/ingredients")
+    const ingr = await res.json()
+    return ingr
+};
 
-function RecipeForm({onSave}) {
-	const [ingredients, setIngredients] = useState(null);
-	
-	const [recipeName, setRecipeName] = useState(null);
-	const [description, setDescription] = useState(null);
-	const [selectedIngredients, setSelectedIngredients] = useState([]);
+const RecipeForm = ({onSave, disabled, recipe, onCancel}) => {
+    const [recipeName, setRecipeName] = useState(recipe?.name ?? "");
+    const [description, setDescription] = useState(recipe?.description ?? "");
+    const [ingredients, setIngredients] = useState([]);
+    const [selectedIngredients, setSelectedIngredients] = useState(recipe?.ingredient ?? []);
 
-	const [filteredIngredients, setFilteredIngredients] = useState([]);
-	const [filterValue, setFilterValue] = useState('');
-	const [selectedIngredientIds, setSelectedIngredientIds] = useState([]);
-	const navigate = useNavigate();
+    useEffect(() => {
+        fetchIngredients()
+            .then((data) => {
+                setIngredients(data)
+            })
+    }, [])
 
-	useEffect(() => {
-		async function task() {
-			const fetchedIngredients = await fetchIngredients();
-			setIngredients(fetchedIngredients);
-		}
 
-		task();
-	}, []);
+    const onSubmit = (e) => {
+        e.preventDefault();
 
-	function showOptions(event) {
-		event.preventDefault();
-		document.getElementById("myDropdown").classList.toggle("show");
-	}
+        if (recipe) {
+            return onSave({
+                ...recipe,
+                recipeName,
+                description,
+                ingredients: selectedIngredients,
+            });
+        }
 
-	function handleFilterChange(event) {
-		setFilterValue(event.target.value);
-		if (event.target.value.length > 2) {
-			filterIngredients();
-		}
-	}
+        return onSave({
+            recipeName,
+            description,
+            ingredients: selectedIngredients,
+        });
+    };
 
-	function filterIngredients() {
-		setFilteredIngredients(ingredients.filter((ingredient) => {
-			return ingredient.name.substring(0, filterValue.length).toLowerCase() === filterValue.toLowerCase();
-		}));
-	}
+    const handleIngredientChange = (e) => {
+        const newSelectedIngredients = [...selectedIngredients];
+        newSelectedIngredients.push({ingredient:{id:e.target.value}, amount: 0});
+        setSelectedIngredients(newSelectedIngredients);
+    }
 
-	function handleIngredientSelect(event) {
-		event.preventDefault();
-		const id = Number(event.target.id);
-		const selectedIngredient = ingredients.filter((ingr => id === ingr.id))[0];
+    const handleAmountChange = (event, id) => {
+        event.preventDefault();
+        const newArray = selectedIngredients.map((ingr) => {
+            if (Number(ingr.ingredient.id) === Number(id)) {
+                return {ingredient:ingr.ingredient, amount: event.target.value};
+            } else {
+                return ingr;
+            }
+        });
+        setSelectedIngredients(newArray);
+    }
+    const deleteIngredient = (event, id) => {
+        event.preventDefault();
+        const updatedIngredients = [...selectedIngredients];
+        const filteredIngredients = updatedIngredients.filter((ingredient) => Number(ingredient) !== Number(id));
+        setSelectedIngredients(filteredIngredients);
+    };
 
-		if (selectedIngredient != null && !selectedIngredientIds.includes(id)) {
-			setSelectedIngredients([...selectedIngredients, { ingredient: selectedIngredient, amount: 1 }]);
-			setSelectedIngredientIds([selectedIngredientIds, id]);
-		}
-	}
 
-	function handleNumberOfIngredientsChange(event) {
-		event.preventDefault();
-		const id = event.target.id;
+    return (
+        <form className="RecipeForm" onSubmit={onSubmit}>
+            <div className="control">
+                <label htmlFor="recipeName">Name:</label>
+                <input
+                    value={recipeName}
+                    onChange={(e) => setRecipeName(e.target.value)}
+                    name="recipeName"
+                    id="recipeName"
+                />
+            </div>
 
-		const newArray = selectedIngredients.map((ingr) => {
-			if (ingr.ingredient.id === id) {
-				return { ...ingr, amount: event.target.value };
-			} else {
-				return ingr;
-			}
-		});
+            <div className="control">
+                <label htmlFor="description">Description:</label>
+                <input
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    name="description"
+                    id="description"
+                />
+            </div>
 
-		setSelectedIngredients(newArray);
+            <div className="control">
+                <label htmlFor="ingredient">Ingredient</label>
+                <select value={selectedIngredients}
+                        onChange={handleIngredientChange}>
+                    <option value=""> Select ingredients</option>
 
-	}
+                    {ingredients.map((ingredient) => (
+                        <option key={ingredient.id} value={ingredient.id}>{ingredient.name}</option>
+                    ))}
+                </select>
+            </div>
 
-	function handleNameChange(event) {
-		setRecipeName(event.target.value);
-	}
+            <div className="control">
+                <label htmlFor="ingredients">Ingredients:</label>
+                <ul>
+                    {selectedIngredients.length > 0 ? (
+                        selectedIngredients.map((ingredient) => {
+                            const filteredIngredient = ingredients.find(
+                                (item) => Number(item.id) === Number(ingredient.ingredient.id)
+                        );
+                            return (
+                                <li key={ingredient.ingredient.id}>
+                                    {filteredIngredient && (
+                                        <>
+                                            {filteredIngredient.name}{" "}
+                                            <input
+                                                type="number"
+                                                onChange={(e) => handleAmountChange(e, filteredIngredient.id)}
+                                            />{" "}
+                                            {filteredIngredient.unitOfMeasure}
+                                            <button onClick={(event) => deleteIngredient(event, filteredIngredient.id)}>remove
+                                            </button>
 
-	function handleDescriptionChange(event) {
-		setDescription(event.target.value);
-	}
+                                        </>
+                                    )}
+                                </li>
+                            );
+                        })
+                    ) : (
+                        <li>No ingredients selected</li>
+                    )}
+                </ul>
+            </div>
 
-	async function handleSubmit(event) {
-		event.preventDefault();
 
-		const newSelectedIngredients = selectedIngredients.map(ingr => {
-			console.log(ingr)
-			return {amount: ingr.amount, ingredient: {id:ingr.ingredient.id}}
-		})
-		await onSave({recipeName, description, newSelectedIngredients});
-		navigate('/');
-	}
+            <div className="buttons">
+                <button type="submit" disabled={disabled}>
+                    {recipe ? "Update Recipe" : "Create Recipe"}
+                </button>
 
-	if (ingredients == null) {
-		return <>Loading...</>;
-	}
-
-	return (
-		<form className='recipeForm'>
-			<label htmlFor='recipeName'>Name: </label>
-			<input id='recipeName' onChange={handleNameChange}></input>
-			<br></br>
-
-			<div className="dropdown">
-				<button className="dropbtn" onClick={showOptions}>Ingredients</button>
-				<div id="myDropdown" className="dropdown-content">
-					<input type="text" placeholder="Search.." id="myInput" onChange={handleFilterChange} />
-					{filteredIngredients.map(ingredient => {
-						return <a key={ingredient.id} id={ingredient.id} onClick={handleIngredientSelect}>{ingredient.name}</a>
-					})}
-				</div>
-			</div>
-			<br></br>
-			Ingredients:
-			<ul>
-				{selectedIngredients.map((ingredient) => {
-					return <li key={ingredient.ingredient.id}>{ingredient.ingredient.name} <input id={ingredient.ingredient.id} type='number' onChange={handleNumberOfIngredientsChange}></input> {ingredient.ingredient.unitOfMeasure}</li>
-				})}
-			</ul>
-			<br></br>
-			<label htmlFor='description'>Description:</label>
-			<br></br>
-			<textarea id='description' onChange={handleDescriptionChange}></textarea>
-			<button type='submit' onClick={handleSubmit}>Submit</button>
-		</form>
-	);
-}
+                <button type="button" onClick={onCancel}>
+                    Cancel
+                </button>
+            </div>
+        </form>
+    );
+};
 
 export default RecipeForm;
