@@ -3,6 +3,14 @@ package com.codecool.cookpad.model.entity;
 import java.util.*;
 
 import jakarta.persistence.*;
+import lombok.*;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@EqualsAndHashCode
 
 @Entity
 public class Recipe {
@@ -19,58 +27,10 @@ public class Recipe {
     private boolean dairyFree;
     private boolean glutenFree;
 
-    public Recipe() {
-    }
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public void setIngredients(Set<IngredientForRecipe> ingredients) {
-        this.ingredients = ingredients;
-        setProperties();
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public long getId() {
-        return id;
-    }
-    public Set<IngredientForRecipe> getIngredients() {
-        return ingredients;
-    }
-    public String getName() {
-        return name;
-    }
-    public String getDescription() {
-        return description;
-    }
-    public boolean isVegan(){
-        return this.vegan;
-    }
-    public boolean isVegetarian(){
-        return this.vegetarian;
-    }
-    public boolean isGlutenFree(){
-        return this.glutenFree;
-    }
-    public boolean isDairyFree(){
-        return this.dairyFree;
-    }
-
     public void setProperties() {
         this.vegan=ingredients.stream().allMatch(ingredient->ingredient.getIngredientType().isVegan());
         this.vegetarian=ingredients.stream().allMatch(ingredient->ingredient.getIngredientType().isMeatFree());
         this.glutenFree=ingredients.stream().allMatch(ingredient->ingredient.getIngredientType().isGlutenFree());
         this.dairyFree = ingredients.stream().allMatch(ingredient->ingredient.getIngredientType().isDairyFree());
-
-
     }
-
-
 }
