@@ -14,7 +14,7 @@ const getSelectedIngredients = (ingredients) => {
 }
 
 const RecipeForm = ({onSave, disabled, recipe, onCancel}) => {
-    const [recipeName, setRecipeName] = useState(recipe?.name ?? "");
+    const [name, setRecipeName] = useState(recipe?.name ?? "");
     const [description, setDescription] = useState(recipe?.description ?? "");
     const [ingredients, setIngredients] = useState([]);
     const [selectedIngredients, setSelectedIngredients] = useState(recipe ? getSelectedIngredients(recipe.ingredients) : []);
@@ -33,14 +33,14 @@ const RecipeForm = ({onSave, disabled, recipe, onCancel}) => {
         if (recipe) {
             return onSave({
                 ...recipe,
-                recipeName,
+                name,
                 description,
                 ingredients: selectedIngredients,
             });
         }
 
         return onSave({
-            recipeName,
+            name,
             description,
             ingredients: selectedIngredients,
         });
@@ -74,9 +74,9 @@ const RecipeForm = ({onSave, disabled, recipe, onCancel}) => {
     return (
         <form className="RecipeForm" onSubmit={onSubmit}>
             <div className="control">
-                <label htmlFor="recipeName">Name:</label>
+                <label htmlFor="name">Name:</label>
                 <input
-                    value={recipeName}
+                    value={name}
                     onChange={(e) => setRecipeName(e.target.value)}
                     name="recipeName"
                     id="recipeName"
