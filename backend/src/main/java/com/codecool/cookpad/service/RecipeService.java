@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static org.springframework.data.jpa.domain.Specification.where;
-
 @Service
 public class RecipeService {
     private final Logger logger;
