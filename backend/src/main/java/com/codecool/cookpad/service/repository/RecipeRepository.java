@@ -1,6 +1,6 @@
 package com.codecool.cookpad.service.repository;
 
-import com.codecool.cookpad.model.Recipe;
+import com.codecool.cookpad.model.entity.Recipe;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
