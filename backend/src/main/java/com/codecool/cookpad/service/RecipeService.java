@@ -4,8 +4,8 @@ import com.codecool.cookpad.dto.IngredientForRecipeDTO;
 import com.codecool.cookpad.dto.IngredientTypeDTO;
 import com.codecool.cookpad.dto.RecipeDTO;
 import com.codecool.cookpad.exception.BadQueryException;
-import com.codecool.cookpad.model.IngredientForRecipe;
-import com.codecool.cookpad.model.Recipe;
+import com.codecool.cookpad.model.entity.IngredientForRecipe;
+import com.codecool.cookpad.model.entity.Recipe;
 import com.codecool.cookpad.exception.RecipeNotFoundException;
 import com.codecool.cookpad.service.repository.RecipeRepository;
 import org.springframework.data.jpa.domain.Specification;
@@ -13,8 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
-
-import static org.springframework.data.jpa.domain.Specification.where;
 
 @Service
 public class RecipeService {

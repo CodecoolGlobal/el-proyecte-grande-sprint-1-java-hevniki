@@ -1,7 +1,7 @@
 package com.codecool.cookpad.service;
 
 import com.codecool.cookpad.dto.IngredientTypeDTO;
-import com.codecool.cookpad.model.IngredientType;
+import com.codecool.cookpad.model.entity.IngredientType;
 import com.codecool.cookpad.service.repository.IngredientTypeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

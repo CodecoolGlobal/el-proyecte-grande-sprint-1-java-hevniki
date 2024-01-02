@@ -1,5 +1,5 @@
 package com.codecool.cookpad.service.dao;
-import com.codecool.cookpad.model.Recipe;
+import com.codecool.cookpad.model.entity.Recipe;
 
 import java.util.Optional;
 import java.util.Set;

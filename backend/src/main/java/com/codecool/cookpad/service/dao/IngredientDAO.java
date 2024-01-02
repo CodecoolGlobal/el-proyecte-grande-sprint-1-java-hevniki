@@ -1,6 +1,6 @@
 package com.codecool.cookpad.service.dao;
 
-import com.codecool.cookpad.model.IngredientType;
+import com.codecool.cookpad.model.entity.IngredientType;
 
 import java.util.List;
 import java.util.Optional;

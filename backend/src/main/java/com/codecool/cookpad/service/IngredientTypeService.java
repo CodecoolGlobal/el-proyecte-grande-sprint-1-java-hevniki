@@ -2,7 +2,7 @@ package com.codecool.cookpad.service;
 
 import com.codecool.cookpad.dto.IngredientTypeDTO;
 import com.codecool.cookpad.exception.IngredientNotFoundException;
-import com.codecool.cookpad.model.IngredientType;
+import com.codecool.cookpad.model.entity.IngredientType;
 import com.codecool.cookpad.service.repository.IngredientTypeRepository;
 import org.springframework.stereotype.Service;
 
