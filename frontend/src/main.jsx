@@ -6,13 +6,11 @@ import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 
 import IngredientList from "./Pages/IngredientList.jsx";
 import IngredientDetails from "./Pages/IngredientDetails.jsx";
-
 import RecipeDetails from "./Pages/RecipeDetails/RecipeDetails.jsx";
-
 import IngredientCreator from "./Pages/IngredientCreator.jsx";
-
 import RecipeList from './Pages/RecipeList.jsx';
 import RecipeCreator from './Pages/RecipeCreator.jsx';
+import LoginForm from './Pages/LoginForm/LoginForm.jsx';
 
 const router = createBrowserRouter([
     {
@@ -28,7 +26,6 @@ const router = createBrowserRouter([
                 element: <IngredientList/>,
             },
             {
-
                 path: "/ingredients/:id",
                 element: <IngredientDetails/>,
             },
@@ -38,7 +35,6 @@ const router = createBrowserRouter([
             },
             {
                 path: "/recipes/:id",
-
                 element: <RecipeDetails/>,
             },
             {
@@ -49,6 +45,10 @@ const router = createBrowserRouter([
                 path: "/ingredients/create",
                 element: <IngredientCreator/>,
             },
+            {
+                path: "/login",
+                element: <LoginForm/>,
+            }
         ]
     }
 ])
