@@ -20,10 +20,13 @@ function Layout() {
                     </li>
                     <li>
                         <Link to="/ingredients/create">Add new ingredient</Link>
-                </li>
-
-            </ul>
-            <Outlet />
+                    </li>
+                    <li>
+                        <Link to="/register">Register</Link>
+                    </li>
+                </ul>
+            </nav>
+            <Outlet/>
         </div>
     )
 }

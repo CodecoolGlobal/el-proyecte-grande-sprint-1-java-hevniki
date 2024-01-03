@@ -12,15 +12,21 @@ import RecipeDetails from "./Pages/RecipeDetails/RecipeDetails.jsx";
 import IngredientCreator from "./Pages/IngredientCreator.jsx";
 import RecipeList from './Pages/RecipeList.jsx';
 import RecipeCreator from './Pages/RecipeCreator.jsx';
+import RegistrationForm from "./Pages/RegistrationForm.jsx";
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: <Layout/>,
         children:[
+
             {
                 path: "/",
                 element: <App/>,
+            },
+            {
+                path: "/register",
+                element: <RegistrationForm/>
             },
             {
                 path: "/ingredients",

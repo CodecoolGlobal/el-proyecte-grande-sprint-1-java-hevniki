@@ -3,6 +3,7 @@ package com.codecool.cookpad.security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -25,8 +26,10 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers("/api/auth/**").permitAll()
-                               // .requestMatchers("TODO/**").hasRole("ADMIN") TODO
-                               // .requestMatchers("/error").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/**").permitAll()
+                                .requestMatchers("/api/**").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/api/recipes").hasRole("USER")
+                                .requestMatchers(HttpMethod.PUT, "/api/recipes").hasRole("USER")
                                 .anyRequest().authenticated()
 
                 );
