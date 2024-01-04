@@ -1,5 +1,6 @@
-import {useState} from "react";
+import {useContext, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import { CurrentUserContext } from "../CurrentUserContext";
 
 async function postIngredient(newIngredient) {
     const res = await fetch("/api/ingredients", {
@@ -25,6 +26,7 @@ function IngredientCreator() {
         }
     )
     const navigate = useNavigate();
+    const {currentUser} = useContext(CurrentUserContext);
 
     function onCheckBoxChange(e){
         const updatedIngredient = {...ingredient};
@@ -41,6 +43,10 @@ function IngredientCreator() {
         const updatedIngredient = {...ingredient};
         updatedIngredient[e.target.id]=e.target.value;
         setIngredient(updatedIngredient);
+    }
+
+    if (currentUser == null) {
+        return <div>Sign in</div>
     }
 
     return (
