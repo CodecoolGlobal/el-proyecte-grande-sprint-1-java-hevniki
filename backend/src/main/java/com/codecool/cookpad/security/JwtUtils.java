@@ -18,7 +18,7 @@ import java.util.function.Function;
 @Service
 public class JwtUtils {
     @Value("${codecool.app.jwtSecret}")
-    private static String SECRET_KEY;
+    private String SECRET_KEY;
     @Value("${codecool.app.jwtExpirationMs}")
     private int jwtExpirationMs;
     public String extractUsername(String token) {
@@ -38,7 +38,7 @@ public String generateToken(Map<String, Object>extraClaims, UserDetails userDeta
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis()+jwtExpirationMs))
-                .signWith(getSignInKey(), SignatureAlgorithm.ES256)
+                .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
 }
 
