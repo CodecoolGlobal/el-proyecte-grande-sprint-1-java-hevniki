@@ -1,5 +1,5 @@
 import {useState, useEffect} from "react";
-import {useParams, useNavigate} from "react-router-dom";
+import {useParams, useNavigate, Link} from "react-router-dom";
 import IngredientForRecipe from "../../Components/IngredientForRecipe";
 
 import "./RecipeDetails.css"
@@ -55,6 +55,10 @@ function RecipeDetails() {
             </ul>
             <br></br>
             <div className="recipeDescription">{recipe.description}</div>
+            <br></br>
+            <Link to={`/recipes/update/${id}`}>
+                <button type="button">Update</button>
+            </Link>
             <br></br>
             <button onClick={async () => {
                 await deleteRecipe(id);

@@ -52,7 +52,7 @@ public class RecipeController {
 
     }
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateRecipe(@RequestBody RecipeDTO updatedRecipe, @RequestParam String id){
+    public ResponseEntity<?> updateRecipe(@RequestBody RecipeDTO updatedRecipe, @PathVariable String id){
         RecipeDTO recipeToUpdate = recipeService.getRecipeById(id);
         if(recipeToUpdate == null){
             return ResponseEntity.badRequest().build();

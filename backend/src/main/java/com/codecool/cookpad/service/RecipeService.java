@@ -59,8 +59,10 @@ public class RecipeService {
     public void updateRecipe(RecipeDTO updatedRecipeDTO) {
         if (recipeRepository.findById(updatedRecipeDTO.id()).isPresent()) {
             createRecipe(updatedRecipeDTO);
+        } else {
+            throw new RecipeNotFoundException();
         }
-        throw new RecipeNotFoundException();
+
     }
 
     private Recipe mapFromDTO(RecipeDTO recipeDTO) {
