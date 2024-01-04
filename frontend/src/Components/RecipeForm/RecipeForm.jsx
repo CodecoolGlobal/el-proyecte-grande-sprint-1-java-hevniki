@@ -1,5 +1,5 @@
-import {useEffect, useState} from "react";
-import ingredient from "../Ingredient.jsx";
+import {useContext, useEffect, useState} from "react";
+import { CurrentUserContext } from "../../CurrentUserContext.jsx";
 
 const fetchIngredients = async () => {
     const res = await fetch("/api/ingredients")
@@ -18,6 +18,7 @@ const RecipeForm = ({onSave, disabled, recipe, onCancel}) => {
     const [description, setDescription] = useState(recipe?.description ?? "");
     const [ingredients, setIngredients] = useState([]);
     const [selectedIngredients, setSelectedIngredients] = useState(recipe ? getSelectedIngredients(recipe.ingredients) : []);
+    const {currentUser, setCurrentUser} = useContext(CurrentUserContext);
 
     useEffect(() => {
         fetchIngredients()
@@ -70,6 +71,9 @@ const RecipeForm = ({onSave, disabled, recipe, onCancel}) => {
         setSelectedIngredients(filteredIngredients);
     };
 
+    if (currentUser == null) {
+        return <div>Sign in</div>
+    }
 
     return (
         <form className="RecipeForm" onSubmit={onSubmit}>
