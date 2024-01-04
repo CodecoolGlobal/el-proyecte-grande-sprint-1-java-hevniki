@@ -10,7 +10,7 @@ import RecipeDetails from "./Pages/RecipeDetails/RecipeDetails.jsx";
 import IngredientCreator from "./Pages/IngredientCreator.jsx";
 import RecipeList from './Pages/RecipeList.jsx';
 import RecipeCreator from './Pages/RecipeCreator.jsx';
-import RegistrationForm from "./Pages/RegistrationForm.jsx";
+import RegistrationForm from "./Pages/RegistrationForm/RegistrationForm.jsx";
 import LoginForm from './Pages/LoginForm/LoginForm.jsx';
 import RecipeForm from "./Components/RecipeForm/RecipeForm.jsx";
 import RecipeUpdater from "./Pages/RecipeUpdater.jsx";
