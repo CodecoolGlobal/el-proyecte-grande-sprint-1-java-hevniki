@@ -31,6 +31,9 @@ function LoginForm() {
 
 		const res = fetch("/api/auth/authenticate", {
 			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
 			body: JSON.stringify(authenticationRequest),
 		});
 	}
