@@ -1,4 +1,6 @@
+import { useContext } from 'react';
 import RecipeForm from '../Components/RecipeForm/RecipeForm.jsx';
+import { CurrentUserContext } from '../CurrentUserContext.jsx';
 
 async function createRecipe(recipe) {
 	const recipeModel = {
@@ -19,10 +21,15 @@ async function createRecipe(recipe) {
 }
 
 function RecipeCreator() {
+	const {currentUser, setCurrentUser} = useContext(CurrentUserContext);
+
 	async function handleCreateRecipe(recipe) {
 		const res = await createRecipe(recipe);
 	}
 
+	if (currentUser == null) {
+		return (<div>Sign in</div>)
+	}
   return (
     <RecipeForm onSave={handleCreateRecipe}></RecipeForm>
   );

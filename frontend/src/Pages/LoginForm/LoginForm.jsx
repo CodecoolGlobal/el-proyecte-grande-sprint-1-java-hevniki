@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from "axios";
 import "./LoginForm.css";
+import { CurrentUserContext } from '../../CurrentUserContext';
 
 function LoginForm() {
 	const [errorMessages, setErrorMessages] = useState({});
 	const [isSubmitted, setIsSubmitted] = useState(false);
-
-	const [user, setUser] = useState();
+	const {currentUser, setCurrentUser} = useContext(CurrentUserContext);
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 
@@ -31,13 +31,15 @@ function LoginForm() {
 		  "/api/auth/authenticate",
 		  user
 		);
-		setUser(response.data)
+		console.log("itt", setCurrentUser);
+		console.log("user: ", currentUser)
+		setCurrentUser(response.data)
 		localStorage.setItem('user', response.data)
 		console.log(response.data)
 	  };
 
-	if (user) {
-		return <div>User is here: {user.username}</div>
+	if (currentUser != null) {
+		return <div>User is here: {currentUser.username}</div>
 	}
 
 	return (

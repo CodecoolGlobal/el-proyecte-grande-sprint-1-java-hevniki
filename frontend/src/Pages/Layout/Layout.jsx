@@ -1,9 +1,14 @@
 import { Link, Outlet } from "react-router-dom";
 
 import "./Navbar.css";
+import { CurrentUserContext } from "../../CurrentUserContext";
+import { useState } from "react";
 
-function Layout() {
-    return (
+function Layout(){
+    const [currentUser, setCurrentUser] = useState(null);
+
+    return(
+        <CurrentUserContext.Provider value={{currentUser, setCurrentUser}}>
         <div className="Layout">
             <ul>
                 <li>
@@ -32,6 +37,7 @@ function Layout() {
             </nav>
             <Outlet/>
         </div>
+        </CurrentUserContext.Provider>
     )
 }
 
