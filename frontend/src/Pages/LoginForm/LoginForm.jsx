@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import axios from "axios";
 import "./LoginForm.css";
 
 function LoginForm() {
 	const [errorMessages, setErrorMessages] = useState({});
 	const [isSubmitted, setIsSubmitted] = useState(false);
+
+	const [user, setUser] = useState();
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 
@@ -21,21 +24,20 @@ function LoginForm() {
 		);
 	}
 
-	function handleSubmit(event) {
-		event.preventDefault();
+	const handleSubmit = async e => {
+		e.preventDefault();
+		const user = { username, password };
+		const response = await axios.post(
+		  "/api/auth/authenticate",
+		  user
+		);
+		setUser(response.data)
+		localStorage.setItem('user', response.data)
+		console.log(response.data)
+	  };
 
-		const authenticationRequest = {
-			username: username,
-			password: password
-		}
-
-		const res = fetch("/api/auth/authenticate", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(authenticationRequest),
-		});
+	if (user) {
+		return <div>User is here: {user.username}</div>
 	}
 
 	return (
