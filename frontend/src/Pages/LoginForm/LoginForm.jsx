@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import axios from "axios";
+import "./LoginForm.css";
+import { CurrentUserContext } from '../../CurrentUserContext';
 import { useNavigate } from 'react-router-dom';
 import { Link as RouterLink } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
@@ -11,13 +14,13 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import axios from "axios";
 
 function LoginForm() {
 	const navigate = useNavigate();
 
 	const [errorMessages, setErrorMessages] = useState({});
 	const [isSubmitted, setIsSubmitted] = useState(false);
+	const {currentUser, setCurrentUser} = useContext(CurrentUserContext);
 	const [user, setUser] = useState();
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
@@ -41,17 +44,21 @@ function LoginForm() {
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		const user = { username, password };
-		try {
-			const response = await axios.post("/api/auth/authenticate", user);
-			setUser(response.data);
-			localStorage.setItem('user', response.data);
-			navigate('/recipes');
-			console.log('Submit the form:', user);
-		} catch (error) {
-			console.error('Error submitting form:', error);
-		}
-	};
+		const response = await axios.post(
+		  "/api/auth/authenticate",
+		  user
+		);
+		console.log("itt", setCurrentUser);
+		console.log("user: ", currentUser)
+		setCurrentUser(response.data)
+		localStorage.setItem('user', response.data)
+    navigate('/recipes');
+		console.log(response.data)
+	  };
 
+	if (currentUser != null) {
+		return <div>User is here: {currentUser.username}</div>
+	}
 	return (
 		<ThemeProvider theme={createTheme()}>
 			<Container component="main" maxWidth="xs">
