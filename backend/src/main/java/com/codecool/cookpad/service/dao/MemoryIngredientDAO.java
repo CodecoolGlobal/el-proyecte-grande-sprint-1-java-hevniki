@@ -1,6 +1,6 @@
 package com.codecool.cookpad.service.dao;
 
-import com.codecool.cookpad.model.IngredientType;
+import com.codecool.cookpad.model.entity.IngredientType;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;

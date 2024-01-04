@@ -22,6 +22,9 @@ function Layout(){
                     <li>
                         <Link to="/ingredients/create">Add new ingredient</Link>
                     </li>
+                    <li>
+                        <Link to="/login">Log in</Link>
+                    </li>
 
                 </ul>
             </nav>

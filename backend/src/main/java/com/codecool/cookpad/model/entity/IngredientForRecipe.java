@@ -1,4 +1,4 @@
-package com.codecool.cookpad.model;
+package com.codecool.cookpad.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
