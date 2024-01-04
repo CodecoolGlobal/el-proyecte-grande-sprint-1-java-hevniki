@@ -17,7 +17,7 @@ function Layout() {
 	return (
 		<CurrentUserContext.Provider value={{ currentUser, setCurrentUser }}>
 			<div className="Layout">
-				<nav>
+				<nav style={{ width: "100%" }}>
 					<ul>
 						<li>
 							<Link to="/">Home</Link>
@@ -34,15 +34,17 @@ function Layout() {
 						<li>
 							<Link to="/ingredients/create">Add new ingredient</Link>
 						</li>
-						<li>
-							<Link to="/register">Register</Link>
-						</li>
+						{!currentUser &&
+							<li>
+								<Link to="/register">Register</Link>
+							</li>
+						}
 						{currentUser ?
 							<li>
 								<button onClick={handleLogout}>
-								Log out
+									Log out
 								</button>
-							</li> 
+							</li>
 							:
 							<li>
 								<Link to="/login">Log in</Link>

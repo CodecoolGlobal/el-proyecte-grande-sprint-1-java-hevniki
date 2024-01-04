@@ -3,24 +3,46 @@ ul {
     margin: 3px;
     padding: 0;
     margin-bottom: 15px;
+    margin-top: 0;
 }
 
 li {
     display: inline-block;
 }
 
+button {
+    display: block;
+    padding: 8px;
+    background-color: #dddddd;
+    text-decoration: none; /* Remove default underline */
+    color: black; /* Set the text color */
+}
+
+a:hover {
+    background-color: aqua;
+}
+
 a {
     display: block;
     padding: 8px;
     background-color: #dddddd;
+    text-decoration: none; /* Remove default underline */
+    color: black; /* Set the text color */
+}
+
+a:hover {
+    background-color: aqua;
 }
 
 div.Layout {
-    max-width: 100%;
-    width: 100%;
     padding-bottom: 5px;
 }
 
 body {
     margin: 0;
+}
+
+nav {
+    width: 100%;
+    background-color: #dddddd;
 }
