@@ -45,9 +45,15 @@ function IngredientCreator() {
         setIngredient(updatedIngredient);
     }
 
-    if (currentUser == null) {
-        return <div>Sign in</div>
+    function navigateToLogin(){
+        navigate('/login')
     }
+
+    if (currentUser == null)
+        return (
+            <div>
+        <button onClick={navigateToLogin}>Sign in first</button>
+            </div>)
 
     return (
         <div>
