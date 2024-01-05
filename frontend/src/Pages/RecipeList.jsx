@@ -3,6 +3,7 @@ import RecipeOverview from '../Components/RecipeOverview/RecipeOverview.jsx';
 import SearchBar from "./SearchBar.jsx";
 
 function RecipeList() {
+
     const recipesPath = "/api/recipes"
     const [recipes, setRecipes] = useState(null);
 
@@ -16,6 +17,8 @@ function RecipeList() {
     async function handleSearch(query) {
        await getFilteredRecipes(query);
     }
+
+
 
     async function getFilteredRecipes(query) {
         let url = `/api/recipes/search?name=${query.name}`;

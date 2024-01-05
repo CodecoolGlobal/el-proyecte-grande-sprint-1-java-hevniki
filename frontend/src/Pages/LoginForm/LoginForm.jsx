@@ -19,7 +19,6 @@ function LoginForm() {
 	const navigate = useNavigate();
 
 	const [errorMessages, setErrorMessages] = useState({});
-	const [isSubmitted, setIsSubmitted] = useState(false);
 	const {currentUser, setCurrentUser} = useContext(CurrentUserContext);
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
@@ -108,7 +107,7 @@ function LoginForm() {
 						</Button>
 						<Grid container>
 							<Grid item xs>
-								<Link href="#" variant="body2">
+								<Link component={RouterLink} to="/forgot-password" variant="body2">
 									Forgot password?
 								</Link>
 							</Grid>
