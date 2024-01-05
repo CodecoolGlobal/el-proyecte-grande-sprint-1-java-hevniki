@@ -2,20 +2,19 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 
 import "./Navbar.css";
 import { CurrentUserContext } from "../../CurrentUserContext";
-import { useState } from "react";
+import { useState, useContext } from "react";
 
 function Layout() {
-	const [currentUser, setCurrentUser] = useState(null);
-	const navigate = useNavigate();
+          const {setCurrentUser} = useContext(CurrentUserContext);
+          const navigate = useNavigate();
 
-	async function handleLogout() {
-		const res = fetch("/api/logout");
-		setCurrentUser(null);
-		navigate("/");
-	}
+          async function handleLogout() {
+            const res = fetch("/api/logout");
+            setCurrentUser(null);
+            navigate("/");
+          }
 
 	return (
-		<CurrentUserContext.Provider value={{ currentUser, setCurrentUser }}>
 			<div className="Layout">
 				<nav style={{ width: "100%" }}>
 					<ul>
@@ -38,6 +37,9 @@ function Layout() {
 							<li>
 								<Link to="/register">Register</Link>
 							</li>
+							<li>
+								<Link to="/login">Log in</Link>
+							</li>
 						}
 						{currentUser ?
 							<li>
@@ -45,16 +47,11 @@ function Layout() {
 									Log out
 								</button>
 							</li>
-							:
-							<li>
-								<Link to="/login">Log in</Link>
-							</li>
 						}
 					</ul>
 				</nav>
 				<Outlet />
 			</div>
-		</CurrentUserContext.Provider>
 	)
 }
 

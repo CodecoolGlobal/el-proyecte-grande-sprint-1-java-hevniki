@@ -17,62 +17,70 @@ import RecipeUpdater from "./Pages/RecipeUpdater.jsx";
 import YourProblem from "./Components/YourProblem.jsx";
 
 const router = createBrowserRouter([
-    {
+  {
+    path: "/",
+    element: <Layout/>,
+    children:[
+      {
         path: "/",
-        element: <Layout/>,
-        children:[
-            {
-                path: "/",
-                element: <App/>,
-            },
-            {
-                path: "/register",
-                element: <RegistrationForm/>
-            },
-            {
-                path: "/ingredients",
-                element: <IngredientList/>,
-            },
-            {
-                path: "/ingredients/:id",
-                element: <IngredientDetails/>,
-            },
-            {
-                path: "/recipes",
-                element: <RecipeList/>,
-            },
-            {
-                path: "/recipes/:id",
-                element: <RecipeDetails/>,
-            },
-            {
-                path: "/recipes/update/:id",
-                element: <RecipeUpdater />,
-            },
-            {
-                path: "/recipes/create",
-                element: <RecipeCreator/>
-            },
-            {
-                path: "/ingredients/create",
-                element: <IngredientCreator/>,
-            },
-            {
-                path: "/login",
-                element: <LoginForm/>,
-            },
-            {
-                path: "/forgot-password",
-                element: <YourProblem/>
-            }
-        ]
-    }
+        element: <App/>,
+      },
+      {
+        path: "/register",
+        element: <RegistrationForm/>
+      },
+      {
+        path: "/ingredients",
+        element: <IngredientList/>,
+      },
+      {
+        path: "/ingredients/:id",
+        element: <IngredientDetails/>,
+      },
+      {
+        path: "/recipes",
+        element: <RecipeList/>,
+      },
+      {
+        path: "/recipes/:id",
+        element: <RecipeDetails/>,
+      },
+      {
+        path: "/recipes/update/:id",
+        element: <RecipeUpdater />,
+      },
+      {
+        path: "/recipes/create",
+        element: <RecipeCreator/>
+      },
+      {
+        path: "/ingredients/create",
+        element: <IngredientCreator/>,
+      },
+      {
+        path: "/login",
+        element: <LoginForm/>,
+      },
+      {
+        path: "/forgot-password",
+        element: <YourProblem/>
+      }
+    ]
+  }
 ])
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-    <React.StrictMode>
-        <RouterProvider router={router}/>
-    </React.StrictMode>,
-)
+function initCurrentUser() {
+  const user = localStorage.getItem('user');
+  return user ? user : null; // TODO: make condition checks check for `undefined`
+}
 
+function Root() {
+  const [currentUser, setCurrentUser] = useState(initCurrentUser);
+  return    <React.StrictMode>
+              <CurrentUserContext.Provider value={{ currentUser, setCurrentUser }}>
+                <RouterProvider router={router}/>
+              </CurrentUserContext.Provider>
+            </React.StrictMode>
 
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<Root />);
