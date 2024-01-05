@@ -19,9 +19,7 @@ function LoginForm() {
 	const navigate = useNavigate();
 
 	const [errorMessages, setErrorMessages] = useState({});
-	const [isSubmitted, setIsSubmitted] = useState(false);
 	const {currentUser, setCurrentUser} = useContext(CurrentUserContext);
-	const [user, setUser] = useState();
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 
@@ -48,12 +46,9 @@ function LoginForm() {
 		  "/api/auth/authenticate",
 		  user
 		);
-		console.log("itt", setCurrentUser);
-		console.log("user: ", currentUser)
 		setCurrentUser(response.data)
 		localStorage.setItem('user', response.data)
     navigate('/recipes');
-		console.log(response.data)
 	  };
 
 	if (currentUser != null) {
@@ -113,7 +108,7 @@ function LoginForm() {
 						</Button>
 						<Grid container>
 							<Grid item xs>
-								<Link href="#" variant="body2">
+								<Link component={RouterLink} to="/forgot-password" variant="body2">
 									Forgot password?
 								</Link>
 							</Grid>

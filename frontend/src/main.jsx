@@ -14,6 +14,7 @@ import RecipeCreator from './Pages/RecipeCreator.jsx';
 import RegistrationForm from "./Pages/RegistrationForm/RegistrationForm.jsx";
 import LoginForm from './Pages/LoginForm/LoginForm.jsx';
 import RecipeUpdater from "./Pages/RecipeUpdater.jsx";
+import YourProblem from "./Components/YourProblem.jsx";
 
 const router = createBrowserRouter([
     {
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
             {
                 path: "/login",
                 element: <LoginForm/>,
+            },
+            {
+                path: "/forgot-password",
+                element: <YourProblem/>
             }
         ]
     }
