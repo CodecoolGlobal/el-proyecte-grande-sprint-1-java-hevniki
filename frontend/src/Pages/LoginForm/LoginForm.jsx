@@ -47,7 +47,7 @@ function LoginForm() {
 		  user
 		);
 		setCurrentUser(response.data)
-		localStorage.setItem('user', response.data)
+		localStorage.setItem('user', JSON.stringify(response.data));
     navigate('/recipes');
 	  };
 

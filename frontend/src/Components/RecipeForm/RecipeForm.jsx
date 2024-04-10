@@ -1,10 +1,9 @@
 import {useContext, useEffect, useState} from "react";
-import { CurrentUserContext } from "../../CurrentUserContext.jsx";
+import {CurrentUserContext} from "../../CurrentUserContext.jsx";
 
 const fetchIngredients = async () => {
     const res = await fetch("/api/ingredients")
-    const ingr = await res.json()
-    return ingr
+    return await res.json()
 };
 
 const getSelectedIngredients = (ingredients) => {
@@ -28,11 +27,11 @@ const RecipeForm = ({onSave, disabled, recipe, onCancel}) => {
     }, [])
 
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
 
         if (recipe) {
-            return onSave({
+            return await onSave({
                 ...recipe,
                 name,
                 description,
@@ -40,7 +39,7 @@ const RecipeForm = ({onSave, disabled, recipe, onCancel}) => {
             });
         }
 
-        return onSave({
+        return await onSave({
             name,
             description,
             ingredients: selectedIngredients,
