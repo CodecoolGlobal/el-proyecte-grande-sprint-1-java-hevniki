@@ -1,6 +1,8 @@
 package com.codecool.cookpad.service;
 
 import com.codecool.cookpad.dto.IngredientTypeDTO;
+import com.codecool.cookpad.exception.BadRequestException;
+import com.codecool.cookpad.exception.IngredientNotFoundException;
 import com.codecool.cookpad.model.entity.IngredientType;
 import com.codecool.cookpad.service.repository.IngredientTypeRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,14 +27,15 @@ class IngredientTypeServiceTest {
     @InjectMocks
     private IngredientTypeService ingredientTypeService;
 
-    private IngredientType ingredient;
     private IngredientType ingredient1;
+    private IngredientType ingredient2;
+    private IngredientType ingredient3;
 
     @BeforeEach
     public void setup() {
         ingredientTypeRepository = mock(IngredientTypeRepository.class);
         ingredientTypeService = new IngredientTypeService(ingredientTypeRepository);
-        ingredient = IngredientType.builder()
+        ingredient1 = IngredientType.builder()
                 .id(1L)
                 .name("Salt")
                 .isDairyFree(true)
@@ -42,7 +45,7 @@ class IngredientTypeServiceTest {
                 .unitOfMeasure("g")
                 .build();
 
-        ingredient1 = IngredientType.builder()
+        ingredient2 = IngredientType.builder()
                 .id(2L)
                 .name("Sugar")
                 .isDairyFree(true)
@@ -51,34 +54,83 @@ class IngredientTypeServiceTest {
                 .isEggFree(true)
                 .unitOfMeasure("g")
                 .build();
+        ingredient3 = IngredientType.builder()
+                .id(3L)
+                .name("Water")
+                .isDairyFree(true)
+                .isGlutenFree(true)
+                .isMeatFree(true)
+                .isEggFree(true)
+                .unitOfMeasure("l")
+                .build();
     }
 
-    @DisplayName("Test for getAllEmployees method")
+    @DisplayName("Test for findAll method")
     @Test
-    public void givenIngredientList_whenGetAllIngredients_thenReturnIngredients() {
-        given(ingredientTypeRepository.findAll()).willReturn(List.of(ingredient, ingredient1));
+    public void testFindAll_Expected() {
+        given(ingredientTypeRepository.findAll()).willReturn(List.of(ingredient1, ingredient2, ingredient3));
 
         List<IngredientTypeDTO> ingredientList = ingredientTypeService.getAllIngredients();
 
         assertThat(ingredientList).isNotNull();
-        assertThat(ingredientList.size()).isEqualTo(2);
+        assertThat(ingredientList.size()).isEqualTo(3);
+    }
+    @DisplayName("Test for findAll method if there are none")
+    @Test
+    public void testFindAll_EmptyList() {
+        given(ingredientTypeRepository.findAll()).willReturn(List.of());
+
+        List<IngredientTypeDTO> ingredientList = ingredientTypeService.getAllIngredients();
+
+        assertThat(ingredientList).isNotNull();
+        assertThat(ingredientList.size()).isEqualTo(0);
     }
 
     @DisplayName("Test for mapToDTO method")
     @Test
-    public void givenIngredient_whenMapToDTO_thenReturnIngredientDTO() {
+    public void testMapToDTO_expected() {
         IngredientTypeDTO expected = new IngredientTypeDTO(1L, "Salt", "g", true, true, true, true);
-        IngredientTypeDTO actual = ingredientTypeService.mapToDTO(ingredient);
+        IngredientTypeDTO actual = ingredientTypeService.mapToDTO(ingredient1);
 
+        assertEquals(expected, actual);
+    }
+
+    @DisplayName("Test for mapFromDTO method")
+    @Test
+    public void testMapFromDTO_expected() {
+        given(ingredientTypeRepository.findById(ingredient1.getId())).willReturn(Optional.of(ingredient1));
+
+        IngredientType expected = ingredient1;
+        IngredientType actual = ingredientTypeService.mapFromDTO(new IngredientTypeDTO(1L, "Salt", "g", true, true, true, true));
         assertEquals(expected, actual);
     }
 
     @DisplayName("Test for getIngredientById method")
     @Test
-    public void givenIngredientId_whenGetIngredientById_thenReturnIngredientDTO() {
-        given(ingredientTypeRepository.findById(ingredient.getId())).willReturn(Optional.of(ingredient));
+    public void testGetIngredientById_expected() {
+        given(ingredientTypeRepository.findById(ingredient1.getId())).willReturn(Optional.of(ingredient1));
 
         IngredientTypeDTO expected = new IngredientTypeDTO(1L, "Salt", "g", true, true, true, true);
         IngredientTypeDTO actual = ingredientTypeService.getIngredientById("1");
+        assertEquals(expected, actual);
+    }
+    @DisplayName("Test for getIngredientById method if there is no such ingredient")
+    @Test
+    public void testGetIngredientById_noSuchId() {
+        given(ingredientTypeRepository.findById(ingredient1.getId())).willReturn(Optional.empty());
+
+        assertThrows(IngredientNotFoundException.class, () -> ingredientTypeService.getIngredientById("99"));
+    }
+
+    @DisplayName("Test for mapFromDTO")
+    @Test
+    public void testMapFromDTO_null() {
+        assertThrows(BadRequestException.class, () -> ingredientTypeService.mapFromDTO(null));
+    }
+
+    @DisplayName("Test for mapToDTO")
+    @Test
+    public void testMapToDTO_null() {
+        assertThrows(BadRequestException.class, () -> ingredientTypeService.mapToDTO(null));
     }
 }
