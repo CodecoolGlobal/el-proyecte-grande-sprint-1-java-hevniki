@@ -3,6 +3,8 @@ package com.codecool.cookpad.controller;
 import com.codecool.cookpad.dto.RecipeDTO;
 import com.codecool.cookpad.service.RecipeService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,7 +14,7 @@ import java.util.Map;
 @RequestMapping("/api/recipes")
 public class RecipeController {
     private final RecipeService recipeService;
-
+    
     public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
     }
@@ -37,7 +39,6 @@ public class RecipeController {
         return ResponseEntity.ok(recipeService.findRecipe(params));
     }
 
-
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteRecipeById(@PathVariable String id) {
         RecipeDTO foundRecipe = recipeService.getRecipeById(id);
@@ -49,8 +50,8 @@ public class RecipeController {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(foundRecipe);
-
     }
+    
     @PutMapping("/{id}")
     public ResponseEntity<?> updateRecipe(@RequestBody RecipeDTO updatedRecipe, @PathVariable String id){
         RecipeDTO recipeToUpdate = recipeService.getRecipeById(id);
