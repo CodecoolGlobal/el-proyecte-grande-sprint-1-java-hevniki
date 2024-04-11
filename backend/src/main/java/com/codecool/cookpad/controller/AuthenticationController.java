@@ -28,7 +28,6 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest request
     ) {
-        System.out.println(request);
         return ResponseEntity.ok(service.authenticate(request));
     }
 
