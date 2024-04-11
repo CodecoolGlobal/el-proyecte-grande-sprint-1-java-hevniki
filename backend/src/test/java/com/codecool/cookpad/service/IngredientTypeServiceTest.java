@@ -1,6 +1,7 @@
 package com.codecool.cookpad.service;
 
 import com.codecool.cookpad.dto.IngredientTypeDTO;
+import com.codecool.cookpad.exception.IngredientNotFoundException;
 import com.codecool.cookpad.model.entity.IngredientType;
 import com.codecool.cookpad.service.repository.IngredientTypeRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -73,6 +74,16 @@ class IngredientTypeServiceTest {
         assertThat(ingredientList).isNotNull();
         assertThat(ingredientList.size()).isEqualTo(3);
     }
+    @DisplayName("Test for findAll method if there are none")
+    @Test
+    public void testFindAll_EmptyList() {
+        given(ingredientTypeRepository.findAll()).willReturn(List.of());
+
+        List<IngredientTypeDTO> ingredientList = ingredientTypeService.getAllIngredients();
+
+        assertThat(ingredientList).isNotNull();
+        assertThat(ingredientList.size()).isEqualTo(0);
+    }
 
     @DisplayName("Test for mapToDTO method")
     @Test
@@ -95,11 +106,18 @@ class IngredientTypeServiceTest {
 
     @DisplayName("Test for getIngredientById method")
     @Test
-    public void givenIngredientId_whenGetIngredientById_thenReturnIngredientDTO() {
+    public void testGetIngredientById_expected() {
         given(ingredientTypeRepository.findById(ingredient1.getId())).willReturn(Optional.of(ingredient1));
 
         IngredientTypeDTO expected = new IngredientTypeDTO(1L, "Salt", "g", true, true, true, true);
         IngredientTypeDTO actual = ingredientTypeService.getIngredientById("1");
         assertEquals(expected, actual);
+    }
+    @DisplayName("Test for getIngredientById method if there is no such ingredient")
+    @Test
+    public void testGetIngredientById_noSuchId() {
+        given(ingredientTypeRepository.findById(ingredient1.getId())).willReturn(Optional.empty());
+
+        assertThrows(IngredientNotFoundException.class, () -> ingredientTypeService.getIngredientById("99"));
     }
 }
