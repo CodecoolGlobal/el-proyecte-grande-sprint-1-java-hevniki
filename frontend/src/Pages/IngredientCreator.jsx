@@ -6,7 +6,8 @@ async function postIngredient(newIngredient) {
     const res = await fetch("/api/ingredients", {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            'Authorization': `Bearer ${JSON.parse(localStorage.getItem("user")).token}`
         },
         body: JSON.stringify(newIngredient)
     });
