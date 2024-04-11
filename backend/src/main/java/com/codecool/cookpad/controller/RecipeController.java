@@ -13,10 +13,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/recipes")
 public class RecipeController {
-
-
     private final RecipeService recipeService;
-
+    
     public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
     }
@@ -38,10 +36,8 @@ public class RecipeController {
 
     @GetMapping("/search")
     public ResponseEntity<?> filterRecipes(@RequestParam Map<String, String> params) {
-
         return ResponseEntity.ok(recipeService.findRecipe(params));
     }
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteRecipeById(@PathVariable String id) {
@@ -54,8 +50,8 @@ public class RecipeController {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(foundRecipe);
-
     }
+    
     @PutMapping("/{id}")
     public ResponseEntity<?> updateRecipe(@RequestBody RecipeDTO updatedRecipe, @PathVariable String id){
         RecipeDTO recipeToUpdate = recipeService.getRecipeById(id);
