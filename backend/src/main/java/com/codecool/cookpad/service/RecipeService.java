@@ -3,7 +3,7 @@ package com.codecool.cookpad.service;
 import com.codecool.cookpad.dto.IngredientForRecipeDTO;
 import com.codecool.cookpad.dto.IngredientTypeDTO;
 import com.codecool.cookpad.dto.RecipeDTO;
-import com.codecool.cookpad.exception.BadQueryException;
+import com.codecool.cookpad.exception.BadRequestException;
 import com.codecool.cookpad.model.entity.IngredientForRecipe;
 import com.codecool.cookpad.model.entity.Recipe;
 import com.codecool.cookpad.exception.RecipeNotFoundException;
@@ -145,7 +145,7 @@ public class RecipeService {
 
             return spec;
         } catch (NumberFormatException e) {
-            throw new BadQueryException();
+            throw new BadRequestException();
         }
     }
 
@@ -158,7 +158,7 @@ public class RecipeService {
             }
         }
         catch (NumberFormatException e) {
-            throw new BadQueryException();
+            throw new BadRequestException();
         }
         return idsAsLong;
     }

@@ -1,5 +1,5 @@
 package com.codecool.cookpad.model;
-import com.codecool.cookpad.exception.BadQueryException;
+import com.codecool.cookpad.exception.BadRequestException;
 import com.codecool.cookpad.exception.IngredientNotFoundException;
 import com.codecool.cookpad.exception.RecipeNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -24,7 +24,7 @@ public class ControllerAdvisor {
         return ex.getMessage();
     }
     @ResponseBody
-    @ExceptionHandler(BadQueryException.class)
+    @ExceptionHandler(BadRequestException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String badQueryException(RecipeNotFoundException ex) {
 

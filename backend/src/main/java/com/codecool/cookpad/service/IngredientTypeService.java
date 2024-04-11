@@ -1,6 +1,7 @@
 package com.codecool.cookpad.service;
 
 import com.codecool.cookpad.dto.IngredientTypeDTO;
+import com.codecool.cookpad.exception.BadRequestException;
 import com.codecool.cookpad.exception.IngredientNotFoundException;
 import com.codecool.cookpad.model.entity.IngredientType;
 import com.codecool.cookpad.service.repository.IngredientTypeRepository;
@@ -27,7 +28,7 @@ public class IngredientTypeService {
         if (optionalIngredient.isPresent()) {
             return this.mapToDTO(optionalIngredient.get());
         }
-      throw new IngredientNotFoundException();
+        throw new IngredientNotFoundException();
     }
 
     public IngredientTypeDTO createIngredient(IngredientTypeDTO newIngredient) {
@@ -40,7 +41,7 @@ public class IngredientTypeService {
             this.ingredientTypeRepository.delete(optionalIngredient.get());
             return true;
         }
-      throw new IngredientNotFoundException();
+        throw new IngredientNotFoundException();
     }
 
     public boolean updateIngredient(String id, IngredientTypeDTO ingredientToUpdate) {
@@ -55,6 +56,9 @@ public class IngredientTypeService {
     }
 
     protected IngredientTypeDTO mapToDTO(IngredientType ingredientType) {
+        if (ingredientType == null) {
+            throw new BadRequestException();
+        }
         return new IngredientTypeDTO(ingredientType.getId(),
                 ingredientType.getName(),
                 ingredientType.getUnitOfMeasure(),
@@ -66,8 +70,11 @@ public class IngredientTypeService {
     }
 
     protected IngredientType mapFromDTO(IngredientTypeDTO newIngredientDTO) {
+        if (newIngredientDTO == null) {
+            throw new BadRequestException();
+        }
         IngredientType newIngredient = new IngredientType();
-        if(newIngredientDTO.id() != null){
+        if (newIngredientDTO.id() != null) {
             newIngredient.setId(newIngredientDTO.id());
         }
         newIngredient.setName(newIngredientDTO.name());

@@ -1,6 +1,7 @@
 package com.codecool.cookpad.service;
 
 import com.codecool.cookpad.dto.IngredientTypeDTO;
+import com.codecool.cookpad.exception.BadRequestException;
 import com.codecool.cookpad.exception.IngredientNotFoundException;
 import com.codecool.cookpad.model.entity.IngredientType;
 import com.codecool.cookpad.service.repository.IngredientTypeRepository;
@@ -119,5 +120,17 @@ class IngredientTypeServiceTest {
         given(ingredientTypeRepository.findById(ingredient1.getId())).willReturn(Optional.empty());
 
         assertThrows(IngredientNotFoundException.class, () -> ingredientTypeService.getIngredientById("99"));
+    }
+
+    @DisplayName("Test for mapFromDTO")
+    @Test
+    public void testMapFromDTO_null() {
+        assertThrows(BadRequestException.class, () -> ingredientTypeService.mapFromDTO(null));
+    }
+
+    @DisplayName("Test for mapToDTO")
+    @Test
+    public void testMapToDTO_null() {
+        assertThrows(BadRequestException.class, () -> ingredientTypeService.mapToDTO(null));
     }
 }
