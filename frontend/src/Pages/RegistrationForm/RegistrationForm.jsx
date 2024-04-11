@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Link as RouterLink } from 'react-router-dom';
+import React, {useState} from 'react';
+import {useNavigate} from 'react-router-dom';
+import {Link as RouterLink} from 'react-router-dom';
 import axios from 'axios';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -11,7 +11,7 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {createTheme, ThemeProvider} from '@mui/material/styles';
 
 
 function RegistrationForm() {
@@ -23,8 +23,8 @@ function RegistrationForm() {
     const [errors, setErrors] = useState({});
 
     const handleChange = (event) => {
-        const { name, value } = event.target;
-        setInput((prevInput) => ({ ...prevInput, [name]: value }));
+        const {name, value} = event.target;
+        setInput((prevInput) => ({...prevInput, [name]: value}));
     };
 
     const handleSubmit = async (event) => {
@@ -50,7 +50,7 @@ function RegistrationForm() {
                     alert('Form is submitted');
                     navigate('/login');
                 } else {
-                    setErrors({ ...errors, username: 'Username is already taken' });
+                    setErrors({...errors, username: 'Username is already taken'});
                 }
             } catch (error) {
                 console.error('Error submitting form:', error);
@@ -90,7 +90,7 @@ function RegistrationForm() {
     return (
         <ThemeProvider theme={defaultTheme}>
             <Container component="main" maxWidth="xs">
-                <CssBaseline />
+                <CssBaseline/>
                 <Box
                     sx={{
                         marginTop: 8,
@@ -99,11 +99,11 @@ function RegistrationForm() {
                         alignItems: 'center',
                     }}
                 >
-                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }} />
+                    <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}/>
                     <Typography component="h1" variant="h5">
                         Sign up
                     </Typography>
-                    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+                    <Box component="form" noValidate onSubmit={handleSubmit} sx={{mt: 3}}>
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
                                 <TextField
@@ -154,11 +154,11 @@ function RegistrationForm() {
                             type="submit"
                             fullWidth
                             variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
+                            sx={{mt: 3, mb: 2}}
                         >
                             Sign Up
                         </Button>
-                        <Grid item xs={12} >
+                        <Grid item xs={12}>
                             <Grid item>
                                 <Link component={RouterLink} to="/login" variant="body2">
                                     Already have an account? Sign in
@@ -171,5 +171,6 @@ function RegistrationForm() {
         </ThemeProvider>
     );
 }
+
 export default RegistrationForm;
 
