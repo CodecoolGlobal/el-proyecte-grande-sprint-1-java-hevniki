@@ -8,8 +8,10 @@ import com.codecool.cookpad.service.repository.IngredientTypeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
+@ExtendWith(MockitoExtension.class)
 class IngredientTypeServiceTest {
 
     @Mock
@@ -33,8 +36,7 @@ class IngredientTypeServiceTest {
 
     @BeforeEach
     public void setup() {
-        ingredientTypeRepository = mock(IngredientTypeRepository.class);
-        ingredientTypeService = new IngredientTypeService(ingredientTypeRepository);
+
         ingredient1 = IngredientType.builder()
                 .id(1L)
                 .name("Salt")
@@ -98,8 +100,6 @@ class IngredientTypeServiceTest {
     @DisplayName("Test for mapFromDTO method")
     @Test
     public void testMapFromDTO_expected() {
-        given(ingredientTypeRepository.findById(ingredient1.getId())).willReturn(Optional.of(ingredient1));
-
         IngredientType expected = ingredient1;
         IngredientType actual = ingredientTypeService.mapFromDTO(new IngredientTypeDTO(1L, "Salt", "g", true, true, true, true));
         assertEquals(expected, actual);
@@ -117,7 +117,6 @@ class IngredientTypeServiceTest {
     @DisplayName("Test for getIngredientById method if there is no such ingredient")
     @Test
     public void testGetIngredientById_noSuchId() {
-        given(ingredientTypeRepository.findById(ingredient1.getId())).willReturn(Optional.empty());
 
         assertThrows(IngredientNotFoundException.class, () -> ingredientTypeService.getIngredientById("99"));
     }
