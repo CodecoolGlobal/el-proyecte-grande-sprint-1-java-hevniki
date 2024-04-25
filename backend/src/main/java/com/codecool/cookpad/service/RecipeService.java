@@ -120,7 +120,6 @@ public class RecipeService {
 
     private Specification<Recipe> buildSpecification(Map<String, String> params) {
         Specification<Recipe> spec = Specification.where(null);
-        Object glutenFree = params.get("glutenFree");
         try {
             if (params.containsKey("name")) {
                 spec = spec.and(containsName(params.get("name")));

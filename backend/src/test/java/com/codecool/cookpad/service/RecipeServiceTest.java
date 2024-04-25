@@ -7,7 +7,6 @@ import com.codecool.cookpad.exception.RecipeNotFoundException;
 import com.codecool.cookpad.model.entity.IngredientForRecipe;
 import com.codecool.cookpad.model.entity.IngredientType;
 import com.codecool.cookpad.model.entity.Recipe;
-import com.codecool.cookpad.service.repository.IngredientTypeRepository;
 import com.codecool.cookpad.service.repository.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,17 +15,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-
 import static org.junit.jupiter.api.Assertions.*;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
 
 @ExtendWith(MockitoExtension.class)
 class RecipeServiceTest {
@@ -199,7 +193,7 @@ class RecipeServiceTest {
 
     @DisplayName("Test for getRecipeById if no such Id")
     @Test
-    void getRecipeById_NoSuchId(){
+    void getRecipeById_NoSuchId() {
         Long id = 1L;
 
         given(recipeRepository.findById(id)).willReturn(Optional.empty());
@@ -238,10 +232,5 @@ class RecipeServiceTest {
         assertThat(expected.id()).isEqualTo(actual.id());
 
     }
-
-    @Test
-    void findRecipe() {
-    }
-
 
 }
