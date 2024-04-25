@@ -119,7 +119,6 @@ public class RecipeService {
     private Specification<Recipe> buildSpecification(Map<String, String> params) {
         Specification<Recipe> spec = Specification.where(null);
         Object glutenFree = params.get("glutenFree");
-        List<Long> ingredients=new ArrayList<>();
         try {
             if (params.containsKey("name")) {
                 spec = spec.and(containsName(params.get("name")));
@@ -139,7 +138,7 @@ public class RecipeService {
                 spec = spec.and(checkProperty("dairyFree", Boolean.parseBoolean(params.get("dairyFree"))));
             }
             if(params.containsKey("ingredients")){
-               ingredients.addAll(getIdsFromReqParams(params.get("ingredients")));
+                List<Long> ingredients = new ArrayList<>(getIdsFromReqParams(params.get("ingredients")));
                spec=spec.and(hasIngredientTypeIn(ingredients));
             }
 
@@ -163,7 +162,7 @@ public class RecipeService {
         return idsAsLong;
     }
 
-    public static Specification<Recipe> hasIngredientTypeIn(List<Long> ingredientIds) {
+    private Specification<Recipe> hasIngredientTypeIn(List<Long> ingredientIds) {
         return (recipe, cq, cb)
                 -> recipe.join("ingredients")
                         .join("ingredientType")
