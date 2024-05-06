@@ -18,7 +18,6 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtils jwtService;
     private final AuthenticationManager authenticationManager;
-
     public AuthenticationResponse register(RegisterRequest request) {
         Optional<User> byUsername = repository.findByUsername(request.getUsername());
         if (byUsername.isPresent()){
