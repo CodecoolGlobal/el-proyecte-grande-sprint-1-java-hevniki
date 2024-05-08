@@ -31,6 +31,14 @@ public class IngredientTypeService {
         throw new IngredientNotFoundException();
     }
 
+    public IngredientType getIngredientById(Long id) {
+        Optional<IngredientType> optionalIngredient = ingredientTypeRepository.findById((id));
+        if (optionalIngredient.isPresent()) {
+            return optionalIngredient.get();
+        }
+        throw new IngredientNotFoundException();
+    }
+
     public IngredientTypeDTO createIngredient(IngredientTypeDTO newIngredient) {
         return mapToDTO(ingredientTypeRepository.save(mapFromDTO(newIngredient)));
     }
@@ -73,10 +81,12 @@ public class IngredientTypeService {
         if (newIngredientDTO == null) {
             throw new BadRequestException();
         }
-        IngredientType newIngredient = new IngredientType();
+
         if (newIngredientDTO.id() != null) {
-            newIngredient.setId(newIngredientDTO.id());
+            return getIngredientById(newIngredientDTO.id());
         }
+
+        IngredientType newIngredient = new IngredientType();
         newIngredient.setName(newIngredientDTO.name());
         newIngredient.setUnitOfMeasure(newIngredientDTO.unitOfMeasure());
         newIngredient.setDairyFree(newIngredientDTO.isDairyFree());
