@@ -82,11 +82,8 @@ public class IngredientTypeService {
             throw new BadRequestException();
         }
 
-        if (newIngredientDTO.id() != null) {
-            return getIngredientById(newIngredientDTO.id());
-        }
-
         IngredientType newIngredient = new IngredientType();
+        newIngredient.setId(newIngredientDTO.id());
         newIngredient.setName(newIngredientDTO.name());
         newIngredient.setUnitOfMeasure(newIngredientDTO.unitOfMeasure());
         newIngredient.setDairyFree(newIngredientDTO.isDairyFree());
@@ -94,6 +91,16 @@ public class IngredientTypeService {
         newIngredient.setMeatFree(newIngredientDTO.isMeatFree());
         newIngredient.setGlutenFree(newIngredientDTO.isGlutenFree());
         return newIngredient;
+    }
+
+    public IngredientType getIngredient(IngredientTypeDTO ingredientDTO) {
+        if (ingredientDTO == null) {
+            throw new BadRequestException();
+        }
+        if (ingredientDTO.id() != null) {
+            return this.getIngredientById(ingredientDTO.id());
+        }
+        return this.mapFromDTO(ingredientDTO);
     }
 
     public void addDummyData() {
