@@ -55,7 +55,7 @@ public class RecipeService {
     public void createRecipe(RecipeDTO newRecipeDTO) {
         Recipe recipe = mapFromDTO(newRecipeDTO);
         recipe.setProperties();
-        this.recipeRepository.save(mapFromDTO(newRecipeDTO));
+        this.recipeRepository.save(recipe);
     }
 
     public void updateRecipe(RecipeDTO updatedRecipeDTO) {
@@ -107,7 +107,7 @@ public class RecipeService {
             mappedIngredientForRecipe.setId(ingredientForRecipeDTO.id());
         }
         mappedIngredientForRecipe.setAmount(ingredientForRecipeDTO.amount());
-        mappedIngredientForRecipe.setIngredientType(this.ingredientTypeService.mapFromDTO(ingredientForRecipeDTO.ingredient()));
+        mappedIngredientForRecipe.setIngredientType(this.ingredientTypeService.getIngredient(ingredientForRecipeDTO.ingredient()));//here
         return mappedIngredientForRecipe;
     }
 
