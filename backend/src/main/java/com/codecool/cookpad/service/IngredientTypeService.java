@@ -31,6 +31,14 @@ public class IngredientTypeService {
         throw new IngredientNotFoundException();
     }
 
+    public IngredientType getIngredientById(Long id) {
+        Optional<IngredientType> optionalIngredient = ingredientTypeRepository.findById((id));
+        if (optionalIngredient.isPresent()) {
+            return optionalIngredient.get();
+        }
+        throw new IngredientNotFoundException();
+    }
+
     public IngredientTypeDTO createIngredient(IngredientTypeDTO newIngredient) {
         return mapToDTO(ingredientTypeRepository.save(mapFromDTO(newIngredient)));
     }
@@ -73,10 +81,9 @@ public class IngredientTypeService {
         if (newIngredientDTO == null) {
             throw new BadRequestException();
         }
+
         IngredientType newIngredient = new IngredientType();
-        if (newIngredientDTO.id() != null) {
-            newIngredient.setId(newIngredientDTO.id());
-        }
+        newIngredient.setId(newIngredientDTO.id());
         newIngredient.setName(newIngredientDTO.name());
         newIngredient.setUnitOfMeasure(newIngredientDTO.unitOfMeasure());
         newIngredient.setDairyFree(newIngredientDTO.isDairyFree());
@@ -84,6 +91,16 @@ public class IngredientTypeService {
         newIngredient.setMeatFree(newIngredientDTO.isMeatFree());
         newIngredient.setGlutenFree(newIngredientDTO.isGlutenFree());
         return newIngredient;
+    }
+
+    public IngredientType getIngredient(IngredientTypeDTO ingredientDTO) {
+        if (ingredientDTO == null) {
+            throw new BadRequestException();
+        }
+        if (ingredientDTO.id() != null) {
+            return this.getIngredientById(ingredientDTO.id());
+        }
+        return this.mapFromDTO(ingredientDTO);
     }
 
     public void addDummyData() {
