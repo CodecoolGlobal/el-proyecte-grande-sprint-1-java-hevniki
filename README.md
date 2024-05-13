@@ -2,10 +2,6 @@
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
-
-
 
 <h3 align="center">El proyecte grande</h3>
 
@@ -102,7 +98,7 @@ To get a local copy up and running follow these simple steps.
 3. Create a psql database.
 4. Navigate to backend/src/main/resources, and create a file named application.properties.
 5. Fill out the application properties file with the following: 
-`
+```
 spring.jpa.hibernate.ddl-auto=update
 spring.datasource.url=your-db-url
 spring.datasource.username=your-username
@@ -111,7 +107,7 @@ spring.datasource.driver-class-name=org.postgresql.Driver
 spring.jpa.show-sql=true
 codecool.app.jwtSecret=jwt-secret
 codecool.app.jwtExpirationMs=8640000
-`
+```
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
