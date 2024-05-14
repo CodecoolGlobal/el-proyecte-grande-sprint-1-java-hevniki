@@ -74,8 +74,10 @@ public class RecipeService {
     public void updateRecipe(RecipeDTO updatedRecipeDTO) {
         var id = updatedRecipeDTO.id();
         if (recipeRepository.findById(id).isPresent()) {
+            logger.logMessage("Updating recipe");
             createRecipe(updatedRecipeDTO);
         } else {
+            logger.logError("Can't update recipe");
             throw new RecipeNotFoundException(id.toString());
         }
     }
@@ -125,10 +127,12 @@ public class RecipeService {
     }
 
     public List<RecipeDTO> findRecipe(Map<String, String> params) {
-        return recipeRepository.findAll(buildSpecification(params))
+        List<RecipeDTO> recipeDTOS = recipeRepository.findAll(buildSpecification(params))
                 .stream()
                 .map(this::mapToDTO)
                 .toList();
+        logger.logMessage(String.format("Found %d recipes", recipeDTOS.size()));
+        return recipeDTOS;
     }
 
     private Specification<Recipe> buildSpecification(Map<String, String> params) {
@@ -159,10 +163,11 @@ public class RecipeService {
             return spec;
         } catch (NumberFormatException e) {
             throw new BadRequestException();
+            //this is weird
         }
     }
 
-    private List<Long> getIdsFromReqParams(String param){
+    private List<Long> getIdsFromReqParams(String param) {
         String[] ids = param.split(",");
         List<Long> idsAsLong = new ArrayList<>();
         try{
