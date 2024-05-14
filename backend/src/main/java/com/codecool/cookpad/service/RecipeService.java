@@ -53,6 +53,7 @@ public class RecipeService {
 
     public List<RecipeDTO> getRecipeByName(String name) {
         List<Recipe> foundRecipes = recipeRepository.findByNameContainingIgnoreCase(name);
+        logger.logMessage(String.format("Found %d recipes by name %s", foundRecipes.size(), name));
         return foundRecipes.stream().map(this::mapToDTO).toList();
     }
 
