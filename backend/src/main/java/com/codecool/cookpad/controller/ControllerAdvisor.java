@@ -1,4 +1,4 @@
-package com.codecool.cookpad.model;
+package com.codecool.cookpad.controller;
 import com.codecool.cookpad.exception.BadRequestException;
 import com.codecool.cookpad.exception.IngredientNotFoundException;
 import com.codecool.cookpad.exception.RecipeNotFoundException;
