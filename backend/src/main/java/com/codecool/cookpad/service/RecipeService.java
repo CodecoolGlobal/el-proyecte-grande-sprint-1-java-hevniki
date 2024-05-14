@@ -9,6 +9,8 @@ import com.codecool.cookpad.exception.BadRequestException;
 import com.codecool.cookpad.model.entity.IngredientForRecipe;
 import com.codecool.cookpad.model.entity.Recipe;
 import com.codecool.cookpad.exception.RecipeNotFoundException;
+import com.codecool.cookpad.service.logger.ConsoleLogger;
+import com.codecool.cookpad.service.logger.Logger;
 import com.codecool.cookpad.service.repository.RecipeRepository;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -18,53 +20,66 @@ import java.util.stream.Collectors;
 
 @Service
 public class RecipeService {
+    private final Logger logger;
     private final RecipeRepository recipeRepository;
     private final IngredientTypeService ingredientTypeService;
 
     public RecipeService(RecipeRepository recipeRepository, IngredientTypeService ingredientTypeService) {
         this.recipeRepository = recipeRepository;
         this.ingredientTypeService = ingredientTypeService;
+        this.logger = new ConsoleLogger();
     }
 
     public List<RecipeDTO> getAllRecipes() {
-        return this.recipeRepository.findAll().stream().map(this::mapToDTO).toList();
+        List<RecipeDTO> recipeDTOS = this.recipeRepository.findAll()
+                .stream().map(this::mapToDTO).toList();
+        logger.logMessage(String.format("Found %d recipes", recipeDTOS.size()));
+        return recipeDTOS;
     }
 
     public RecipeDTO getRecipeById(String id) {
         Optional<Recipe> optionalRecipe = recipeRepository.findById(Long.valueOf(id));
         if (optionalRecipe.isPresent()) {
-            return mapToDTO(optionalRecipe.get());
+            Recipe recipe = optionalRecipe.get();
+            logger.logMessage(String.format("Found %s", recipe.getName()));
+            return mapToDTO(recipe);
         }
-        throw new RecipeNotFoundException();
+        throw new RecipeNotFoundException(id);
     }
 
     public List<RecipeDTO> getRecipeByName(String name) {
         List<Recipe> foundRecipes = recipeRepository.findByNameContainingIgnoreCase(name);
+        logger.logMessage(String.format("Found %d recipes by name %s", foundRecipes.size(), name));
         return foundRecipes.stream().map(this::mapToDTO).toList();
     }
 
     public boolean deleteRecipe(String id) {
         Optional<Recipe> optionalRecipe = this.recipeRepository.findById(Long.valueOf(id));
         if (optionalRecipe.isPresent()) {
-            this.recipeRepository.delete(optionalRecipe.get());
+            Recipe recipe = optionalRecipe.get();
+            logger.logMessage(String.format("Deleting recipe named %s", recipe.getName()));
+            this.recipeRepository.delete(recipe);
             return true;
         }
-        throw new RecipeNotFoundException();
+        throw new RecipeNotFoundException(id);
     }
 
     public void createRecipe(RecipeDTO newRecipeDTO) {
         Recipe recipe = mapFromDTO(newRecipeDTO);
         recipe.setProperties();
+        String message = String.format("Creating recipe with name: %s, and %d ingredients",
+                recipe.getName(), recipe.getIngredients().size());
+        logger.logMessage(message);
         this.recipeRepository.save(recipe);
     }
 
     public void updateRecipe(RecipeDTO updatedRecipeDTO) {
-        if (recipeRepository.findById(updatedRecipeDTO.id()).isPresent()) {
+        var id = updatedRecipeDTO.id();
+        if (recipeRepository.findById(id).isPresent()) {
             createRecipe(updatedRecipeDTO);
         } else {
-            throw new RecipeNotFoundException();
+            throw new RecipeNotFoundException(id.toString());
         }
-
     }
 
     private Recipe mapFromDTO(RecipeDTO recipeDTO) {
