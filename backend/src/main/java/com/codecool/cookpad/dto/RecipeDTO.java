@@ -10,6 +10,7 @@ public record RecipeDTO(
         Long id,
         Set<IngredientForRecipeDTO> ingredients,
         String name,
+        byte[] picture,
         String description,
         boolean isVegan,
         boolean isVegetarian,

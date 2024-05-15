@@ -21,6 +21,7 @@ public class Recipe {
     @JoinColumn(name = "recipe_id")
     private Set<IngredientForRecipe> ingredients; // lombok builder
     private String name;
+    private byte[] picture;
     private String description;
     private boolean vegan;
     private boolean vegetarian;
