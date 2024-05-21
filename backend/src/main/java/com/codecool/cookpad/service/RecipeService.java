@@ -199,35 +199,4 @@ public class RecipeService {
                 -> cb.equal(recipe.get(property), value);
     }
 
-
-    public void addDummyData() {
-        List<IngredientTypeDTO> ingredients = ingredientTypeService.getAllIngredients();
-        IngredientTypeDTO salt = ingredients.get(0);
-        IngredientTypeDTO sugar = ingredients.get(1);
-        IngredientTypeDTO oil = ingredients.get(2);
-        IngredientTypeDTO egg = ingredients.get(3);
-        IngredientTypeDTO milk = ingredients.get(4);
-        IngredientTypeDTO flour = ingredients.get(5);
-        IngredientTypeDTO milkChocolate = ingredients.get(6);
-
-        List<RecipeDTO> recipes = new ArrayList<>();
-
-        Set<IngredientForRecipeDTO> cookieIngredients = new HashSet<>();
-        cookieIngredients.add(new IngredientForRecipeDTO(null, salt, 3));
-        cookieIngredients.add(new IngredientForRecipeDTO(null, milk, 4));
-        cookieIngredients.add(new IngredientForRecipeDTO(null, sugar, 30));
-        cookieIngredients.add(new IngredientForRecipeDTO(null, milkChocolate, 70));
-        cookieIngredients.add(new IngredientForRecipeDTO(null, flour, 100));
-        recipes.add(new RecipeDTO(null, cookieIngredients, "Cookie", "Refer to an actual recipe sharing site for detailed steps!", false, true, false, false));
-
-        Set<IngredientForRecipeDTO> omeletteIngredients = new HashSet<>();
-        omeletteIngredients.add(new IngredientForRecipeDTO(null, egg, 2));
-        omeletteIngredients.add(new IngredientForRecipeDTO(null, oil, 0.5));
-        recipes.add(new RecipeDTO(null, omeletteIngredients, "Omelette", "Fry the eggs on some oil. Bon appetite!", false, true, true, true));
-
-        Set<Recipe> recipeEntities = recipes.stream().map(this::mapFromDTO).collect(Collectors.toSet());
-        recipeEntities.forEach(Recipe::setProperties);
-        this.recipeRepository.saveAll(recipeEntities);
-    }
-
 }

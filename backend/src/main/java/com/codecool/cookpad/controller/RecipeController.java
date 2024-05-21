@@ -68,8 +68,4 @@ public class RecipeController {
         return ResponseEntity.ok(postedRecipe);
     }
 
-    @PostMapping("/dummy")
-    public void addDummyData() {
-        this.recipeService.addDummyData();
-    }
 }

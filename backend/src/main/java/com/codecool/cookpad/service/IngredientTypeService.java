@@ -114,17 +114,4 @@ public class IngredientTypeService {
         return this.mapFromDTO(ingredientDTO);
     }
 
-    public void addDummyData() {
-        List<IngredientTypeDTO> ingredients = new ArrayList<>();
-        ingredients.add(new IngredientTypeDTO(0L, "Salt", "g", true, true, true, true));
-        ingredients.add(new IngredientTypeDTO(1L, "Sugar", "g", true, true, true, true));
-        ingredients.add(new IngredientTypeDTO(2L, "Oil", "dl", true, true, true, true));
-        ingredients.add(new IngredientTypeDTO(3L, "Egg", "pc", true, true, true, false));
-        ingredients.add(new IngredientTypeDTO(4L, "Milk", "dl", true, false, true, true));
-        ingredients.add(new IngredientTypeDTO(5L, "Flour", "g", false, true, true, true));
-        ingredients.add(new IngredientTypeDTO(6L, "Milk chocolate", "g", true, false, true, true));
-        ingredients.add(new IngredientTypeDTO(7L, "Chicken wings", "pc", true, false, false, true));
-        ingredientTypeRepository.saveAll(ingredients.stream().map(this::mapFromDTO).toList());
-    }
-
 }
