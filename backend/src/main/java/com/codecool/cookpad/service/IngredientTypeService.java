@@ -4,6 +4,8 @@ import com.codecool.cookpad.dto.IngredientTypeDTO;
 import com.codecool.cookpad.exception.BadRequestException;
 import com.codecool.cookpad.exception.IngredientNotFoundException;
 import com.codecool.cookpad.model.entity.IngredientType;
+import com.codecool.cookpad.service.logger.ConsoleLogger;
+import com.codecool.cookpad.service.logger.Logger;
 import com.codecool.cookpad.service.repository.IngredientTypeRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,21 +16,27 @@ import java.util.Optional;
 @Service
 public class IngredientTypeService {
     private final IngredientTypeRepository ingredientTypeRepository;
+    private final Logger logger;
 
     public IngredientTypeService(IngredientTypeRepository ingredientTypeRepository) {
         this.ingredientTypeRepository = ingredientTypeRepository;
+        this.logger = new ConsoleLogger();
     }
 
     public List<IngredientTypeDTO> getAllIngredients() {
-        return ingredientTypeRepository.findAll().stream().map(this::mapToDTO).toList();
+        List<IngredientTypeDTO> ingredients = ingredientTypeRepository.findAll().stream().map(this::mapToDTO).toList();
+        logger.logMessage(String.format("Got %d ingredients", ingredients.size()));
+        return ingredients;
     }
 
     public IngredientTypeDTO getIngredientById(String id) {
         Optional<IngredientType> optionalIngredient = ingredientTypeRepository.findById(Long.valueOf(id));
         if (optionalIngredient.isPresent()) {
-            return this.mapToDTO(optionalIngredient.get());
+            IngredientType ingredient = optionalIngredient.get();
+            logger.logMessage("Found ingredient %s, ingredient.getName()");
+            return this.mapToDTO(ingredient);
         }
-        throw new IngredientNotFoundException();
+        throw new IngredientNotFoundException(id);
     }
 
     public IngredientType getIngredientById(Long id) {
@@ -36,7 +44,7 @@ public class IngredientTypeService {
         if (optionalIngredient.isPresent()) {
             return optionalIngredient.get();
         }
-        throw new IngredientNotFoundException();
+        throw new IngredientNotFoundException(id.toString());
     }
 
     public IngredientTypeDTO createIngredient(IngredientTypeDTO newIngredient) {
@@ -49,18 +57,21 @@ public class IngredientTypeService {
             this.ingredientTypeRepository.delete(optionalIngredient.get());
             return true;
         }
-        throw new IngredientNotFoundException();
+        throw new IngredientNotFoundException(id);
     }
 
-    public boolean updateIngredient(String id, IngredientTypeDTO ingredientToUpdate) {
+    public void updateIngredient(String id, IngredientTypeDTO ingredientToUpdate) throws IngredientNotFoundException{
         Optional<IngredientType> optionalIngredient = this.ingredientTypeRepository.findById(Long.valueOf(id));
         if (optionalIngredient.isPresent()) {
+            IngredientType ingredientType = optionalIngredient.get();
+            logger.logMessage(String.format("Found ingredient: %s", ingredientType.getName()));
+
             IngredientType updatedIngredientType = mapFromDTO(ingredientToUpdate);
-            updatedIngredientType.setId(optionalIngredient.get().getId());
+            updatedIngredientType.setId(ingredientType.getId());
             this.ingredientTypeRepository.save(updatedIngredientType);
-            return true;
+
         }
-        return false;
+        throw new IngredientNotFoundException(id);
     }
 
     protected IngredientTypeDTO mapToDTO(IngredientType ingredientType) {
