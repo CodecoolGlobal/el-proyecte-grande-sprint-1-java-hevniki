@@ -31,7 +31,3 @@ VALUES
     (10, 200.0, 1, 5), -- Flour for Chocolate Cake
     (11, 150.0, 5, 5); -- Butter for Chocolate Cake
 
--- Inserting users
-INSERT INTO _user (id, username, password, role)
-values
-    (1, 'admin', '$2a$10$kDUXWjaOPayJoG82o7.kDOM1/0PY5aftEOKbF7bFml269n7c6s1X6', 'ADMIN');
