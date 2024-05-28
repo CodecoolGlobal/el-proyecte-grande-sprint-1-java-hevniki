@@ -1,7 +1,5 @@
 package com.codecool.cookpad.service;
 
-
-import com.codecool.cookpad.dto.IngredientDTO;
 import com.codecool.cookpad.dto.IngredientForRecipeDTO;
 import com.codecool.cookpad.dto.IngredientTypeDTO;
 import com.codecool.cookpad.dto.RecipeDTO;

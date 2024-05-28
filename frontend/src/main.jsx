@@ -15,6 +15,18 @@ import RegistrationForm from "./Pages/RegistrationForm/RegistrationForm.jsx";
 import LoginForm from './Pages/LoginForm/LoginForm.jsx';
 import RecipeUpdater from "./Pages/RecipeUpdater.jsx";
 import YourProblem from "./Components/YourProblem.jsx";
+import { useState } from 'react';
+
+import IngredientList from "./Pages/IngredientList.jsx";
+import IngredientDetails from "./Pages/IngredientDetails.jsx";
+import RecipeDetails from "./Pages/RecipeDetails/RecipeDetails.jsx";
+import IngredientCreator from "./Pages/IngredientCreator.jsx";
+import RecipeList from './Pages/RecipeList.jsx';
+import RecipeCreator from './Pages/RecipeCreator.jsx';
+import RegistrationForm from "./Pages/RegistrationForm/RegistrationForm.jsx";
+import LoginForm from './Pages/LoginForm/LoginForm.jsx';
+import RecipeUpdater from "./Pages/RecipeUpdater.jsx";
+import YourProblem from "./Components/YourProblem.jsx";
 
 const router = createBrowserRouter([
     {
@@ -55,7 +67,6 @@ const router = createBrowserRouter([
                 element: <RecipeCreator/>
             },
             {
-
                 path: "/ingredients/create",
                 element: <IngredientCreator/>,
             },
@@ -72,9 +83,9 @@ const router = createBrowserRouter([
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-   <RouterProvider router={router}/>
-  </React.StrictMode>,
+    <React.StrictMode>
+        <RouterProvider router={router}/>
+    </React.StrictMode>,
 )
 
 
