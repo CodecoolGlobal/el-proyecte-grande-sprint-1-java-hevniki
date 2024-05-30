@@ -15,10 +15,14 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @RestController
 @RequestMapping("/api/recipes")
 public class RecipeController {
     private final RecipeService recipeService;
+    private static final Logger logger = LoggerFactory.getLogger(RecipeController.class);
     
     public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
@@ -70,7 +74,7 @@ public class RecipeController {
     
     @PutMapping("/{id}")
     public ResponseEntity<?> updateRecipe(
-            @RequestBody RecipeDTO updatedRecipe,
+            @RequestPart("recipeDTO") RecipeDTO updatedRecipe,
             @PathVariable String id,
             @RequestPart(required = false) MultipartFile image) {
         RecipeDTO recipeToUpdate = recipeService.getRecipeDTO(id);
@@ -88,14 +92,16 @@ public class RecipeController {
 
     @PostMapping
     public ResponseEntity<?> postRecipe(
-            @RequestBody RecipeDTO postedRecipe,
-            @RequestPart(required = false)MultipartFile image) {
+            @RequestPart("recipeDTO") RecipeDTO recipeDTO,
+            @RequestPart(required = false) MultipartFile image) {
+        logger.info("Received request to create recipe");
+        logger.info("RecipeDTO: {}", recipeDTO);
         try {
-            recipeService.createRecipe(postedRecipe, image);
+            recipeService.createRecipe(recipeDTO, image);
         } catch (IOException exception) {
             System.out.println("Failed to save image");
             return ResponseEntity.internalServerError().build();
         }
-        return ResponseEntity.ok(postedRecipe);
+        return ResponseEntity.ok(recipeDTO);
     }
 }
