@@ -1,12 +1,17 @@
 package com.codecool.cookpad.controller;
 
 import com.codecool.cookpad.dto.RecipeDTO;
+import com.codecool.cookpad.exception.ImageNotFoundException;
+import com.codecool.cookpad.model.entity.Recipe;
 import com.codecool.cookpad.service.RecipeService;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -22,16 +27,27 @@ public class RecipeController {
     @GetMapping
     public List<RecipeDTO> getRecipes() {
         return recipeService.getAllRecipes();
-
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getRecipeById(@PathVariable String id) {
-        RecipeDTO foundRecipe = recipeService.getRecipeById(id);
+        RecipeDTO foundRecipe = recipeService.getRecipeDTO(id);
         if (foundRecipe == null) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(foundRecipe);
+    }
+
+    @GetMapping("/{id}/image")
+    public  ResponseEntity<byte[]> getImage(@PathVariable String id) {
+        Recipe recipe = recipeService.getRecipe(id);
+
+        if (recipe != null && recipe.getImage() != null) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.IMAGE_JPEG);
+            return new ResponseEntity<>(recipe.getImage(), headers, HttpStatus.OK);
+        }
+        throw new ImageNotFoundException(id);
     }
 
     @GetMapping("/search")
@@ -41,7 +57,7 @@ public class RecipeController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteRecipeById(@PathVariable String id) {
-        RecipeDTO foundRecipe = recipeService.getRecipeById(id);
+        RecipeDTO foundRecipe = recipeService.getRecipeDTO(id);
         if (foundRecipe == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -53,23 +69,33 @@ public class RecipeController {
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateRecipe(@RequestBody RecipeDTO updatedRecipe, @PathVariable String id){
-        RecipeDTO recipeToUpdate = recipeService.getRecipeById(id);
+    public ResponseEntity<?> updateRecipe(
+            @RequestBody RecipeDTO updatedRecipe,
+            @PathVariable String id,
+            @RequestPart(required = false) MultipartFile image) {
+        RecipeDTO recipeToUpdate = recipeService.getRecipeDTO(id);
         if(recipeToUpdate == null){
             return ResponseEntity.badRequest().build();
         }
-        recipeService.updateRecipe(updatedRecipe);
+        try {
+            recipeService.updateRecipe(updatedRecipe, image);
+        } catch (IOException exception) {
+            System.out.println("Failed to save image");
+            return ResponseEntity.internalServerError().build();
+        }
         return ResponseEntity.ok(updatedRecipe);
     }
 
     @PostMapping
-    public ResponseEntity<?> postRecipe(@RequestBody RecipeDTO postedRecipe) {
-        recipeService.createRecipe(postedRecipe);
+    public ResponseEntity<?> postRecipe(
+            @RequestBody RecipeDTO postedRecipe,
+            @RequestPart(required = false)MultipartFile image) {
+        try {
+            recipeService.createRecipe(postedRecipe, image);
+        } catch (IOException exception) {
+            System.out.println("Failed to save image");
+            return ResponseEntity.internalServerError().build();
+        }
         return ResponseEntity.ok(postedRecipe);
-    }
-
-    @PostMapping("/dummy")
-    public void addDummyData() {
-        this.recipeService.addDummyData();
     }
 }
