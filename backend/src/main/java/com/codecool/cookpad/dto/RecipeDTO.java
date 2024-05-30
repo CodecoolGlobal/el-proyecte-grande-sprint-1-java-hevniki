@@ -14,5 +14,7 @@ public record RecipeDTO(
         boolean isVegan,
         boolean isVegetarian,
         boolean isGlutenFree,
-        boolean isDairyFree) {
+        boolean isDairyFree,
+        String imageUrl
+) {
 }
