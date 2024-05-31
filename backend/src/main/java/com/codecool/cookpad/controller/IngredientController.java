@@ -75,4 +75,31 @@ public class IngredientController {
         ingredientTypeService.updateIngredient(id, updatedIngredient);
         return ResponseEntity.ok(updatedIngredient);
     }
+
+    @PostMapping
+    public ResponseEntity<?> postIngredient(@RequestBody IngredientTypeDTO postedIngredient) {
+        try {
+            IngredientTypeDTO createdIngredient = ingredientTypeService.createIngredient(postedIngredient);
+            if (createdIngredient == null) {
+                ResponseEntity.badRequest();
+            }
+            return ResponseEntity.ok(createdIngredient);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteIngredientById(@PathVariable String id) {
+        IngredientTypeDTO foundIngredient = ingredientTypeService.getIngredientById(id);
+        if (foundIngredient == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        boolean success = ingredientTypeService.deleteIngredient(id);
+        if (!success) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(foundIngredient);
+
+    }
 }

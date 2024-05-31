@@ -4,9 +4,9 @@ import com.codecool.cookpad.dto.IngredientTypeDTO;
 import com.codecool.cookpad.exception.BadRequestException;
 import com.codecool.cookpad.exception.IngredientNotFoundException;
 import com.codecool.cookpad.model.entity.IngredientType;
-import com.codecool.cookpad.service.logger.ConsoleLogger;
-import com.codecool.cookpad.service.logger.Logger;
+import com.codecool.cookpad.security.AuthEntryPointJwt;
 import com.codecool.cookpad.service.repository.IngredientTypeRepository;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,16 +16,15 @@ import java.util.Optional;
 @Service
 public class IngredientTypeService {
     private final IngredientTypeRepository ingredientTypeRepository;
-    private final Logger logger;
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(AuthEntryPointJwt.class);
 
     public IngredientTypeService(IngredientTypeRepository ingredientTypeRepository) {
         this.ingredientTypeRepository = ingredientTypeRepository;
-        this.logger = new ConsoleLogger();
     }
 
     public List<IngredientTypeDTO> getAllIngredients() {
         List<IngredientTypeDTO> ingredients = ingredientTypeRepository.findAll().stream().map(this::mapToDTO).toList();
-        logger.logMessage(String.format("Got %d ingredients", ingredients.size()));
+        logger.info(String.format("Got %d ingredients", ingredients.size()));
         return ingredients;
     }
 
@@ -33,7 +32,7 @@ public class IngredientTypeService {
         Optional<IngredientType> optionalIngredient = ingredientTypeRepository.findById(Long.valueOf(id));
         if (optionalIngredient.isPresent()) {
             IngredientType ingredient = optionalIngredient.get();
-            logger.logMessage("Found ingredient %s, ingredient.getName()");
+            logger.info("Found ingredient %s, ingredient.getName()");
             return this.mapToDTO(ingredient);
         }
         throw new IngredientNotFoundException(id);
@@ -64,7 +63,7 @@ public class IngredientTypeService {
         Optional<IngredientType> optionalIngredient = this.ingredientTypeRepository.findById(Long.valueOf(id));
         if (optionalIngredient.isPresent()) {
             IngredientType ingredientType = optionalIngredient.get();
-            logger.logMessage(String.format("Found ingredient: %s", ingredientType.getName()));
+            logger.info(String.format("Found ingredient: %s", ingredientType.getName()));
 
             IngredientType updatedIngredientType = mapFromDTO(ingredientToUpdate);
             updatedIngredientType.setId(ingredientType.getId());
