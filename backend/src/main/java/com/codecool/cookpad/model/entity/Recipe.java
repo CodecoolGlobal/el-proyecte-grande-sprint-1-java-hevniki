@@ -15,9 +15,9 @@ import lombok.*;
 @Entity
 public class Recipe {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.MERGE, orphanRemoval = true)
     @JoinColumn(name = "recipe_id")
     private Set<IngredientForRecipe> ingredients;
     private String name;
