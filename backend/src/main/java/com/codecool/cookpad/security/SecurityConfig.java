@@ -30,7 +30,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/api/**").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/recipes").hasRole("USER")
-                                .requestMatchers(HttpMethod.PUT, "/api/recipes").hasRole("USER")
+                                .requestMatchers(HttpMethod.PUT, "/api/recipes/**").hasRole("USER")
                                 .requestMatchers("/api/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 );
