@@ -19,9 +19,11 @@ public class Recipe {
     private Long id;
     @OneToMany(cascade = CascadeType.MERGE, orphanRemoval = true)
     @JoinColumn(name = "recipe_id")
-    private Set<IngredientForRecipe> ingredients; // lombok builder
+    private Set<IngredientForRecipe> ingredients;
     private String name;
     private String description;
+    @Lob
+    private byte[] image;
     private boolean vegan;
     private boolean vegetarian;
     private boolean dairyFree;
