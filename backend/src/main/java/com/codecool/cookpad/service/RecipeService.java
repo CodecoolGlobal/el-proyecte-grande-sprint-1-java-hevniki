@@ -34,7 +34,7 @@ public class RecipeService {
 
         if (recipeOptional.isPresent()) {
             Recipe recipe = recipeOptional.get();
-            logger.logMessage(String.format("Found %s", recipe.getName()));
+            logger.info(String.format("Found %s", recipe.getName()));
             return recipe;
         }
         throw new RecipeNotFoundException(id);
@@ -92,7 +92,7 @@ public class RecipeService {
         var id = updatedRecipeDTO.id();
         if (recipeRepository.findById(id).isPresent()) {
             logger.info("Updating recipe");
-            createRecipe(updatedRecipeDTO);
+            createRecipe(updatedRecipeDTO, imageFile);
         } else {
             logger.error("Can't update recipe");
             throw new RecipeNotFoundException(id.toString());
