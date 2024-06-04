@@ -122,7 +122,7 @@ public class RecipeService {
                 recipe.isVegetarian(),
                 recipe.isGlutenFree(),
                 recipe.isDairyFree(),
-                "/recipes/" + recipe.getId() + "/image"
+                "/api/recipes/" + recipe.getId() + "/image"
         );
     }
 
