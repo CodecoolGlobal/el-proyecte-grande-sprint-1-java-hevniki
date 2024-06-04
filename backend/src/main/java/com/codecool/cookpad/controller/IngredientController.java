@@ -31,36 +31,9 @@ public class IngredientController {
         return ResponseEntity.ok(foundIngredient);
     }
 
-    @PostMapping
-    public ResponseEntity<?> postIngredient(@RequestBody IngredientTypeDTO postedIngredient) {
-        try {
-            IngredientTypeDTO createdIngredient = ingredientTypeService.createIngredient(postedIngredient);
-            if (createdIngredient == null) {
-                ResponseEntity.badRequest();
-            }
-            return ResponseEntity.ok(createdIngredient);
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
-        }
-    }
-
     @PostMapping("/dummy")
     public void addDummyData() {
         ingredientTypeService.addDummyData();
-
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteIngredientById(@PathVariable String id) {
-        IngredientTypeDTO foundIngredient = ingredientTypeService.getIngredientById(id);
-        if (foundIngredient == null) {
-            return ResponseEntity.badRequest().build();
-        }
-        boolean success = ingredientTypeService.deleteIngredient(id);
-        if (!success) {
-            return ResponseEntity.badRequest().build();
-        }
-        return ResponseEntity.ok(foundIngredient);
 
     }
 
