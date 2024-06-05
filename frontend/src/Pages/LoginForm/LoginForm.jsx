@@ -1,7 +1,4 @@
 import React, { useContext, useState } from 'react';
-import axios from "axios";
-import "./LoginForm.css";
-import { CurrentUserContext } from '../../CurrentUserContext';
 import { useNavigate } from 'react-router-dom';
 import { Link as RouterLink } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
@@ -14,6 +11,9 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import axios from "axios";
+import "./LoginForm.css";
+import { CurrentUserContext 	} from '../../CurrentUserContext'
 
 function LoginForm() {
 	const navigate = useNavigate();

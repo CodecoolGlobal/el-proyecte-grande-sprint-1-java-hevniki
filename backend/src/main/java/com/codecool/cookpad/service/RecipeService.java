@@ -1,45 +1,57 @@
 package com.codecool.cookpad.service;
 
 import com.codecool.cookpad.dto.IngredientForRecipeDTO;
-import com.codecool.cookpad.dto.IngredientTypeDTO;
 import com.codecool.cookpad.dto.RecipeDTO;
 import com.codecool.cookpad.exception.BadRequestException;
 import com.codecool.cookpad.model.entity.IngredientForRecipe;
 import com.codecool.cookpad.model.entity.Recipe;
 import com.codecool.cookpad.exception.RecipeNotFoundException;
-import com.codecool.cookpad.service.logger.ConsoleLogger;
-import com.codecool.cookpad.service.logger.Logger;
+import com.codecool.cookpad.security.AuthEntryPointJwt;
 import com.codecool.cookpad.service.repository.RecipeRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class RecipeService {
-    private final Logger logger;
+    private static final Logger logger = LoggerFactory.getLogger(AuthEntryPointJwt.class);
     private final RecipeRepository recipeRepository;
     private final IngredientTypeService ingredientTypeService;
 
     public RecipeService(RecipeRepository recipeRepository, IngredientTypeService ingredientTypeService) {
         this.recipeRepository = recipeRepository;
         this.ingredientTypeService = ingredientTypeService;
-        this.logger = new ConsoleLogger();
+    }
+
+    public Recipe getRecipe(String id) {
+        Optional<Recipe> recipeOptional = this.recipeRepository.findById(Long.valueOf(id));
+
+        if (recipeOptional.isPresent()) {
+            Recipe recipe = recipeOptional.get();
+            logger.info(String.format("Found %s", recipe.getName()));
+            return recipe;
+        }
+        throw new RecipeNotFoundException(id);
     }
 
     public List<RecipeDTO> getAllRecipes() {
         List<RecipeDTO> recipeDTOS = this.recipeRepository.findAll()
                 .stream().map(this::mapToDTO).toList();
-        logger.logMessage(String.format("Found %d recipes", recipeDTOS.size()));
+        logger.info(String.format("Found %d recipes", recipeDTOS.size()));
         return recipeDTOS;
     }
 
-    public RecipeDTO getRecipeById(String id) {
+    public RecipeDTO getRecipeDTO(String id) {
         Optional<Recipe> optionalRecipe = recipeRepository.findById(Long.valueOf(id));
         if (optionalRecipe.isPresent()) {
             Recipe recipe = optionalRecipe.get();
-            logger.logMessage(String.format("Found %s", recipe.getName()));
+            logger.info(String.format("Found %s", recipe.getName()));
             return mapToDTO(recipe);
         }
         throw new RecipeNotFoundException(id);
@@ -47,7 +59,7 @@ public class RecipeService {
 
     public List<RecipeDTO> getRecipeByName(String name) {
         List<Recipe> foundRecipes = recipeRepository.findByNameContainingIgnoreCase(name);
-        logger.logMessage(String.format("Found %d recipes by name %s", foundRecipes.size(), name));
+        logger.info(String.format("Found %d recipes by name %s", foundRecipes.size(), name));
         return foundRecipes.stream().map(this::mapToDTO).toList();
     }
 
@@ -55,29 +67,34 @@ public class RecipeService {
         Optional<Recipe> optionalRecipe = this.recipeRepository.findById(Long.valueOf(id));
         if (optionalRecipe.isPresent()) {
             Recipe recipe = optionalRecipe.get();
-            logger.logMessage(String.format("Deleting recipe named %s", recipe.getName()));
+            logger.info(String.format("Deleting recipe named %s", recipe.getName()));
             this.recipeRepository.delete(recipe);
             return true;
         }
         throw new RecipeNotFoundException(id);
     }
 
-    public void createRecipe(RecipeDTO newRecipeDTO) {
+    public void createRecipe(RecipeDTO newRecipeDTO, MultipartFile imageFile) throws IOException {
         Recipe recipe = mapFromDTO(newRecipeDTO);
+
+        if (imageFile != null && !imageFile.isEmpty()) {
+            recipe.setImage(imageFile.getBytes());
+        }
+
         recipe.setProperties();
         String message = String.format("Creating recipe with name: %s, and %d ingredients",
                 recipe.getName(), recipe.getIngredients().size());
-        logger.logMessage(message);
+        logger.info(message);
         this.recipeRepository.save(recipe);
     }
 
-    public void updateRecipe(RecipeDTO updatedRecipeDTO) {
+    public void updateRecipe(RecipeDTO updatedRecipeDTO, MultipartFile imageFile) throws IOException {
         var id = updatedRecipeDTO.id();
         if (recipeRepository.findById(id).isPresent()) {
-            logger.logMessage("Updating recipe");
-            createRecipe(updatedRecipeDTO);
+            logger.info("Updating recipe");
+            createRecipe(updatedRecipeDTO, imageFile);
         } else {
-            logger.logError("Can't update recipe");
+            logger.error("Can't update recipe");
             throw new RecipeNotFoundException(id.toString());
         }
     }
@@ -104,7 +121,8 @@ public class RecipeService {
                 recipe.isVegan(),
                 recipe.isVegetarian(),
                 recipe.isGlutenFree(),
-                recipe.isDairyFree()
+                recipe.isDairyFree(),
+                "/api/recipes/" + recipe.getId() + "/image"
         );
     }
 
@@ -131,7 +149,7 @@ public class RecipeService {
                 .stream()
                 .map(this::mapToDTO)
                 .toList();
-        logger.logMessage(String.format("Found %d recipes", recipeDTOS.size()));
+        logger.info(String.format("Found %d recipes", recipeDTOS.size()));
         return recipeDTOS;
     }
 
@@ -197,37 +215,6 @@ public class RecipeService {
     private Specification<Recipe> checkProperty(String property, boolean value) {
         return (recipe, cq, cb)
                 -> cb.equal(recipe.get(property), value);
-    }
-
-
-    public void addDummyData() {
-        List<IngredientTypeDTO> ingredients = ingredientTypeService.getAllIngredients();
-        IngredientTypeDTO salt = ingredients.get(0);
-        IngredientTypeDTO sugar = ingredients.get(1);
-        IngredientTypeDTO oil = ingredients.get(2);
-        IngredientTypeDTO egg = ingredients.get(3);
-        IngredientTypeDTO milk = ingredients.get(4);
-        IngredientTypeDTO flour = ingredients.get(5);
-        IngredientTypeDTO milkChocolate = ingredients.get(6);
-
-        List<RecipeDTO> recipes = new ArrayList<>();
-
-        Set<IngredientForRecipeDTO> cookieIngredients = new HashSet<>();
-        cookieIngredients.add(new IngredientForRecipeDTO(null, salt, 3));
-        cookieIngredients.add(new IngredientForRecipeDTO(null, milk, 4));
-        cookieIngredients.add(new IngredientForRecipeDTO(null, sugar, 30));
-        cookieIngredients.add(new IngredientForRecipeDTO(null, milkChocolate, 70));
-        cookieIngredients.add(new IngredientForRecipeDTO(null, flour, 100));
-        recipes.add(new RecipeDTO(null, cookieIngredients, "Cookie", "Refer to an actual recipe sharing site for detailed steps!", false, true, false, false));
-
-        Set<IngredientForRecipeDTO> omeletteIngredients = new HashSet<>();
-        omeletteIngredients.add(new IngredientForRecipeDTO(null, egg, 2));
-        omeletteIngredients.add(new IngredientForRecipeDTO(null, oil, 0.5));
-        recipes.add(new RecipeDTO(null, omeletteIngredients, "Omelette", "Fry the eggs on some oil. Bon appetite!", false, true, true, true));
-
-        Set<Recipe> recipeEntities = recipes.stream().map(this::mapFromDTO).collect(Collectors.toSet());
-        recipeEntities.forEach(Recipe::setProperties);
-        this.recipeRepository.saveAll(recipeEntities);
     }
 
 }

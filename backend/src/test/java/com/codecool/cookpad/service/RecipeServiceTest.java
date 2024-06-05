@@ -186,7 +186,7 @@ class RecipeServiceTest {
                                 1)))
                 .build();
 
-        RecipeDTO actual = recipeService.getRecipeById(String.valueOf(recipe1.getId()));
+        RecipeDTO actual = recipeService.getRecipeDTO(String.valueOf(recipe1.getId()));
 
         assertEquals(expected.id(), actual.id());
     }
@@ -197,7 +197,7 @@ class RecipeServiceTest {
         Long id = 1L;
 
         given(recipeRepository.findById(id)).willReturn(Optional.empty());
-        assertThrows(RecipeNotFoundException.class, () -> recipeService.getRecipeById(String.valueOf(id)));
+        assertThrows(RecipeNotFoundException.class, () -> recipeService.getRecipeDTO(String.valueOf(id)));
 
     }
 
