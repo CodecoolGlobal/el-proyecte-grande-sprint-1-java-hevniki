@@ -1,5 +1,6 @@
 package com.codecool.cookpad.security;
 
+import com.codecool.cookpad.exception.InvalidPasswordException;
 import com.codecool.cookpad.model.entity.Role;
 import com.codecool.cookpad.model.entity.User;
 import com.codecool.cookpad.service.repository.UserRepository;
@@ -8,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import  com.codecool.cookpad.exception.UsernameAlreadyTakenException;
 
 import java.util.Optional;
 
@@ -18,10 +20,14 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtils jwtService;
     private final AuthenticationManager authenticationManager;
+
     public AuthenticationResponse register(RegisterRequest request) {
         Optional<User> byUsername = repository.findByUsername(request.getUsername());
-        if (byUsername.isPresent()){
-            return null;
+        if (byUsername.isPresent()) {
+            throw new UsernameAlreadyTakenException("Username is already taken");
+        }
+        if (request.getPassword().length() < 5) {
+            throw new InvalidPasswordException("Password is too short");
         }
         var user = User.builder()
                 .username(request.getUsername())
@@ -32,6 +38,7 @@ public class AuthenticationService {
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
+                .username(user.getUsername())
                 .build();
     }
 
@@ -39,11 +46,12 @@ public class AuthenticationService {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
         );
-        var user = repository.findByUsername((request.getUsername())).orElseThrow();
+        var user = repository.findByUsername(request.getUsername())
+                .orElseThrow(() -> new RuntimeException("Invalid username or password"));
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
-                .username(request.getUsername())
+                .username(user.getUsername())
                 .build();
     }
 }
