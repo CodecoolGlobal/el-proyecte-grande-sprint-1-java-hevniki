@@ -1,7 +1,10 @@
 package com.codecool.cookpad.controller;
 
 import com.codecool.cookpad.dto.IngredientTypeDTO;
+import com.codecool.cookpad.exception.IngredientNotFoundException;
 import com.codecool.cookpad.service.IngredientTypeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,10 +14,11 @@ import java.util.List;
 @RequestMapping("/api/ingredients")
 public class IngredientController {
     private final IngredientTypeService ingredientTypeService;
+    private static final Logger logger = LoggerFactory.getLogger(RecipeController.class);
+
 
     public IngredientController(IngredientTypeService ingredientTypeService) {
         this.ingredientTypeService = ingredientTypeService;
-
     }
 
     @GetMapping
@@ -31,19 +35,26 @@ public class IngredientController {
         return ResponseEntity.ok(foundIngredient);
     }
 
+    @PostMapping
+    public ResponseEntity<IngredientTypeDTO> addIngredient(@RequestBody IngredientTypeDTO newIngredient) {
+        logger.info("Received request to add ingredient");
+        logger.info("IngredientDTO: {}", newIngredient);
+        IngredientTypeDTO createdIngredient = ingredientTypeService.createIngredient(newIngredient);
+        return ResponseEntity.ok(createdIngredient);
+    }
+
     @PostMapping("/dummy")
     public void addDummyData() {
         ingredientTypeService.addDummyData();
-
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateIngredient(@RequestBody IngredientTypeDTO updatedIngredient, @PathVariable String id){
-        IngredientTypeDTO ingredientToUpdate = ingredientTypeService.getIngredientById(id);
-        if(ingredientToUpdate == null){
-            return ResponseEntity.badRequest().build();
+    public ResponseEntity<?> updateIngredient(@RequestBody IngredientTypeDTO updatedIngredient, @PathVariable String id) {
+        try {
+            ingredientTypeService.updateIngredient(id, updatedIngredient);
+            return ResponseEntity.ok(updatedIngredient);
+        } catch (IngredientNotFoundException e) {
+            return ResponseEntity.notFound().build();
         }
-        ingredientTypeService.updateIngredient(id, updatedIngredient);
-        return ResponseEntity.ok(updatedIngredient);
     }
 }

@@ -47,7 +47,9 @@ public class IngredientTypeService {
     }
 
     public IngredientTypeDTO createIngredient(IngredientTypeDTO newIngredient) {
-        return mapToDTO(ingredientTypeRepository.save(mapFromDTO(newIngredient)));
+        IngredientType ingredient = mapFromDTO(newIngredient);
+        IngredientType savedIngredient = ingredientTypeRepository.save(ingredient);
+        return mapToDTO(savedIngredient);
     }
 
     public boolean deleteIngredient(String id) {
