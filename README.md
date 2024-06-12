@@ -47,7 +47,7 @@
 ## About The Project
 
 
-This is a learning project where we worked with Spring Boot and React.
+This is a recipe sharing site built with  Spring Boot on the backend, and two versions of the frontend: one in React, the other in Angular.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -55,11 +55,13 @@ This is a learning project where we worked with Spring Boot and React.
 
 ### Built With
 
-* [![React][React.js]][React-url]
 * [![Spring Boot][Spring.js]][Spring-url]
 * [![Hibernate ORM][Hibernate.js]][Hibernate-url]
-* [![Axios][Axios.js]][Axios-url]
 * [![PostgreSQL][Postgres.js]][Postgres-url]
+* [![Swagger][Swagger.js]][Swagger-url]
+* [![React][React.js]][React-url]
+* [![Angular][Angular.js]][Angular-url]
+* [![Axios][Axios.js]][Axios-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -108,6 +110,12 @@ spring.jpa.show-sql=true
 codecool.app.jwtSecret=jwt-secret
 codecool.app.jwtExpirationMs=8640000
 ```
+If you wish to use the frontend built with Angular, run the following commands: 
+```sh
+git submodule init
+git submodule update
+```
+Then navigate to cookbook-angular/cookbook, and run `npm install`
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -121,10 +129,15 @@ To use this application, you need to do the following.
 Backend: 
 * Navigate to the backend folder.
 * Run `mvn spring-boot:run`
+* If you want to see the API documentation built by swagger, go to http://localhost:8080/swagger-ui/index.html#/ while the server is running
 
-Frontend: 
-* From the root folder run `npm run dev`.
-* In your browser go to http://localhost:5173/.
+React frontend: 
+* From the root folder run `npm run dev`
+* In your browser go to http://localhost:5173/
+
+Angular frontend:
+* From root/cookbook-angular/cookbook run `ng serve`
+* In your browser go to http://localhost:4200/
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 Project Link: [https://github.com/CodecoolGlobal/el-proyecte-grande-sprint-1-java-hevniki](https://github.com/CodecoolGlobal/el-proyecte-grande-sprint-1-java-hevniki)
@@ -154,4 +167,8 @@ Project Link: [https://github.com/CodecoolGlobal/el-proyecte-grande-sprint-1-jav
 [Axios-url]: https://axios-http.com/docs/intro
 [Axios.js]: https://img.shields.io/badge/Axios-blue?style=for-the-badge&logo=Axios
 [Postgres-url]: https://www.postgresql.org/
-[Postgres.js]: https://img.shields.io/badge/PostgreSQL-blue?style=for-the-badge
+[Postgres.js]: https://img.shields.io/badge/PostgreSQL-20232A?style=for-the-badge&logo=PostgreSQL
+[Angular-url]: https://angular.dev/
+[Angular.js]: https://img.shields.io/badge/Angular-%230F0F11?style=for-the-badge&logo=angular&color=red
+[Swagger-url]: https://swagger.io/
+[Swagger.js]: https://img.shields.io/badge/Swagger-%23151F5D?style=for-the-badge&logo=swagger
