@@ -106,6 +106,7 @@ public class RecipeService {
         }
         recipe.setName(recipeDTO.name());
         recipe.setDescription(recipeDTO.description());
+        recipe.setCreatedBy(recipeDTO.createdBy());
         recipe.setIngredients(recipeDTO.ingredients().stream().map(this::mapFromIngredientForRecipeDTO).collect(Collectors.toSet()));
         return recipe;
     }
@@ -118,6 +119,7 @@ public class RecipeService {
                 ingredients,
                 recipe.getName(),
                 recipe.getDescription(),
+                recipe.getCreatedBy(),
                 recipe.isVegan(),
                 recipe.isVegetarian(),
                 recipe.isGlutenFree(),
