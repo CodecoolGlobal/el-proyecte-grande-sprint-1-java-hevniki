@@ -24,6 +24,7 @@ public class Recipe {
     private String description;
     @Lob
     private byte[] image;
+    private String createdBy;
     private boolean vegan;
     private boolean vegetarian;
     private boolean dairyFree;

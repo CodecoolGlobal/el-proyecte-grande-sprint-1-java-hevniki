@@ -11,6 +11,7 @@ public record RecipeDTO(
         Set<IngredientForRecipeDTO> ingredients,
         String name,
         String description,
+        String createdBy,
         boolean isVegan,
         boolean isVegetarian,
         boolean isGlutenFree,
