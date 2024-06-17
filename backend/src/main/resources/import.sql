@@ -1,20 +1,20 @@
 -- Inserting ingredient types
-INSERT INTO ingredient_type (id, is_dairy_free, is_egg_free, is_gluten_free, is_meat_free, name, unit_of_measure)
+INSERT INTO ingredient_type (id, name, category, approved)
 VALUES
-    (1, true, true, true, false, 'Flour', 'grams'),
-    (2, true, false, true, true, 'Milk', 'milliliters'),
-    (3, true, true, true, false, 'Egg', 'units'),
-    (4, false, false, true, false, 'Chicken', 'grams'),
-    (5, true, false, true, false, 'Butter', 'grams');
+    (1, 'Flour', 'WHEAT', true),
+    (2, 'Milk', 'MILK_OR_DAIRY', true),
+    (3, 'Egg', 'EGG', true),
+    (4, 'Chicken', 'MEAT', true),
+    (5, 'Butter', 'MILK_OR_DAIRY', true);
 
 -- Inserting recipes
-INSERT INTO recipe (id, name, description, dairy_free, gluten_free, vegan, vegetarian)
+INSERT INTO recipe (id, name, description, created_by, dairy_free, gluten_free, vegan, vegetarian, contains_tree_nuts)
 VALUES
-    (1, 'Vegan Pizza', 'Delicious vegan pizza recipe', true, true, true, true),
-    (2, 'Gluten-Free Pancakes', 'Yummy gluten-free pancake recipe', true, true, false, true),
-    (3, 'Vegetarian Lasagna', 'Classic vegetarian lasagna recipe', true, true, false, true),
-    (4, 'Chicken Alfredo Pasta', 'Creamy chicken alfredo pasta recipe', false, true, false, false),
-    (5, 'Chocolate Cake', 'Decadent chocolate cake recipe', true, true, true, true);
+    (1, 'Vegan Pizza', 'Delicious vegan pizza recipe', 'admin', true, true, true, true, false),
+    (2, 'Gluten-Free Pancakes', 'Yummy gluten-free pancake recipe', 'admin', true, true, false, true, false),
+    (3, 'Vegetarian Lasagna', 'Classic vegetarian lasagna recipe', 'admin',  true, true, false, true, false),
+    (4, 'Chicken Alfredo Pasta', 'Creamy chicken alfredo pasta recipe', 'admin',  false, true, false, false, false),
+    (5, 'Chocolate Cake', 'Decadent chocolate cake recipe', 'admin',  true, true, true, true, false);
 
 -- Inserting ingredients for recipes
 INSERT INTO ingredient_for_recipe (id, amount, ingredient_type_id, recipe_id)

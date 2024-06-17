@@ -1,9 +1,7 @@
 package com.codecool.cookpad.model.entity;
 
 import com.codecool.cookpad.model.IngredientCategory;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Setter
@@ -19,11 +17,9 @@ public class IngredientType {
     @GeneratedValue
     private Long id;
     private String name;
+    @Enumerated(EnumType.STRING)
     private IngredientCategory category;
     private boolean approved;
-//    public boolean isVegan(){
-//        return isDairyFree && isEggFree && isMeatFree;
-//    }
 
     @Override
     public String toString() {
