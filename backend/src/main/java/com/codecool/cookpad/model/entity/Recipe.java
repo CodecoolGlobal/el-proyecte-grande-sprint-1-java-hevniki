@@ -25,15 +25,4 @@ public class Recipe {
     @Lob
     private byte[] image;
     private String createdBy;
-//    private boolean vegan;
-//    private boolean vegetarian;
-//    private boolean dairyFree;
-//    private boolean glutenFree;
-
-//    public void setProperties() {
-//        this.vegan=ingredients.stream().allMatch(ingredient->ingredient.getIngredientType().isVegan());
-//        this.vegetarian=ingredients.stream().allMatch(ingredient->ingredient.getIngredientType().isMeatFree());
-//        this.glutenFree=ingredients.stream().allMatch(ingredient->ingredient.getIngredientType().isGlutenFree());
-//        this.dairyFree = ingredients.stream().allMatch(ingredient->ingredient.getIngredientType().isDairyFree());
-//    }
 }
