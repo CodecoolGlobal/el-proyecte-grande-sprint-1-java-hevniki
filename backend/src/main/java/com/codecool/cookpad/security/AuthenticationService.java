@@ -1,7 +1,7 @@
 package com.codecool.cookpad.security;
 
 import com.codecool.cookpad.exception.InvalidPasswordException;
-import com.codecool.cookpad.model.entity.Role;
+import com.codecool.cookpad.model.Role;
 import com.codecool.cookpad.model.entity.User;
 import com.codecool.cookpad.service.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
