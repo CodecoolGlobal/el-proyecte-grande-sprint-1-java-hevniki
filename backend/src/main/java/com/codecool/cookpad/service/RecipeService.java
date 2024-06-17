@@ -120,8 +120,13 @@ public class RecipeService {
                 recipe.getName(),
                 recipe.getDescription(),
                 recipe.getCreatedBy(),
+                recipe.isVegan(),
+                recipe.isVegetarian(),
+                recipe.isDairyFree(),
+                recipe.isGlutenFree(),
+                recipe.isContainsTreeNuts(),
                 "/api/recipes/" + recipe.getId() + "/image"
-        );
+                );
     }
 
     private IngredientForRecipeDTO mapToIngredientForRecipeDTO(IngredientForRecipe ingredientForRecipe) {
@@ -147,7 +152,6 @@ public class RecipeService {
         logger.info(String.format("Found %d recipes", recipeDTOS.size()));
         return recipeDTOS;
     }
-
     private Specification<Recipe> buildSpecification(Map<String, String> params) {
         Specification<Recipe> spec = Specification.where(null);
         try {
