@@ -43,11 +43,6 @@ public class IngredientController {
         return ResponseEntity.ok(createdIngredient);
     }
 
-    @PostMapping("/dummy")
-    public void addDummyData() {
-        ingredientTypeService.addDummyData();
-    }
-
     @PutMapping("/{id}")
     public ResponseEntity<?> updateIngredient(@RequestBody IngredientTypeDTO updatedIngredient, @PathVariable String id) {
         try {
