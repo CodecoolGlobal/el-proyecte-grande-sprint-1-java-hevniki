@@ -4,6 +4,7 @@ import com.codecool.cookpad.dto.IngredientForRecipeDTO;
 import com.codecool.cookpad.dto.RecipeDTO;
 import com.codecool.cookpad.exception.BadRequestException;
 import com.codecool.cookpad.model.entity.IngredientForRecipe;
+import com.codecool.cookpad.model.entity.IngredientType;
 import com.codecool.cookpad.model.entity.Recipe;
 import com.codecool.cookpad.exception.RecipeNotFoundException;
 import com.codecool.cookpad.security.AuthEntryPointJwt;
@@ -81,7 +82,6 @@ public class RecipeService {
             recipe.setImage(imageFile.getBytes());
         }
 
-        recipe.setProperties();
         String message = String.format("Creating recipe with name: %s, and %d ingredients",
                 recipe.getName(), recipe.getIngredients().size());
         logger.info(message);
@@ -120,29 +120,22 @@ public class RecipeService {
                 recipe.getName(),
                 recipe.getDescription(),
                 recipe.getCreatedBy(),
-                recipe.isVegan(),
-                recipe.isVegetarian(),
-                recipe.isGlutenFree(),
-                recipe.isDairyFree(),
                 "/api/recipes/" + recipe.getId() + "/image"
         );
     }
 
     private IngredientForRecipeDTO mapToIngredientForRecipeDTO(IngredientForRecipe ingredientForRecipe) {
         return new IngredientForRecipeDTO(
-                ingredientForRecipe.getId(),
-                this.ingredientTypeService.mapToDTO(ingredientForRecipe.getIngredientType()),
+                ingredientForRecipe.getIngredientType().getName(),
                 ingredientForRecipe.getAmount()
-        );
+       );
     }
 
     private IngredientForRecipe mapFromIngredientForRecipeDTO(IngredientForRecipeDTO ingredientForRecipeDTO) {
         IngredientForRecipe mappedIngredientForRecipe = new IngredientForRecipe();
-        if (ingredientForRecipeDTO.id() != null) {
-            mappedIngredientForRecipe.setId(ingredientForRecipeDTO.id());
-        }
         mappedIngredientForRecipe.setAmount(ingredientForRecipeDTO.amount());
-        mappedIngredientForRecipe.setIngredientType(this.ingredientTypeService.getIngredient(ingredientForRecipeDTO.ingredient()));//here
+        IngredientType ingredient = this.ingredientTypeService.getIngredient(ingredientForRecipeDTO.ingredient());
+        mappedIngredientForRecipe.setIngredientType(ingredient);
         return mappedIngredientForRecipe;
     }
 
