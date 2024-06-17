@@ -1,5 +1,6 @@
 package com.codecool.cookpad.model.entity;
 
+import com.codecool.cookpad.model.IngredientCategory;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -18,26 +19,18 @@ public class IngredientType {
     @GeneratedValue
     private Long id;
     private String name;
-    private String unitOfMeasure;
-    private boolean isGlutenFree;
-    private boolean isDairyFree;
-    private boolean isMeatFree;
-    private boolean isEggFree;
-
-    public boolean isVegan(){
-        return isDairyFree && isEggFree && isMeatFree;
-    }
+    private IngredientCategory category;
+    private boolean approved;
+//    public boolean isVegan(){
+//        return isDairyFree && isEggFree && isMeatFree;
+//    }
 
     @Override
     public String toString() {
         return "Ingredient{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", unitOfMeasure='" + unitOfMeasure + '\'' +
-                ", isGlutenFree=" + isGlutenFree +
-                ", isDairyFree=" + isDairyFree +
-                ", isMeatFree=" + isMeatFree +
-                ", isEggFree=" + isEggFree +
+                ", category='" + category + '\'' +
                 '}';
     }
 }

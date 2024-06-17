@@ -15,10 +15,8 @@ public class IngredientForRecipe {
     @Id
     @GeneratedValue
     private Long id;
-
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn (name = "ingredient_type_id")
     private IngredientType ingredientType;
-    private double amount;
-
+    private String amount;
 }
