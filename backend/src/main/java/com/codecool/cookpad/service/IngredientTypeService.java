@@ -61,7 +61,7 @@ public class IngredientTypeService {
         throw new IngredientNotFoundException(id);
     }
 
-    public void updateIngredient(String id, IngredientTypeDTO ingredientToUpdate) throws IngredientNotFoundException{
+    public void updateIngredient(String id, IngredientTypeDTO ingredientToUpdate) throws IngredientNotFoundException {
         Optional<IngredientType> optionalIngredient = this.ingredientTypeRepository.findById(Long.valueOf(id));
         if (optionalIngredient.isPresent()) {
             IngredientType ingredientType = optionalIngredient.get();
@@ -100,17 +100,23 @@ public class IngredientTypeService {
         return newIngredient;
     }
 
-    public IngredientType getIngredient(String ingredientDTO) {
-        if (ingredientDTO == null) {
+    public IngredientType getIngredient(String ingredientName) {
+        if (ingredientName == null) {
             throw new BadRequestException();
         }
-        Optional<IngredientType> byName = this.ingredientTypeRepository.findByName(ingredientDTO);
+        Optional<IngredientType> byName = this.ingredientTypeRepository.findByName(ingredientName);
 
-        return byName.orElseGet(() -> new IngredientType(
+        if (byName.isPresent()) {
+            return byName.get();
+        }
+        IngredientType unknownIngredient = new IngredientType(
                 0L,
-                ingredientDTO,
+                ingredientName,
                 IngredientCategory.UNKNOWN,
                 false
-        ));
+        );
+
+        ingredientTypeRepository.save(unknownIngredient);
+        return getIngredient(ingredientName);
     }
 }
