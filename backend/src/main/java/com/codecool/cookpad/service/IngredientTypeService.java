@@ -109,14 +109,12 @@ public class IngredientTypeService {
         if (byName.isPresent()) {
             return byName.get();
         }
-        IngredientType unknownIngredient = new IngredientType(
-                0L,
-                ingredientName,
-                IngredientCategory.UNKNOWN,
-                false
-        );
+        IngredientType unknownIngredient = new IngredientType();
+        unknownIngredient.setName(ingredientName);
+        unknownIngredient.setCategory(IngredientCategory.UNKNOWN);
+        unknownIngredient.setApproved(false);
 
         ingredientTypeRepository.save(unknownIngredient);
-        return getIngredient(ingredientName);
+        return unknownIngredient;
     }
 }
