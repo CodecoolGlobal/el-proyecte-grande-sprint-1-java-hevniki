@@ -115,6 +115,7 @@ public class IngredientTypeService {
         unknownIngredient.setApproved(false);
 
         ingredientTypeRepository.save(unknownIngredient);
+        ingredientTypeRepository.flush();
         return unknownIngredient;
     }
 }
