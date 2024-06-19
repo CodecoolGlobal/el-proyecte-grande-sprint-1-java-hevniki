@@ -21,9 +21,5 @@ public class IngredientForRecipe {
     private IngredientType ingredientType;
 
     private String amount;
-
-    @ManyToOne
-    @JoinColumn(name = "recipe_id", insertable = false, updatable = false)
-    private Recipe recipe;
 }
 

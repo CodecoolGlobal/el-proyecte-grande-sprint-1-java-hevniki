@@ -8,6 +8,7 @@ import com.codecool.cookpad.model.entity.IngredientType;
 import com.codecool.cookpad.model.entity.Recipe;
 import com.codecool.cookpad.exception.RecipeNotFoundException;
 import com.codecool.cookpad.security.AuthEntryPointJwt;
+import com.codecool.cookpad.service.repository.IngredientForRecipeRepository;
 import com.codecool.cookpad.service.repository.RecipeRepository;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
@@ -25,10 +26,11 @@ public class RecipeService {
     private static final Logger logger = LoggerFactory.getLogger(AuthEntryPointJwt.class);
     private final RecipeRepository recipeRepository;
     private final IngredientTypeService ingredientTypeService;
-
-    public RecipeService(RecipeRepository recipeRepository, IngredientTypeService ingredientTypeService) {
+    private final IngredientForRecipeRepository ingredientForRecipeRepository;
+    public RecipeService(RecipeRepository recipeRepository, IngredientTypeService ingredientTypeService, IngredientForRecipeRepository ingredientForRecipeRepository) {
         this.recipeRepository = recipeRepository;
         this.ingredientTypeService = ingredientTypeService;
+        this.ingredientForRecipeRepository = ingredientForRecipeRepository;
     }
 
     @Transactional
@@ -144,6 +146,8 @@ public class RecipeService {
         mappedIngredientForRecipe.setAmount(ingredientForRecipeDTO.amount());
         IngredientType ingredient = this.ingredientTypeService.getIngredient(ingredientForRecipeDTO.ingredient());
         mappedIngredientForRecipe.setIngredientType(ingredient);
+        ingredientForRecipeRepository.save(mappedIngredientForRecipe);
+        ingredientForRecipeRepository.flush();
         return mappedIngredientForRecipe;
     }
 
