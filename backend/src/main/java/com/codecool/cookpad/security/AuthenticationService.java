@@ -21,7 +21,7 @@ public class AuthenticationService {
     private final JwtUtils jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse register(RegisterRequest request) {
+    public void register(RegisterRequest request) {
         Optional<User> byUsername = repository.findByUsername(request.getUsername());
         if (byUsername.isPresent()) {
             throw new UsernameAlreadyTakenException("Username is already taken");
@@ -35,11 +35,6 @@ public class AuthenticationService {
                 .role(Role.USER)
                 .build();
         repository.save(user);
-        var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder()
-                .token(jwtToken)
-                .username(user.getUsername())
-                .build();
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
