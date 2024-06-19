@@ -15,8 +15,15 @@ public class IngredientForRecipe {
     @Id
     @GeneratedValue
     private Long id;
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn (name = "ingredient_type_id")
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ingredient_type_id")
     private IngredientType ingredientType;
+
     private String amount;
+
+    @ManyToOne
+    @JoinColumn(name = "recipe_id", insertable = false, updatable = false)
+    private Recipe recipe;
 }
+

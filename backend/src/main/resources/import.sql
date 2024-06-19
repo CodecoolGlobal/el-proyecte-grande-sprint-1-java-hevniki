@@ -7,6 +7,9 @@ VALUES
     (4, 'Chicken', 'MEAT', true),
     (5, 'Butter', 'MILK_OR_DAIRY', true);
 
+SELECT setval('ingredient_type_id_seq', (SELECT max(id) FROM ingredient_type) + 1);
+
+
 -- Inserting recipes
 INSERT INTO recipe (id, name, description, created_by, dairy_free, gluten_free, vegan, vegetarian, contains_tree_nuts)
 VALUES
@@ -15,6 +18,8 @@ VALUES
     (3, 'Vegetarian Lasagna', 'Classic vegetarian lasagna recipe', 'admin',  true, true, false, true, false),
     (4, 'Chicken Alfredo Pasta', 'Creamy chicken alfredo pasta recipe', 'admin',  false, true, false, false, false),
     (5, 'Chocolate Cake', 'Decadent chocolate cake recipe', 'admin',  true, true, true, true, false);
+
+SELECT setval('recipe_seq', (SELECT max(id) FROM ingredient_type) + 1);
 
 -- Inserting ingredients for recipes
 INSERT INTO ingredient_for_recipe (id, amount, ingredient_type_id, recipe_id)
@@ -31,3 +36,4 @@ VALUES
     (10, '500 g', 1, 5), -- Flour for Chocolate Cake
     (11, '15 dkg', 5, 5); -- Butter for Chocolate Cake
 
+SELECT setval('ingredient_for_recipe_seq', (SELECT max(id) FROM ingredient_type) + 1);

@@ -9,6 +9,7 @@ import com.codecool.cookpad.model.entity.Recipe;
 import com.codecool.cookpad.exception.RecipeNotFoundException;
 import com.codecool.cookpad.security.AuthEntryPointJwt;
 import com.codecool.cookpad.service.repository.RecipeRepository;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.domain.Specification;
@@ -30,6 +31,7 @@ public class RecipeService {
         this.ingredientTypeService = ingredientTypeService;
     }
 
+    @Transactional
     public Recipe getRecipe(String id) {
         Optional<Recipe> recipeOptional = this.recipeRepository.findById(Long.valueOf(id));
 
@@ -108,6 +110,7 @@ public class RecipeService {
         recipe.setDescription(recipeDTO.description());
         recipe.setCreatedBy(recipeDTO.createdBy());
         recipe.setIngredients(recipeDTO.ingredients().stream().map(this::mapFromIngredientForRecipeDTO).collect(Collectors.toSet()));
+        recipe.setProperties();
         return recipe;
     }
 
