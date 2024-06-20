@@ -10,8 +10,10 @@ import com.codecool.cookpad.service.repository.IngredientTypeRepository;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class IngredientTypeService {
@@ -26,6 +28,12 @@ public class IngredientTypeService {
         List<IngredientTypeDTO> ingredients = ingredientTypeRepository.findAll().stream().map(this::mapToDTO).toList();
         logger.info(String.format("Got %d ingredients", ingredients.size()));
         return ingredients;
+    }
+
+    public List<String> getCategories() {
+        return Arrays.stream(IngredientCategory.values())
+                .map(Enum::toString)
+                .collect(Collectors.toList());
     }
 
     public IngredientTypeDTO getIngredientById(String id) {
