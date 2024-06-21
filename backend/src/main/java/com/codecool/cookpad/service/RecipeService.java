@@ -4,10 +4,13 @@ import com.codecool.cookpad.dto.IngredientForRecipeDTO;
 import com.codecool.cookpad.dto.RecipeDTO;
 import com.codecool.cookpad.exception.BadRequestException;
 import com.codecool.cookpad.model.entity.IngredientForRecipe;
+import com.codecool.cookpad.model.entity.IngredientType;
 import com.codecool.cookpad.model.entity.Recipe;
 import com.codecool.cookpad.exception.RecipeNotFoundException;
 import com.codecool.cookpad.security.AuthEntryPointJwt;
+import com.codecool.cookpad.service.repository.IngredientForRecipeRepository;
 import com.codecool.cookpad.service.repository.RecipeRepository;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.domain.Specification;
@@ -23,12 +26,14 @@ public class RecipeService {
     private static final Logger logger = LoggerFactory.getLogger(AuthEntryPointJwt.class);
     private final RecipeRepository recipeRepository;
     private final IngredientTypeService ingredientTypeService;
-
-    public RecipeService(RecipeRepository recipeRepository, IngredientTypeService ingredientTypeService) {
+    private final IngredientForRecipeRepository ingredientForRecipeRepository;
+    public RecipeService(RecipeRepository recipeRepository, IngredientTypeService ingredientTypeService, IngredientForRecipeRepository ingredientForRecipeRepository) {
         this.recipeRepository = recipeRepository;
         this.ingredientTypeService = ingredientTypeService;
+        this.ingredientForRecipeRepository = ingredientForRecipeRepository;
     }
 
+    @Transactional
     public Recipe getRecipe(String id) {
         Optional<Recipe> recipeOptional = this.recipeRepository.findById(Long.valueOf(id));
 
@@ -81,7 +86,6 @@ public class RecipeService {
             recipe.setImage(imageFile.getBytes());
         }
 
-        recipe.setProperties();
         String message = String.format("Creating recipe with name: %s, and %d ingredients",
                 recipe.getName(), recipe.getIngredients().size());
         logger.info(message);
@@ -108,6 +112,7 @@ public class RecipeService {
         recipe.setDescription(recipeDTO.description());
         recipe.setCreatedBy(recipeDTO.createdBy());
         recipe.setIngredients(recipeDTO.ingredients().stream().map(this::mapFromIngredientForRecipeDTO).collect(Collectors.toSet()));
+        recipe.setProperties();
         return recipe;
     }
 
@@ -122,27 +127,27 @@ public class RecipeService {
                 recipe.getCreatedBy(),
                 recipe.isVegan(),
                 recipe.isVegetarian(),
-                recipe.isGlutenFree(),
                 recipe.isDairyFree(),
+                recipe.isGlutenFree(),
+                recipe.isContainsTreeNuts(),
                 "/api/recipes/" + recipe.getId() + "/image"
-        );
+                );
     }
 
     private IngredientForRecipeDTO mapToIngredientForRecipeDTO(IngredientForRecipe ingredientForRecipe) {
         return new IngredientForRecipeDTO(
-                ingredientForRecipe.getId(),
-                this.ingredientTypeService.mapToDTO(ingredientForRecipe.getIngredientType()),
+                ingredientForRecipe.getIngredientType().getName(),
                 ingredientForRecipe.getAmount()
-        );
+       );
     }
 
     private IngredientForRecipe mapFromIngredientForRecipeDTO(IngredientForRecipeDTO ingredientForRecipeDTO) {
         IngredientForRecipe mappedIngredientForRecipe = new IngredientForRecipe();
-        if (ingredientForRecipeDTO.id() != null) {
-            mappedIngredientForRecipe.setId(ingredientForRecipeDTO.id());
-        }
         mappedIngredientForRecipe.setAmount(ingredientForRecipeDTO.amount());
-        mappedIngredientForRecipe.setIngredientType(this.ingredientTypeService.getIngredient(ingredientForRecipeDTO.ingredient()));//here
+        IngredientType ingredient = this.ingredientTypeService.getIngredient(ingredientForRecipeDTO.ingredient());
+        mappedIngredientForRecipe.setIngredientType(ingredient);
+        ingredientForRecipeRepository.save(mappedIngredientForRecipe);
+        ingredientForRecipeRepository.flush();
         return mappedIngredientForRecipe;
     }
 
@@ -154,7 +159,6 @@ public class RecipeService {
         logger.info(String.format("Found %d recipes", recipeDTOS.size()));
         return recipeDTOS;
     }
-
     private Specification<Recipe> buildSpecification(Map<String, String> params) {
         Specification<Recipe> spec = Specification.where(null);
         try {
