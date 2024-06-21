@@ -104,4 +104,10 @@ public class RecipeController {
         }
         return ResponseEntity.ok(recipeDTO);
     }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<RecipeDTO>> getRecipesByUser(@PathVariable String userId) {
+        List<RecipeDTO> recipes = recipeService.getRecipesByUserId(userId);
+        return ResponseEntity.ok(recipes);
+    }
 }
