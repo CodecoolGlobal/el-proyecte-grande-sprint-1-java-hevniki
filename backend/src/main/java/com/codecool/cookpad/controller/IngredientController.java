@@ -3,6 +3,7 @@ package com.codecool.cookpad.controller;
 import com.codecool.cookpad.dto.IngredientTypeDTO;
 import com.codecool.cookpad.exception.IngredientNotFoundException;
 import com.codecool.cookpad.exception.IngredientReferencedException;
+import com.codecool.cookpad.model.IngredientCategory;
 import com.codecool.cookpad.service.IngredientTypeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/ingredients")
@@ -28,6 +31,10 @@ public class IngredientController {
         return ingredientTypeService.getAllIngredients();
     }
 
+    @GetMapping("/categories")
+    public List<String> getCategories() {
+        return ingredientTypeService.getCategories();
+    }
     @GetMapping("/{id}")
     public ResponseEntity<?> getIngredientById(@PathVariable String id) {
         IngredientTypeDTO foundIngredient = ingredientTypeService.getIngredientById(id);
@@ -43,11 +50,6 @@ public class IngredientController {
         logger.info("IngredientDTO: {}", newIngredient);
         IngredientTypeDTO createdIngredient = ingredientTypeService.createIngredient(newIngredient);
         return ResponseEntity.ok(createdIngredient);
-    }
-
-    @PostMapping("/dummy")
-    public void addDummyData() {
-        ingredientTypeService.addDummyData();
     }
 
     @PutMapping("/{id}")

@@ -6,21 +6,20 @@ import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record IngredientForRecipeDTO(
-        Long id,
-        IngredientTypeDTO ingredient,
-        double amount) {
+        String ingredient,
+        String amount) {
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         IngredientForRecipeDTO that = (IngredientForRecipeDTO) o;
-        return Double.compare(amount, that.amount) == 0 && Objects.equals(id, that.id) && Objects.equals(ingredient, that.ingredient);
+        return Objects.equals(ingredient, that.ingredient) && Objects.equals(amount, that.amount);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, ingredient, amount);
+        return Objects.hash(ingredient, amount);
     }
 }
 

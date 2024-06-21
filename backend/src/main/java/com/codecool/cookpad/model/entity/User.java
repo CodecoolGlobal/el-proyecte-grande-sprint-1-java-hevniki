@@ -1,5 +1,6 @@
 package com.codecool.cookpad.model.entity;
 
+import com.codecool.cookpad.model.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;

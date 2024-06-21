@@ -20,9 +20,10 @@ public class AuthenticationController {
     private final AuthenticationService service;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
+    public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
         try {
-            return ResponseEntity.ok(service.register(request));
+            service.register(request);
+            return ResponseEntity.status(200).build();
         } catch (UsernameAlreadyTakenException | InvalidPasswordException e) {
             return ResponseEntity.badRequest().body(
                     AuthenticationResponse.builder().error(e.getMessage()).build()
