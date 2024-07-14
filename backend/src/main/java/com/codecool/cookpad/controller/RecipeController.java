@@ -43,7 +43,7 @@ public class RecipeController {
     }
 
     @GetMapping("/{id}/image")
-    public  ResponseEntity<byte[]> getImage(@PathVariable String id) {
+    public  ResponseEntity<?> getImage(@PathVariable String id) {
         Recipe recipe = recipeService.getRecipe(id);
 
         if (recipe != null && recipe.getImage() != null) {
@@ -51,7 +51,7 @@ public class RecipeController {
             headers.setContentType(MediaType.IMAGE_JPEG);
             return new ResponseEntity<>(recipe.getImage(), headers, HttpStatus.OK);
         }
-        throw new ImageNotFoundException(id);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/search")
