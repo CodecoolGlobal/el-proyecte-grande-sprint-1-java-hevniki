@@ -45,6 +45,7 @@ public class AuthenticationService {
                 .orElseThrow(() -> new RuntimeException("Invalid username or password"));
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
+                .id(user.getId().toString())
                 .token(jwtToken)
                 .username(user.getUsername())
                 .build();

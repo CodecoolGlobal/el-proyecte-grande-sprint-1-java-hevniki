@@ -223,4 +223,10 @@ public class RecipeService {
                 -> cb.equal(recipe.get(property), value);
     }
 
+    public List<RecipeDTO> getRecipesByUserId(String userId) {
+        List<Recipe> recipes = recipeRepository.findByCreatedBy(userId);
+        return recipes.stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
+    }
 }

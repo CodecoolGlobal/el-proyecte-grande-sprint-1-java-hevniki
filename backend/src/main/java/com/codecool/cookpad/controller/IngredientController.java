@@ -2,10 +2,12 @@ package com.codecool.cookpad.controller;
 
 import com.codecool.cookpad.dto.IngredientTypeDTO;
 import com.codecool.cookpad.exception.IngredientNotFoundException;
+import com.codecool.cookpad.exception.IngredientReferencedException;
 import com.codecool.cookpad.model.IngredientCategory;
 import com.codecool.cookpad.service.IngredientTypeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,6 +57,16 @@ public class IngredientController {
         try {
             ingredientTypeService.updateIngredient(id, updatedIngredient);
             return ResponseEntity.ok(updatedIngredient);
+        } catch (IngredientNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteIngredient(@PathVariable String id) {
+        try {
+            ingredientTypeService.deleteIngredient(id);
+            return ResponseEntity.ok().build();
         } catch (IngredientNotFoundException e) {
             return ResponseEntity.notFound().build();
         }

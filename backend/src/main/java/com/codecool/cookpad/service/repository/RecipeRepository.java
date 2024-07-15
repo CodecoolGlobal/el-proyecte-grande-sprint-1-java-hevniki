@@ -10,6 +10,6 @@ import java.util.Optional;
 public interface RecipeRepository extends JpaRepository<Recipe, Long>, JpaSpecificationExecutor<Recipe> {
     Optional<Recipe> findByName(String name);
     List<Recipe> findByNameContainingIgnoreCase(String name);
-
+    List<Recipe> findByCreatedBy(String userId);
 }
 
